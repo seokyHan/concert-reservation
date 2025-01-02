@@ -1,1 +1,46 @@
-spring.application.name=concert
+spring:
+  application:
+    name: concert-reservation
+  profiles:
+    active: local
+  datasource:
+    name: ConcertDataSource
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 3
+      connection-timeout: 10000
+      max-lifetime: 60000
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.timezone.default_storage: NORMALIZE_UTC
+      hibernate.jdbc.time_zone: UTC
+
+  springdoc:
+    packages-to-scan: com.server.concert
+    default-consumes-media-type: application/json;charset=UTF-8
+    default-produces-media-type: application/json;charset=UTF-8
+    cache:
+      disabled: true # 캐시 사용 여부
+    api-docs:
+      path: /api-docs/json
+      groups:
+        enabled: true
+    swagger-ui:
+      enabled: true # Swagger UI 사용여부 : 접근 경로 => <http://localhost:8080/swagger-ui/index.html>
+      tags-sorter: alpha # 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+      operations-sorter: alpha # 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+
+---
+spring.config.activate.on-profile: local, test
+
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/concert?characterEncoding=UTF-8&serverTimezone=UTC
+    username: application
+    password: application
