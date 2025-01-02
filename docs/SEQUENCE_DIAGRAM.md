@@ -1,0 +1,242 @@
+# SEQUENCE DIAGRAM
+
+## 콘서트 예약 시퀀스 다이어그램
+
+
+### 유저 대기열 토큰 기능
+
+```mermaid
+sequenceDiagram
+actor User
+    participant 대기열 Interceptor
+    participant 대기열 토큰
+    title 유저 대기열 토큰 기능
+
+    loop 일정시간 마다(5초) 대기열 토큰 검증
+        User ->> 대기열 Interceptor: 대기열 토큰을 필요로 하는 API 요청
+        note over User, 대기열 Interceptor: 헤더에 대기열 토큰 정보 포함
+        대기열 Interceptor ->> 대기열 토큰: 대기열 토큰 조회 요청
+        대기열 토큰 -->> 대기열 Interceptor: 대기열 토큰 반환
+        opt 만료된 토큰일 경우
+            대기열 Interceptor -->> User: 토큰 만료 반환
+        end
+
+        opt 대기열 토큰이 대기 상태인 경우
+            대기열 Interceptor ->> 대기열 토큰: 대기열 순번 요청
+            대기열 토큰 -->> 대기열 Interceptor: 대기열 순번 반환
+            대기열 Interceptor -->> User: 대기열 순번 반환
+        end
+
+        대기열 Interceptor -->> User: 대기열 검증 통과
+    end
+```
+
+
+### 콘서트 예약 가능 날짜 조회
+
+```mermaid
+sequenceDiagram
+Actor User
+    participant 대기열 Interceptor
+    participant 콘서트
+    participant 사용자
+    title 콘서트 예약 가능 날짜 조회 API
+
+    User ->>+ 대기열 Interceptor: 콘서트 예약 가능 날짜 조회 API 요청
+    Note over User,대기열 Interceptor: (헤더에 토큰 포함 요청)
+    대기열 Interceptor ->>+ 콘서트: 콘서트 예약 가능 날짜 조회 요청
+    콘서트 ->>+ 사용자: 사용자 조회 요청
+    alt 사용자가 존재하지 않는 경우
+        사용자 -->> User: 사용자가 존재하지 않음(예외 발생)
+    else 사용자가 존재하는 경우
+        사용자 -->> 콘서트: 사용자 조희 응답 
+    end
+    콘서트 ->>+ 콘서트: 예약 가능 날짜 조회
+    opt 예약 날짜가 존재하지 않는 경우
+        콘서트 -->> User: 예약 가능 날짜가 없습니다. (예외 발생)
+    end
+    콘서트 -->> User: 예약 가능 날짜 반환
+```
+
+
+
+### 콘서트 예약 가능 좌석 조회
+
+```mermaid
+sequenceDiagram
+Actor User
+    participant 대기열 Interceptor
+    participant 콘서트
+    participant 사용자
+    title 콘서트 예약 가능 좌석 조회 API
+
+    User ->>+ 대기열 Interceptor: 콘서트 예약 가능 좌석 조회 API 요청
+    Note over User,대기열 Interceptor: (헤더에 토큰 포함 요청)
+    대기열 Interceptor ->>+ 콘서트: 콘서트 예약 가능 좌석 조회 요청
+    콘서트 ->>+ 사용자: 사용자 조회 요청
+    alt 사용자가 존재하지 않는 경우
+        사용자 -->> User: 사용자가 존재하지 않음(예외 발생)
+    else 사용자가 존재하는 경우
+        사용자 -->> 콘서트: 사용자 조희 응답 
+    end
+    콘서트 ->>+ 콘서트: 예약 가능 날짜 조회
+    opt 예약 날짜가 존재하지 않는 경우
+        콘서트 -->> User: 예약 가능 날짜가 없습니다. (예외 발생)
+    end 
+    콘서트 ->>+ 콘서트: 예약 가능 좌석 조회
+    opt 좌석이 존재하지 않는 경우
+        콘서트 -->> User: 예약 가능 좌석이 없습니다. (예외 발생)
+    end 
+    콘서트 -->> User: 예약 가능 좌석 반환
+```
+
+### 콘서트 좌석 예약 요청
+
+```mermaid
+sequenceDiagram
+Actor User
+    participant 대기열 Interceptor
+    participant 콘서트
+    participant 사용자
+    title 콘서트 좌석 예약 요청 API
+
+    User ->>+ 대기열 Interceptor: 콘서트 좌석 예약 API 요청
+    Note over User,대기열 Interceptor: (헤더에 토큰 포함 요청)
+    대기열 Interceptor ->>+ 콘서트: 콘서트 예약 가능 좌석 조회 요청
+    콘서트 ->>+ 사용자: 사용자 조회 요청
+    alt 사용자가 존재하지 않는 경우
+      사용자 -->> User: 사용자가 존재하지 않음(예외 발생)
+    else 사용자가 존재하는 경우
+      사용자 -->> 콘서트: 사용자 조희 응답 
+    end
+    콘서트 ->>+ 콘서트: 예약 가능 날짜 조회
+    opt 예약 날짜가 존재하지 않는 경우
+      콘서트 -->> User: 예약 가능 날짜가 없습니다. 메세지 봔환
+    end 
+    콘서트 ->>+ 콘서트: 예약 가능 좌석 조회
+    opt 좌석이 존재하지 않는 경우
+      콘서트 -->> User: 예약 가능 좌석이 없습니다. 메세지 봔환
+    end 
+    콘서트 ->>+ 콘서트: 좌석 예약 요청
+    opt 좌석이 예약 요청이 불가한 경우
+      콘서트 -->> User: 해당 좌석은 예약이 불가 합니다. 메세지 봔환
+    end 
+    콘서트 -->> User: 좌석 예약 성공 반환
+```
+
+
+### 잔액 조회
+
+```mermaid
+sequenceDiagram
+Actor User
+    participant 잔액
+    participant 사용자
+    title 잔액 조회 API
+
+    User ->>+ 잔액: 잔액 확인 요청
+    잔액 ->>+ 사용자: 사용자 조회 요청
+    alt 사용자가 존재하지 않는 경우
+      사용자 -->> User: 사용자가 존재하지 않음(예외 발생)
+    else 사용자가 존재하는 경우
+      사용자 -->> 잔액: 사용자 조희 응답 
+    end
+    잔액 ->>+ 잔액: 잔액 조회
+    잔액 -->> User: 잔액 반환
+```
+
+
+### 잔액 충전
+
+```mermaid
+sequenceDiagram
+Actor User
+    participant 잔액
+    participant 사용자
+    title 잔액 충전 API
+
+    User ->>+ 잔액: 금액 충전 요청
+    잔액 ->>+ 사용자: 사용자 조회 요청
+    alt 사용자가 존재하지 않는 경우
+      사용자 -->> User: 사용자가 존재하지 않음(예외 발생)
+    else 사용자가 존재하는 경우
+      사용자 -->> 잔액: 사용자 조희 응답 
+    end
+      잔액 ->>+ 잔액: 금액 충전
+    opt 충전하려는 금액 값이 올바르지 않는 경우(음수나 null)
+      잔액 -->> User: 금액이 올바르지 않습니다.(예외 발생)
+    end
+    잔액 -->> User: 잔액 반환
+```
+
+
+### 결제
+
+```mermaid
+sequenceDiagram
+Actor User
+    participant 콘서트
+    participant 사용자
+    participant 잔액
+    participant 대기열 토큰
+    title 결제 API
+
+    User ->>+ 콘서트: 결제 요청
+    콘서트 ->>+ 사용자: 사용자 조회 요청
+    alt 사용자가 존재하지 않는 경우
+      사용자 -->> User: 사용자가 존재하지 않음(예외 발생)
+    else 사용자가 존재하는 경우
+      사용자 -->> 콘서트: 사용자 조희 응답 
+    end
+    콘서트 ->>+ 콘서트: 예약 가능 날짜 조회
+    opt 예약 날짜가 존재하지 않는 경우
+      콘서트 -->> User: 예약 가능 날짜가 없습니다. (예외 발생)
+    end 
+    콘서트 ->>+ 콘서트: 예약 가능 좌석 조회
+    opt 좌석이 존재하지 않는 경우
+      콘서트 -->> User: 예약 가능 좌석이 없습니다. (예외 발생)
+    end 
+    콘서트 ->>+ 콘서트: 좌석 예약 요청
+    opt 좌석이 예약 요청이 불가한 경우
+      콘서트 -->> User: 해당 좌석은 예약이 불가 합니다. (예외 발생)
+    end 
+    콘서트 ->>+ 잔액: 잔액 조회 요청
+    opt 잔액 부족인 경우
+      잔액 ->>+ 잔액: 포인트 충전 요청.
+    end
+    콘서트 ->>+ 잔액: 결제 금액 만큼 차감
+    잔액 ->>+ 콘서트: 결제 완료 반환
+    콘서트 -->> 콘서트: 콘서트 예매 완료
+    콘서트 ->>+ 대기열 토큰: 대기열 토큰 만료 요청
+    대기열 토큰 -->> 콘서트: 대기열 토큰 만료 요청 성공 반환
+    콘서트 -->> User: 결제 완료
+
+```
+
+
+### 콘서트 임시예약 해제 스케줄링
+
+```mermaid
+sequenceDiagram
+    participant 콘서트
+    participant 콘서트 임시 예약 해제 스케줄링
+    title 콘서트 예약 해제 스케줄링
+    loop 콘서트 임시예약 해제 스케줄링(일정 주기 마다)
+    콘서트 임시 예약 해제 스케줄링 ->> 콘서트: 시간 초과된 임시예약 상태의 좌석 해제 요청
+    콘서트 ->> 콘서트: 임시 예약 해제
+  end
+```
+
+
+### 만료된 토큰 및 예약 완료 토큰 삭제 스케줄링
+
+```mermaid
+sequenceDiagram
+loop 대기열 토큰 삭제 스케줄링(일정 주기 마다)
+    대기열 토큰 삭제 스케줄링 ->> 대기열 토큰: 만료, 예약완료 상태 대기열 토큰 조회
+    대기열 토큰 -->> 대기열 토큰 삭제 스케줄링: 대기열 토큰 반환
+    opt 만료된 토큰 및 예약 완료 토큰이 있는 경우
+      대기열 토큰 삭제 스케줄링 ->> 대기열 토큰: 만료, 예약완료 상태 대기열 토큰 삭제
+    end
+  end
+```
