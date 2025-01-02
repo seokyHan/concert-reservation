@@ -1,4 +1,4 @@
-package com.server.concert;
+package com.server.concert_reservation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
