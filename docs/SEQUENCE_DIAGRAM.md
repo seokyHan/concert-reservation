@@ -8,26 +8,26 @@
 ```mermaid
 sequenceDiagram
 actor User
-    participant 대기열 Interceptor
+    participant 토큰 검증
     participant 대기열 토큰
     title 유저 대기열 토큰 기능
 
     loop 일정시간 마다(5초) 대기열 토큰 검증
-        User ->> 대기열 Interceptor: 대기열 토큰을 필요로 하는 API 요청
-        note over User, 대기열 Interceptor: 헤더에 대기열 토큰 정보 포함
-        대기열 Interceptor ->> 대기열 토큰: 대기열 토큰 조회 요청
-        대기열 토큰 -->> 대기열 Interceptor: 대기열 토큰 반환
+        User ->> 토큰 검증: 대기열 토큰을 필요로 하는 API 요청
+        note over User, 토큰 검증: 헤더에 대기열 토큰 정보 포함
+        토큰 검증 ->> 대기열 토큰: 대기열 토큰 조회 요청
+        대기열 토큰 -->> 토큰 검증: 대기열 토큰 반환
         opt 만료된 토큰일 경우
-            대기열 Interceptor -->> User: 토큰 만료 반환
+            토큰 검증 -->> User: 토큰 만료 반환
         end
 
         opt 대기열 토큰이 대기 상태인 경우
-            대기열 Interceptor ->> 대기열 토큰: 대기열 순번 요청
-            대기열 토큰 -->> 대기열 Interceptor: 대기열 순번 반환
-            대기열 Interceptor -->> User: 대기열 순번 반환
+            토큰 검증 ->> 대기열 토큰: 대기열 순번 요청
+            대기열 토큰 -->> 토큰 검증: 대기열 순번 반환
+            토큰 검증 -->> User: 대기열 순번 반환
         end
 
-        대기열 Interceptor -->> User: 대기열 검증 통과
+       토큰 검증 -->> User: 대기열 검증 통과
     end
 ```
 
@@ -37,14 +37,14 @@ actor User
 ```mermaid
 sequenceDiagram
 Actor User
-    participant 대기열 Interceptor
+    participant 토큰 검증
     participant 콘서트
     participant 사용자
     title 콘서트 예약 가능 날짜 조회 API
 
-    User ->>+ 대기열 Interceptor: 콘서트 예약 가능 날짜 조회 API 요청
-    Note over User,대기열 Interceptor: (헤더에 토큰 포함 요청)
-    대기열 Interceptor ->>+ 콘서트: 콘서트 예약 가능 날짜 조회 요청
+    User ->>+ 토큰 검증: 콘서트 예약 가능 날짜 조회 API 요청
+    Note over User,토큰 검증: (헤더에 토큰 포함 요청)
+    토큰 검증 ->>+ 콘서트: 콘서트 예약 가능 날짜 조회 요청
     콘서트 ->>+ 사용자: 사용자 조회 요청
     alt 사용자가 존재하지 않는 경우
         사용자 -->> User: 사용자가 존재하지 않음(예외 발생)
@@ -65,14 +65,14 @@ Actor User
 ```mermaid
 sequenceDiagram
 Actor User
-    participant 대기열 Interceptor
+    participant 토큰 검증
     participant 콘서트
     participant 사용자
     title 콘서트 예약 가능 좌석 조회 API
 
-    User ->>+ 대기열 Interceptor: 콘서트 예약 가능 좌석 조회 API 요청
-    Note over User,대기열 Interceptor: (헤더에 토큰 포함 요청)
-    대기열 Interceptor ->>+ 콘서트: 콘서트 예약 가능 좌석 조회 요청
+    User ->>+ 토큰 검증: 콘서트 예약 가능 좌석 조회 API 요청
+    Note over User,토큰 검증: (헤더에 토큰 포함 요청)
+    토큰 검증 ->>+ 콘서트: 콘서트 예약 가능 좌석 조회 요청
     콘서트 ->>+ 사용자: 사용자 조회 요청
     alt 사용자가 존재하지 않는 경우
         사용자 -->> User: 사용자가 존재하지 않음(예외 발생)
@@ -95,14 +95,14 @@ Actor User
 ```mermaid
 sequenceDiagram
 Actor User
-    participant 대기열 Interceptor
+    participant 토큰 검증
     participant 콘서트
     participant 사용자
     title 콘서트 좌석 예약 요청 API
 
-    User ->>+ 대기열 Interceptor: 콘서트 좌석 예약 API 요청
-    Note over User,대기열 Interceptor: (헤더에 토큰 포함 요청)
-    대기열 Interceptor ->>+ 콘서트: 콘서트 예약 가능 좌석 조회 요청
+    User ->>+ 토큰 검증: 콘서트 좌석 예약 API 요청
+    Note over User,토큰 검증: (헤더에 토큰 포함 요청)
+    토큰 검증 ->>+ 콘서트: 콘서트 예약 가능 좌석 조회 요청
     콘서트 ->>+ 사용자: 사용자 조회 요청
     alt 사용자가 존재하지 않는 경우
       사용자 -->> User: 사용자가 존재하지 않음(예외 발생)

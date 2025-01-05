@@ -22,7 +22,7 @@ spring:
       hibernate.jdbc.time_zone: UTC
 
   springdoc:
-    packages-to-scan: com.server.concert
+    packages-to-scan: com.server.concert_reservation
     default-consumes-media-type: application/json;charset=UTF-8
     default-produces-media-type: application/json;charset=UTF-8
     cache:
