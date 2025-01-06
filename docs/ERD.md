@@ -9,7 +9,7 @@ erDiagram
         datetime updated_at "최근 수정 시간"
     }
 
-    BALANCE {
+    WALLET {
         bigint id PK "AUTO_INCREMENT"
         bigint user_id FK
         int amount "잔액"
@@ -74,7 +74,7 @@ erDiagram
         datetime updated_at "최근 수정 시간"
     }
 
-    USER ||--|| BALANCE: "USER:BALANCE = 1:1"
+    USER ||--|| WALLET: "USER:WALLET = 1:1"
     USER ||--o{ RESERVATION: "USER:RESERVATION = 1:N"
     USER ||--o{ PAYMENT: "USER:PAYMENT = 1:N"
     CONCERT ||--o{ CONCERT_SCHEDULE: "CONCERT:CONCERT_SCHEDULE = 1:N"
