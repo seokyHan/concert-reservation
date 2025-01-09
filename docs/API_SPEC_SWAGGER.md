@@ -2,6 +2,8 @@
 
 URL : http://localhost:8080/swagger-ui/index.html/
 
+![img.png](images/swagger.png)
+
 ### 대기열 토큰 발급
 
 ![img_2.png](images/img_2.png)
@@ -9,10 +11,6 @@ URL : http://localhost:8080/swagger-ui/index.html/
 ### 대기열 토큰 상태 조회
 
 ![img_1.png](images/img_1.png)
-
-### 콘서트 목록 조회
-
-![img_3.png](images/img_3.png)
 
 ### 콘서트 예약 가능 날짜 조회
 
