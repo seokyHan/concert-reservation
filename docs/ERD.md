@@ -29,7 +29,8 @@ erDiagram
     RESERVATION {
         bigint id PK "AUTO_INCREMENT"
         bigint user_id FK
-        bigint concert_seat_id FK
+        varchar seat_ids
+        int total_price
         enum status "예약상태 (reserving, reserved, canceled)"
         datetime created_at "생성시간"
         datetime updated_at "최근 수정 시간"
@@ -67,7 +68,7 @@ erDiagram
     TOKEN {
         bigint id PK "AUTO_INCREMENT"
         bitgin user_id FK
-        binary uuid "uuid"
+        varchar token "uuid token"
         enum status "토큰 상태(wating, active, delete)"
         datetime expired_at "만료시간"
         datetime created_at "생성시간"
@@ -75,12 +76,12 @@ erDiagram
     }
 
     USER ||--|| WALLET: "USER:WALLET = 1:1"
-    USER ||--o{ RESERVATION: "USER:RESERVATION = 1:N"
+    USER ||--o{ reserve: "USER:reserve = 1:N"
     USER ||--o{ PAYMENT: "USER:PAYMENT = 1:N"
     CONCERT ||--o{ CONCERT_SCHEDULE: "CONCERT:CONCERT_SCHEDULE = 1:N"
     CONCERT_SCHEDULE ||--o{ CONCERT_SEAT: "CONCERT_SCHEDULE:CONCERT_SEAT = 1:N"
-    CONCERT_SEAT ||--o{ RESERVATION: "CONCERT_SEAT:RESERVATION = 1:N"
-    RESERVATION ||--o{ PAYMENT: "RESERVATION:PAYMENT = 1:N"
+    reserve ||--o{ CONCERT_SEAT: "reserve:CONCERT_SEAT = 1:N"
+    reserve ||--o{ PAYMENT: "reserve:PAYMENT = 1:N"
     USER ||--o{ TOKEN: "USER:TOKEN = 1:N"
 
 ```
