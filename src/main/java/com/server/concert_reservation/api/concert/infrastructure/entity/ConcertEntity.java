@@ -27,6 +27,12 @@ public class ConcertEntity extends BaseTimeEntity {
         this.description = description;
     }
 
+    public ConcertEntity(Concert concert) {
+        this.id = concert.getId();
+        this.title = concert.getTitle();
+        this.description = concert.getDescription();
+    }
+
     public Concert toDomain() {
         return Concert.of(id, title, description, createdAt, updatedAt);
     }

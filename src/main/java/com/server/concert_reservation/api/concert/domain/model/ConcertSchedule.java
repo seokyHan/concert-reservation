@@ -28,7 +28,7 @@ public class ConcertSchedule {
     }
 
     public boolean isAvailableReservePeriod(LocalDateTime dateTime) {
-        return dateTime.isAfter(reservationStartAt) && dateTime.isBefore(reservationEndAt);
+        return reservationStartAt.isAfter(dateTime) && reservationEndAt.isBefore(dateTime);
     }
 
 }

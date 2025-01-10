@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "concert_seat")
+@Table(name = "reservation")
 public class ReservationEntity extends BaseTimeEntity {
 
     @Id

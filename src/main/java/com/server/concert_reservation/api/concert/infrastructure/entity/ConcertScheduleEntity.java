@@ -34,8 +34,6 @@ public class ConcertScheduleEntity extends BaseTimeEntity {
     @Column(name = "reservation_end_at")
     private LocalDateTime reservationEndAt;
 
-
-
     @Builder
     public ConcertScheduleEntity(Long id, Long concertId, int remainTicket, LocalDateTime reservationStartAt, LocalDateTime reservationEndAt) {
         this.id = id;
@@ -43,6 +41,14 @@ public class ConcertScheduleEntity extends BaseTimeEntity {
         this.remainTicket = remainTicket;
         this.reservationStartAt = reservationStartAt;
         this.reservationEndAt = reservationEndAt;
+    }
+
+    public ConcertScheduleEntity(ConcertSchedule concertSchedule) {
+        this.id = concertSchedule.getId();
+        this.concertId = concertSchedule.getConcertId();
+        this.remainTicket = concertSchedule.getRemainTicket();
+        this.reservationStartAt = concertSchedule.getReservationStartAt();
+        this.reservationEndAt = concertSchedule.getReservationEndAt();
     }
 
     public ConcertSchedule toDomain() {

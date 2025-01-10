@@ -52,7 +52,7 @@ public class ConcertCommandService implements ReservationUseCase {
     }
 
     /**
-     * 예약 확정(결제 완료된 시점)
+     * 예약 확정(결제 완료된 시점 - 결제 통합테스트)
      */
     @Override
     public void completeReservation(Long reservationId) {

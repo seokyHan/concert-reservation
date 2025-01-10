@@ -26,8 +26,8 @@ public class ConcertScheduleCoreQueryDsl implements ConcertScheduleQueryDsl{
         val concertSchedule = QConcertScheduleEntity.concertScheduleEntity;
         return queryFactory.selectFrom(concertSchedule)
                 .where(concertSchedule.concertId.eq(concertId)
-                        .and(concertSchedule.reservationStartAt.goe(dateTime))
-                        .and(concertSchedule.reservationEndAt.lt(dateTime))
+                        .and(concertSchedule.reservationStartAt.lt(dateTime))
+                        .and(concertSchedule.reservationEndAt.goe(dateTime))
                         .and(concertSchedule.remainTicket.gt(0)))
                 .fetch();
 
