@@ -4,6 +4,7 @@ import com.server.concert_reservation.api.user.infrastructure.entity.WalletEntit
 import com.server.concert_reservation.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import static com.server.concert_reservation.common.exception.code.UserErrorCode
 import static com.server.concert_reservation.common.exception.code.UserErrorCode.NOT_ENOUGH_POINT;
 
 @Getter
+@Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Wallet {
 
