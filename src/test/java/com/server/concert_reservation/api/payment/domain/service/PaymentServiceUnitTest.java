@@ -64,7 +64,7 @@ class PaymentServiceUnitTest {
                 .hasMessage(IS_NOT_TEMPORARY_RESERVATION.getMessage());
     }
 
-    @DisplayName("결제 테스트.")
+    @DisplayName("결제 테스트")
     @Test
     void paymentReservationTest() {
         // given
