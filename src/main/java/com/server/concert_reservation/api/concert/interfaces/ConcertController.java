@@ -1,9 +1,9 @@
-package com.server.concert_reservation.api.concert.presentation;
+package com.server.concert_reservation.api.concert.interfaces;
 
-import com.server.concert_reservation.api.concert.application.GetConcertUseCase;
-import com.server.concert_reservation.api.concert.application.ReservationUseCase;
+import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
+import com.server.concert_reservation.api.concert.application.ConcertCommandUseCase;
 import com.server.concert_reservation.api.concert.domain.model.dto.ReservationCommand;
-import com.server.concert_reservation.api.concert.presentation.dto.ConcertHttp;
+import com.server.concert_reservation.api.concert.interfaces.dto.ConcertHttp;
 import com.server.concert_reservation.common.time.TimeManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,8 +23,8 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/api/v1")
 public class ConcertController {
 
-    private final GetConcertUseCase getConcertUseCase;
-    private final ReservationUseCase reservationUseCase;
+    private final ConcertQueryUseCase getConcertUseCase;
+    private final ConcertCommandUseCase reservationUseCase;
     private final TimeManager timeManager;
 
     @GetMapping("/{concertId}/available-schedules")

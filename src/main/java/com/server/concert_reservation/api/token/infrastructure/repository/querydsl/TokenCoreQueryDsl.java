@@ -11,9 +11,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.server.concert_reservation.api.token.infrastructure.types.TokenStatus.ACTIVE;
-import static com.server.concert_reservation.api.token.infrastructure.types.TokenStatus.WAITING;
-import static javax.swing.event.HyperlinkEvent.EventType.ACTIVATED;
+import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.ACTIVE;
+import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.WAITING;
 
 @Repository
 @RequiredArgsConstructor

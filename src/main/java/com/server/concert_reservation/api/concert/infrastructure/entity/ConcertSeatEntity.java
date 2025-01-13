@@ -1,15 +1,13 @@
 package com.server.concert_reservation.api.concert.infrastructure.entity;
 
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
-import com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus;
+import com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus;
 import com.server.concert_reservation.support.domain.auditing.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter

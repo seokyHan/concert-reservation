@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.token.infrastructure.entity;
 
 import com.server.concert_reservation.api.token.domain.model.Token;
-import com.server.concert_reservation.api.token.infrastructure.types.TokenStatus;
+import com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus;
 import com.server.concert_reservation.support.domain.auditing.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

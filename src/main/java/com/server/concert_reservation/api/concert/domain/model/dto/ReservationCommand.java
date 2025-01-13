@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api.concert.domain.model.dto;
 
-import com.server.concert_reservation.api.concert.presentation.dto.ConcertHttp;
+import com.server.concert_reservation.api.concert.interfaces.dto.ConcertHttp;
 
 import java.time.LocalDateTime;
 import java.util.List;

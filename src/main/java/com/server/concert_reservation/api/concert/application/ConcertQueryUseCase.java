@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-public interface GetConcertUseCase {
+public interface ConcertQueryUseCase {
 
     List<ConcertScheduleInfo> getAvailableConcertSchedules(Long concertId, LocalDateTime dateTime);
     ConcertSeatInfo getAvailableConcertSeats(Long concertScheduleId);

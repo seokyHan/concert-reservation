@@ -1,10 +1,10 @@
-package com.server.concert_reservation.api.concert.presentation.dto;
+package com.server.concert_reservation.api.concert.interfaces.dto;
 
 import com.server.concert_reservation.api.concert.domain.model.dto.ConcertScheduleInfo;
 import com.server.concert_reservation.api.concert.domain.model.dto.ConcertSeatInfo;
 import com.server.concert_reservation.api.concert.domain.model.dto.ReservationInfo;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
-import com.server.concert_reservation.api.concert.infrastructure.types.ReservationStatus;
+import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;

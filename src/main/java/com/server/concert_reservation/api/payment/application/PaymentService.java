@@ -1,14 +1,13 @@
-package com.server.concert_reservation.api.payment.domain.service;
+package com.server.concert_reservation.api.payment.application;
 
-import com.server.concert_reservation.api.concert.application.GetConcertUseCase;
-import com.server.concert_reservation.api.concert.application.ReservationUseCase;
-import com.server.concert_reservation.api.payment.application.PaymentUseCase;
+import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
+import com.server.concert_reservation.api.concert.application.ConcertCommandUseCase;
 import com.server.concert_reservation.api.payment.domain.model.dto.PaymentInfo;
 import com.server.concert_reservation.api.payment.domain.model.dto.PaymentCommand;
 import com.server.concert_reservation.api.payment.domain.model.Payment;
 import com.server.concert_reservation.api.payment.domain.repository.PaymentWriter;
-import com.server.concert_reservation.api.token.application.TokenUseCase;
-import com.server.concert_reservation.api.user.application.PointUseCase;
+import com.server.concert_reservation.api.token.application.TokenCommandUseCase;
+import com.server.concert_reservation.api.user.application.UserQueryUseCase;
 import com.server.concert_reservation.api.user.domain.model.dto.UserCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -19,10 +18,10 @@ import org.springframework.stereotype.Service;
 public class PaymentService implements PaymentUseCase {
 
     private final PaymentWriter paymentWriter;
-    private final PointUseCase pointUseCase;
-    private final GetConcertUseCase getConcertUseCase;
-    private final ReservationUseCase reservationUseCase;
-    private final TokenUseCase tokenUseCase;
+    private final UserQueryUseCase pointUseCase;
+    private final ConcertQueryUseCase getConcertUseCase;
+    private final ConcertCommandUseCase reservationUseCase;
+    private final TokenCommandUseCase tokenUseCase;
 
     @Override
     public PaymentInfo paymentReservation(PaymentCommand command) {

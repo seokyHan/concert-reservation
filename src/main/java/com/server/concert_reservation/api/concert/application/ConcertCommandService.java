@@ -1,6 +1,5 @@
-package com.server.concert_reservation.api.concert.domain.service;
+package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.application.ReservationUseCase;
 import com.server.concert_reservation.api.concert.domain.model.dto.ReservationInfo;
 import com.server.concert_reservation.api.concert.domain.model.dto.ReservationCommand;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
@@ -20,7 +19,7 @@ import static com.server.concert_reservation.common.exception.code.ConcertErrorC
 
 @RequiredArgsConstructor
 @Service
-public class ConcertCommandService implements ReservationUseCase {
+public class ConcertCommandService implements ConcertCommandUseCase {
 
     private final ConcertReader concertReader;
     private final ConcertWriter concertWriter;
@@ -32,9 +31,7 @@ public class ConcertCommandService implements ReservationUseCase {
     @Override
     public ReservationInfo temporaryReserveConcert(ReservationCommand command) {
         val concertSchedule = concertReader.getConcertScheduleById(command.concertScheduleId());
-        if(concertSchedule.isAvailableReservePeriod(command.dateTime())){
-            throw new CustomException(CAN_NOT_RESERVE_DATE);
-        }
+        concertSchedule.isAvailableReservePeriod(command.dateTime());
 
         val concertSeatList = command.seatIds().stream()
                 .map(concertReader::getConcertSeatById)

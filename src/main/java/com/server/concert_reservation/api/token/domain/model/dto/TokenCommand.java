@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api.token.domain.model.dto;
 
-import com.server.concert_reservation.api.token.presentation.dto.TokenHttp;
+import com.server.concert_reservation.api.token.interfaces.dto.TokenHttp;
 
 
 public record TokenCommand(Long userId, String token) {

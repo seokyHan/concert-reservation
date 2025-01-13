@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.concert.domain.model;
 
 import com.server.concert_reservation.api.concert.infrastructure.entity.ConcertSeatEntity;
-import com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus;
+import com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus;
 import com.server.concert_reservation.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus.*;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.*;
 import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.CAN_NOT_RESERVE_SEAT;
 import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.RESERVING_ONLY;
 

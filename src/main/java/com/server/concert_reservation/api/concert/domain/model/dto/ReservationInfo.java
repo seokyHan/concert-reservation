@@ -2,7 +2,7 @@ package com.server.concert_reservation.api.concert.domain.model.dto;
 
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
-import com.server.concert_reservation.api.concert.infrastructure.types.ReservationStatus;
+import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;

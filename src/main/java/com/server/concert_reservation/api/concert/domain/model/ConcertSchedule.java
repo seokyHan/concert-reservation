@@ -1,12 +1,15 @@
 package com.server.concert_reservation.api.concert.domain.model;
 
 import com.server.concert_reservation.api.concert.infrastructure.entity.ConcertScheduleEntity;
+import com.server.concert_reservation.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+
+import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.CAN_NOT_RESERVE_DATE;
 
 @Getter
 @Builder
@@ -27,8 +30,10 @@ public class ConcertSchedule {
         return new ConcertSchedule(id, concertId, remainTicket, reservationStartAt, reservationEndAt, createdAt, updatedAt);
     }
 
-    public boolean isAvailableReservePeriod(LocalDateTime dateTime) {
-        return reservationStartAt.isAfter(dateTime) && reservationEndAt.isBefore(dateTime);
+    public void isAvailableReservePeriod(LocalDateTime dateTime) {
+        if(dateTime.isBefore(reservationStartAt) || dateTime.isAfter(reservationEndAt)) {
+            throw new CustomException(CAN_NOT_RESERVE_DATE);
+        }
     }
 
 }

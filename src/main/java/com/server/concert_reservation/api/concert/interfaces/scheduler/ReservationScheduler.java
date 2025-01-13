@@ -1,7 +1,7 @@
-package com.server.concert_reservation.api.concert.scheduler;
+package com.server.concert_reservation.api.concert.interfaces.scheduler;
 
-import com.server.concert_reservation.api.concert.application.GetConcertUseCase;
-import com.server.concert_reservation.api.concert.application.ReservationUseCase;
+import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
+import com.server.concert_reservation.api.concert.application.ConcertCommandUseCase;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReservationScheduler {
 
-    private final ReservationUseCase reservationUseCase;
-    private final GetConcertUseCase getConcertUseCase;
+    private final ConcertCommandUseCase reservationUseCase;
+    private final ConcertQueryUseCase getConcertUseCase;
 
     @Scheduled(fixedDelayString = "60000")
     public void expireTemporaryReservations() {

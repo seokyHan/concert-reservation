@@ -1,8 +1,9 @@
-package com.server.concert_reservation.api.token.presentation;
+package com.server.concert_reservation.api.token.interfaces;
 
-import com.server.concert_reservation.api.token.application.TokenUseCase;
+import com.server.concert_reservation.api.token.application.TokenCommandUseCase;
+import com.server.concert_reservation.api.token.application.TokenQueryUseCase;
 import com.server.concert_reservation.api.token.domain.model.dto.TokenCommand;
-import com.server.concert_reservation.api.token.presentation.dto.TokenHttp;
+import com.server.concert_reservation.api.token.interfaces.dto.TokenHttp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,7 +22,8 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/api/v1")
 public class TokenController {
 
-    private final TokenUseCase tokenUseCase;
+    private final TokenCommandUseCase tokenCommandUseCase;
+    private final TokenQueryUseCase tokenQueryUseCase;
 
     @PostMapping("/token/create")
     @Operation(summary = "대기열 토큰 발급", description = "대기열 토큰 발급 API")
@@ -31,7 +33,7 @@ public class TokenController {
     public ResponseEntity<TokenHttp.TokenResponse> createToken(@RequestBody TokenHttp.TokenRequest request) {
         return ResponseEntity
                 .status(CREATED)
-                .body(TokenHttp.TokenResponse.of(tokenUseCase.createToken(TokenCommand.of(request))));
+                .body(TokenHttp.TokenResponse.of(tokenCommandUseCase.createToken(TokenCommand.of(request))));
     }
 
     @GetMapping("/token")
@@ -43,6 +45,6 @@ public class TokenController {
             @RequestHeader("X-Waiting-Token") String token,
             @RequestHeader("USER-ID") Long userId
             ) {
-        return ResponseEntity.ok(TokenHttp.TokenResponse.of(tokenUseCase.getWaitingToken(token, userId)));
+        return ResponseEntity.ok(TokenHttp.TokenResponse.of(tokenQueryUseCase.getWaitingToken(token, userId)));
     }
 }

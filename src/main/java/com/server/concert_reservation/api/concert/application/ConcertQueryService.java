@@ -1,6 +1,5 @@
-package com.server.concert_reservation.api.concert.domain.service;
+package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.application.GetConcertUseCase;
 import com.server.concert_reservation.api.concert.domain.model.dto.ConcertScheduleInfo;
 import com.server.concert_reservation.api.concert.domain.model.dto.ConcertSeatInfo;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class ConcertQueryService implements GetConcertUseCase {
+public class ConcertQueryService implements ConcertQueryUseCase {
 
     private final ConcertReader concertReader;
 
