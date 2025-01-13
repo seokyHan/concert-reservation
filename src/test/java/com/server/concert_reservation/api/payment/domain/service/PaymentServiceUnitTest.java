@@ -4,15 +4,14 @@ import com.server.concert_reservation.api.concert.application.GetConcertUseCase;
 import com.server.concert_reservation.api.concert.application.ReservationUseCase;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.infrastructure.types.ReservationStatus;
-import com.server.concert_reservation.api.payment.domain.dto.PaymentInfo;
-import com.server.concert_reservation.api.payment.domain.dto.command.PaymentCommand;
+import com.server.concert_reservation.api.payment.domain.model.dto.PaymentInfo;
+import com.server.concert_reservation.api.payment.domain.model.dto.PaymentCommand;
 import com.server.concert_reservation.api.payment.domain.model.Payment;
 import com.server.concert_reservation.api.payment.domain.repository.PaymentWriter;
 import com.server.concert_reservation.api.token.application.TokenUseCase;
 import com.server.concert_reservation.api.user.application.PointUseCase;
-import com.server.concert_reservation.api.user.domain.dto.command.UserCommand;
+import com.server.concert_reservation.api.user.domain.model.dto.UserCommand;
 import com.server.concert_reservation.common.exception.CustomException;
-import com.server.concert_reservation.common.time.TimeManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,11 +21,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static com.server.concert_reservation.api.token.infrastructure.types.TokenStatus.WAITING;
 import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.IS_NOT_TEMPORARY_RESERVATION;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

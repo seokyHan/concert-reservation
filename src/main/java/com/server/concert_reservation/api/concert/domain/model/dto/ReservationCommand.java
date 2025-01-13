@@ -1,4 +1,4 @@
-package com.server.concert_reservation.api.concert.domain.dto.command;
+package com.server.concert_reservation.api.concert.domain.model.dto;
 
 import com.server.concert_reservation.api.concert.presentation.dto.ConcertHttp;
 

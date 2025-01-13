@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api.payment.domain.model;
 
-import com.server.concert_reservation.api.payment.domain.dto.command.PaymentCommand;
+import com.server.concert_reservation.api.payment.domain.model.dto.PaymentCommand;
 import com.server.concert_reservation.api.payment.infrastructure.entity.PaymentEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

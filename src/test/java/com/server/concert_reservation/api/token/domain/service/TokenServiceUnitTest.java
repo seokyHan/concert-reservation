@@ -1,14 +1,13 @@
 package com.server.concert_reservation.api.token.domain.service;
 
-import com.server.concert_reservation.api.token.domain.dto.TokenInfo;
-import com.server.concert_reservation.api.token.domain.dto.command.TokenCommand;
+import com.server.concert_reservation.api.token.domain.model.dto.TokenInfo;
+import com.server.concert_reservation.api.token.domain.model.dto.TokenCommand;
 import com.server.concert_reservation.api.token.domain.model.Token;
 import com.server.concert_reservation.api.token.domain.repository.TokenReader;
 import com.server.concert_reservation.api.token.domain.repository.TokenWriter;
 import com.server.concert_reservation.api.token.infrastructure.types.TokenStatus;
 import com.server.concert_reservation.common.exception.CustomException;
 import com.server.concert_reservation.common.time.TimeManager;
-import com.server.concert_reservation.common.uuid.UUIDManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

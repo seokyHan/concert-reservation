@@ -1,15 +1,13 @@
 package com.server.concert_reservation.api.user.domain.service;
 
 import com.server.concert_reservation.api.user.application.GetUserUseCase;
-import com.server.concert_reservation.api.user.domain.dto.WalletInfo;
+import com.server.concert_reservation.api.user.domain.model.dto.WalletInfo;
 import com.server.concert_reservation.api.user.domain.model.User;
 import com.server.concert_reservation.api.user.domain.model.Wallet;
-import com.server.concert_reservation.api.user.domain.repository.UserReader;
 import com.server.concert_reservation.api.user.domain.repository.UserWriter;
 import com.server.concert_reservation.api.user.infrastructure.repository.UserJpaRepository;
 import com.server.concert_reservation.api.user.infrastructure.repository.WalletJpaRepository;
 import com.server.concert_reservation.common.exception.CustomException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

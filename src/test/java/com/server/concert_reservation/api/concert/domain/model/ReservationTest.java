@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api.concert.domain.model;
 
-import com.server.concert_reservation.api.concert.domain.dto.command.ReservationCommand;
+import com.server.concert_reservation.api.concert.domain.model.dto.ReservationCommand;
 import com.server.concert_reservation.api.concert.infrastructure.types.ReservationStatus;
 import com.server.concert_reservation.common.exception.CustomException;
 import com.server.concert_reservation.common.time.TimeManager;

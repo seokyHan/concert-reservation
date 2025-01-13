@@ -1,7 +1,6 @@
-package com.server.concert_reservation.api.user.domain.dto;
+package com.server.concert_reservation.api.user.domain.model.dto;
 
 import com.server.concert_reservation.api.user.domain.model.User;
-import com.server.concert_reservation.api.user.domain.model.Wallet;
 
 import java.time.LocalDateTime;
 

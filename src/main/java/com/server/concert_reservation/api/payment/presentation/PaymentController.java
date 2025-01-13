@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.payment.presentation;
 
 import com.server.concert_reservation.api.payment.application.PaymentUseCase;
-import com.server.concert_reservation.api.payment.domain.dto.command.PaymentCommand;
+import com.server.concert_reservation.api.payment.domain.model.dto.PaymentCommand;
 import com.server.concert_reservation.api.payment.presentation.dto.PaymentHttp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,8 +1,8 @@
 package com.server.concert_reservation.api.token.domain.service;
 
 import com.server.concert_reservation.api.token.application.TokenUseCase;
-import com.server.concert_reservation.api.token.domain.dto.TokenInfo;
-import com.server.concert_reservation.api.token.domain.dto.command.TokenCommand;
+import com.server.concert_reservation.api.token.domain.model.dto.TokenInfo;
+import com.server.concert_reservation.api.token.domain.model.dto.TokenCommand;
 import com.server.concert_reservation.api.token.domain.model.Token;
 import com.server.concert_reservation.api.token.domain.repository.TokenReader;
 import com.server.concert_reservation.api.token.domain.repository.TokenWriter;
@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 

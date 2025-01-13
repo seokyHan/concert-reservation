@@ -1,10 +1,9 @@
 package com.server.concert_reservation.api.token.domain.service;
 
 import com.server.concert_reservation.api.token.application.TokenUseCase;
-import com.server.concert_reservation.api.token.domain.dto.TokenInfo;
-import com.server.concert_reservation.api.token.domain.dto.command.TokenCommand;
+import com.server.concert_reservation.api.token.domain.model.dto.TokenInfo;
+import com.server.concert_reservation.api.token.domain.model.dto.TokenCommand;
 import com.server.concert_reservation.api.token.domain.model.Token;
-import com.server.concert_reservation.api.token.domain.repository.TokenReader;
 import com.server.concert_reservation.api.token.domain.repository.TokenWriter;
 import com.server.concert_reservation.api.token.infrastructure.repository.TokenJpaRepository;
 import com.server.concert_reservation.api.user.domain.model.User;

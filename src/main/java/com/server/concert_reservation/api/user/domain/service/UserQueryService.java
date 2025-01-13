@@ -1,8 +1,8 @@
 package com.server.concert_reservation.api.user.domain.service;
 
 import com.server.concert_reservation.api.user.application.GetUserUseCase;
-import com.server.concert_reservation.api.user.domain.dto.UserInfo;
-import com.server.concert_reservation.api.user.domain.dto.WalletInfo;
+import com.server.concert_reservation.api.user.domain.model.dto.UserInfo;
+import com.server.concert_reservation.api.user.domain.model.dto.WalletInfo;
 import com.server.concert_reservation.api.user.domain.repository.UserReader;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
