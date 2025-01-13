@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.server.concert_reservation.api.concert.infrastructure.types.ReservationStatus.RESERVED;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.RESERVED;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReservationEntityTest {

@@ -1,4 +1,4 @@
-package com.server.concert_reservation.api.concert.domain.service;
+package com.server.concert_reservation.api.concert.application;
 
 import com.server.concert_reservation.api.concert.domain.model.dto.ReservationInfo;
 import com.server.concert_reservation.api.concert.domain.model.dto.ReservationCommand;
@@ -7,7 +7,7 @@ import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
-import com.server.concert_reservation.api.concert.infrastructure.types.ReservationStatus;
+import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
 import com.server.concert_reservation.common.exception.CustomException;
 import com.server.concert_reservation.common.time.TimeManager;
 import org.junit.jupiter.api.DisplayName;
@@ -20,9 +20,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.server.concert_reservation.api.concert.infrastructure.types.ReservationStatus.CANCELED;
-import static com.server.concert_reservation.api.concert.infrastructure.types.ReservationStatus.RESERVED;
-import static com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus.*;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.CANCELED;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.RESERVED;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.*;
 import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,7 +56,6 @@ class ConcertCommandServiceUnitTest {
 
         ConcertSchedule concertSchedule = mock(ConcertSchedule.class);
         when(concertReader.getConcertScheduleById(1L)).thenReturn(concertSchedule);
-        when(concertSchedule.isAvailableReservePeriod(any())).thenReturn(false);
 
         ConcertSeat concertSeat1 = ConcertSeat.builder()
                 .id(1L)
@@ -95,9 +94,8 @@ class ConcertCommandServiceUnitTest {
         LocalDateTime now = LocalDateTime.now();
         ReservationCommand command = new ReservationCommand(1L, 1L, List.of(1L, 2L), now);
 
-        ConcertSchedule concertSchedule = mock(ConcertSchedule.class);
+        ConcertSchedule concertSchedule = ConcertSchedule.of(1L, 2L, 10, now.plusDays(1L), now.plusDays(2L), now, null);
         when(concertReader.getConcertScheduleById(1L)).thenReturn(concertSchedule);
-        when(concertSchedule.isAvailableReservePeriod(any())).thenReturn(true);
 
         // when & then
         assertThatThrownBy(() -> concertCommandService.temporaryReserveConcert(command))
@@ -114,7 +112,6 @@ class ConcertCommandServiceUnitTest {
 
         ConcertSchedule concertSchedule = mock(ConcertSchedule.class);
         when(concertReader.getConcertScheduleById(1L)).thenReturn(concertSchedule);
-        when(concertSchedule.isAvailableReservePeriod(any())).thenReturn(false);
 
         ConcertSeat concertSeat1 = ConcertSeat.builder()
                 .id(1L)

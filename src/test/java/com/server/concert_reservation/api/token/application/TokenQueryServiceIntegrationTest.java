@@ -1,13 +1,9 @@
-package com.server.concert_reservation.api.token.domain.service;
+package com.server.concert_reservation.api.token.application;
 
-import com.server.concert_reservation.api.token.application.TokenUseCase;
-import com.server.concert_reservation.api.token.domain.model.dto.TokenInfo;
-import com.server.concert_reservation.api.token.domain.model.dto.TokenCommand;
 import com.server.concert_reservation.api.token.domain.model.Token;
+import com.server.concert_reservation.api.token.domain.model.dto.TokenInfo;
 import com.server.concert_reservation.api.token.domain.repository.TokenWriter;
 import com.server.concert_reservation.api.token.infrastructure.repository.TokenJpaRepository;
-import com.server.concert_reservation.api.user.domain.model.User;
-import com.server.concert_reservation.api.user.domain.repository.UserWriter;
 import com.server.concert_reservation.api.user.infrastructure.repository.UserJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,18 +11,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.server.concert_reservation.api.token.infrastructure.types.TokenStatus.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class TokenServiceIntegrationTest {
+public class TokenQueryServiceIntegrationTest {
 
     @Autowired
-    private TokenUseCase tokenUseCase;
-    @Autowired
-    private UserWriter userWriter;
-    @Autowired
     private TokenWriter tokenWriter;
+    @Autowired
+    private TokenQueryUseCase tokenQueryUseCase;
     @Autowired
     private UserJpaRepository userJpaRepository;
     @Autowired
@@ -36,31 +31,6 @@ class TokenServiceIntegrationTest {
     void tearDown() {
         userJpaRepository.deleteAllInBatch();
         tokenJpaRepository.deleteAllInBatch();
-    }
-
-    @DisplayName("대기열 토큰을 생성한다.")
-    @Test
-    void createTokenTest() {
-        // given
-        User user = User.builder()
-                .name("user1")
-                .build();
-        User saveUser = userWriter.save(user);
-
-        TokenCommand tokenCommand = new TokenCommand(saveUser.getId(), "test-token");
-
-        // when
-        Token waitingToken1 = tokenUseCase.createToken(tokenCommand);
-        Token waitingToken2 = tokenUseCase.createToken(tokenCommand);
-
-
-        // then
-        assertAll(
-                () -> assertEquals(saveUser.getId(), waitingToken1.getUserId()),
-                () -> assertEquals(WAITING, waitingToken1.getStatus()),
-                () -> assertEquals(saveUser.getId(), waitingToken2.getUserId()),
-                () -> assertEquals(WAITING, waitingToken2.getStatus())
-        );
     }
 
     @DisplayName("대기열 토큰 대기 순서 조회 성공 - 대기열상태가 WAITING인 경우만 순서(id) 반환")
@@ -91,9 +61,9 @@ class TokenServiceIntegrationTest {
         tokenWriter.save(waitingToken3);
 
         // when
-        TokenInfo waitingTokenInfo1 = tokenUseCase.getWaitingToken("token-test1", 1L);
-        TokenInfo waitingTokenInfo2 = tokenUseCase.getWaitingToken("token-test2", 1L);
-        TokenInfo waitingTokenInfo3 = tokenUseCase.getWaitingToken("token-test3", 1L);
+        TokenInfo waitingTokenInfo1 = tokenQueryUseCase.getWaitingToken("token-test1", 1L);
+        TokenInfo waitingTokenInfo2 = tokenQueryUseCase.getWaitingToken("token-test2", 1L);
+        TokenInfo waitingTokenInfo3 = tokenQueryUseCase.getWaitingToken("token-test3", 1L);
 
         // then
         assertAll(
@@ -131,9 +101,9 @@ class TokenServiceIntegrationTest {
         tokenWriter.save(waitingToken3);
 
         // when
-        TokenInfo waitingTokenInfo1 = tokenUseCase.getWaitingToken("token-test1", 1L);
-        TokenInfo waitingTokenInfo2 = tokenUseCase.getWaitingToken("token-test2", 1L);
-        TokenInfo waitingTokenInfo3 = tokenUseCase.getWaitingToken("token-test3", 1L);
+        TokenInfo waitingTokenInfo1 = tokenQueryUseCase.getWaitingToken("token-test1", 1L);
+        TokenInfo waitingTokenInfo2 = tokenQueryUseCase.getWaitingToken("token-test2", 1L);
+        TokenInfo waitingTokenInfo3 = tokenQueryUseCase.getWaitingToken("token-test3", 1L);
 
         // then
         assertAll(
@@ -142,5 +112,4 @@ class TokenServiceIntegrationTest {
                 () -> assertEquals(3L, waitingTokenInfo3.waitingNumber())
         );
     }
-
 }

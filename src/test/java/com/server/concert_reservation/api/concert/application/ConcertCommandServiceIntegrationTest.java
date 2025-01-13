@@ -1,6 +1,5 @@
-package com.server.concert_reservation.api.concert.domain.service;
+package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.application.ReservationUseCase;
 import com.server.concert_reservation.api.concert.domain.model.dto.ReservationInfo;
 import com.server.concert_reservation.api.concert.domain.model.dto.ReservationCommand;
 import com.server.concert_reservation.api.concert.domain.model.Concert;
@@ -25,9 +24,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.server.concert_reservation.api.concert.infrastructure.types.ReservationStatus.RESERVING;
-import static com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus.AVAILABLE;
-import static com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus.TEMPORARY_RESERVED;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.RESERVING;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.AVAILABLE;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.TEMPORARY_RESERVED;
 import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -37,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConcertCommandServiceIntegrationTest {
 
     @Autowired
-    private ReservationUseCase reservationUseCase;
+    private ConcertCommandUseCase reservationUseCase;
     @Autowired
     private UserWriter userWriter;
     @Autowired
@@ -125,7 +124,7 @@ class ConcertCommandServiceIntegrationTest {
         );
     }
 
-    @DisplayName("콘서트 예약 가능한 기간에 예약을 하려는 경우 예외가 발생한다.")
+    @DisplayName("콘서트 예약이 불가능한 기간에 예약을 하려는 경우 예외가 발생한다.")
     @Test
     void notAvailablePeriodThrowException() {
 
@@ -158,7 +157,7 @@ class ConcertCommandServiceIntegrationTest {
         // when & then
         assertThatThrownBy(() -> reservationUseCase.temporaryReserveConcert(command))
                 .isInstanceOf(CustomException.class)
-                .hasMessage(CONCERT_SEAT_NOT_FOUND.getMessage());
+                .hasMessage(CAN_NOT_RESERVE_DATE.getMessage());
 
     }
 

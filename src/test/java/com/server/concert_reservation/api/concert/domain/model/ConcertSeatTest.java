@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api.concert.domain.model;
 
-import com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus;
+import com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus;
 import com.server.concert_reservation.common.exception.CustomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

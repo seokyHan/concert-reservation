@@ -9,9 +9,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-import static com.server.concert_reservation.api.token.infrastructure.types.TokenStatus.WAITING;
+import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.WAITING;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)

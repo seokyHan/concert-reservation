@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api.user.domain.service;
 
-import com.server.concert_reservation.api.user.application.GetUserUseCase;
+import com.server.concert_reservation.api.user.application.UserCommandUseCase;
 import com.server.concert_reservation.api.user.domain.model.dto.WalletInfo;
 import com.server.concert_reservation.api.user.domain.model.User;
 import com.server.concert_reservation.api.user.domain.model.Wallet;
@@ -24,7 +24,7 @@ class UserQueryServiceIntegrationTest {
     @Autowired
     private UserWriter userWriter;
     @Autowired
-    private GetUserUseCase getUserUseCase;
+    private UserCommandUseCase getUserUseCase;
     @Autowired
     private UserJpaRepository userJpaRepository;
     @Autowired

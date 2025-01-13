@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api.user.domain.service;
 
-import com.server.concert_reservation.api.user.application.PointUseCase;
+import com.server.concert_reservation.api.user.application.UserQueryUseCase;
 import com.server.concert_reservation.api.user.domain.model.dto.UserCommand;
 import com.server.concert_reservation.api.user.domain.model.User;
 import com.server.concert_reservation.api.user.domain.model.Wallet;
@@ -29,7 +29,7 @@ class UserCommandServiceIntegrationTest {
     @Autowired
     private UserReader userReader;
     @Autowired
-    private PointUseCase pointUseCase;
+    private UserQueryUseCase pointUseCase;
     @Autowired
     private UserJpaRepository userJpaRepository;
     @Autowired

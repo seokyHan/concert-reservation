@@ -21,11 +21,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static com.server.concert_reservation.api.concert.infrastructure.types.ReservationStatus.*;
-import static com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus.SOLD;
-import static com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus.TEMPORARY_RESERVED;
-import static com.server.concert_reservation.api.token.infrastructure.types.TokenStatus.ACTIVE;
-import static com.server.concert_reservation.api.token.infrastructure.types.TokenStatus.EXPIRED;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.*;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.SOLD;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.TEMPORARY_RESERVED;
+import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.ACTIVE;
+import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.EXPIRED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-package com.server.concert_reservation.api.concert.domain.service;
+package com.server.concert_reservation.api.concert.application;
 
 import com.server.concert_reservation.api.concert.domain.model.dto.ConcertScheduleInfo;
 import com.server.concert_reservation.api.concert.domain.model.dto.ConcertSeatInfo;
@@ -15,8 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus.AVAILABLE;
-import static com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus.TEMPORARY_RESERVED;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.AVAILABLE;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.TEMPORARY_RESERVED;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertAll;

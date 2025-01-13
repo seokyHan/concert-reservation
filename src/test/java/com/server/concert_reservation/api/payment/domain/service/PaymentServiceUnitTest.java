@@ -1,15 +1,16 @@
 package com.server.concert_reservation.api.payment.domain.service;
 
-import com.server.concert_reservation.api.concert.application.GetConcertUseCase;
-import com.server.concert_reservation.api.concert.application.ReservationUseCase;
+import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
+import com.server.concert_reservation.api.concert.application.ConcertCommandUseCase;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
-import com.server.concert_reservation.api.concert.infrastructure.types.ReservationStatus;
+import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
+import com.server.concert_reservation.api.payment.application.PaymentService;
 import com.server.concert_reservation.api.payment.domain.model.dto.PaymentInfo;
 import com.server.concert_reservation.api.payment.domain.model.dto.PaymentCommand;
 import com.server.concert_reservation.api.payment.domain.model.Payment;
 import com.server.concert_reservation.api.payment.domain.repository.PaymentWriter;
-import com.server.concert_reservation.api.token.application.TokenUseCase;
-import com.server.concert_reservation.api.user.application.PointUseCase;
+import com.server.concert_reservation.api.token.application.TokenCommandUseCase;
+import com.server.concert_reservation.api.user.application.UserQueryUseCase;
 import com.server.concert_reservation.api.user.domain.model.dto.UserCommand;
 import com.server.concert_reservation.common.exception.CustomException;
 import org.junit.jupiter.api.DisplayName;
@@ -34,13 +35,13 @@ class PaymentServiceUnitTest {
     @Mock
     private PaymentWriter paymentWriter;
     @Mock
-    private GetConcertUseCase getConcertUseCase;
+    private ConcertQueryUseCase getConcertUseCase;
     @Mock
-    private TokenUseCase tokenUseCase;
+    private TokenCommandUseCase tokenUseCase;
     @Mock
-    private ReservationUseCase reservationUseCase;
+    private ConcertCommandUseCase reservationUseCase;
     @Mock
-    private PointUseCase pointUseCase;
+    private UserQueryUseCase pointUseCase;
 
     @DisplayName("임시 예약중이 아닌경우 얘외가 발생한다.")
     @Test

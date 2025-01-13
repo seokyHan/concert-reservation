@@ -6,9 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.api.concert.infrastructure.types.SeatStatus.SOLD;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.SOLD;
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ConcertSeatEntityTest {
 

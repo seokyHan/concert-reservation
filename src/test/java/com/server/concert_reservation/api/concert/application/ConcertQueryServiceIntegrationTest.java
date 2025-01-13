@@ -1,6 +1,6 @@
-package com.server.concert_reservation.api.concert.domain.service;
+package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.application.GetConcertUseCase;
+import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
 import com.server.concert_reservation.api.concert.domain.model.dto.ConcertScheduleInfo;
 import com.server.concert_reservation.api.concert.domain.model.Concert;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSchedule;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConcertQueryServiceIntegrationTest {
 
     @Autowired
-    private GetConcertUseCase getConcertUseCase;
+    private ConcertQueryUseCase getConcertUseCase;
     @Autowired
     private ConcertWriter concertWriter;
 
