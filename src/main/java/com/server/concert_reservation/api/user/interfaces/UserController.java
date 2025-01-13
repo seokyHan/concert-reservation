@@ -1,9 +1,9 @@
-package com.server.concert_reservation.api.user.presentation;
+package com.server.concert_reservation.api.user.interfaces;
 
 import com.server.concert_reservation.api.user.domain.model.dto.UserCommand;
-import com.server.concert_reservation.api.user.domain.service.UserCommandService;
-import com.server.concert_reservation.api.user.domain.service.UserQueryService;
-import com.server.concert_reservation.api.user.presentation.dto.UserHttp;
+import com.server.concert_reservation.api.user.application.UserCommandService;
+import com.server.concert_reservation.api.user.application.UserQueryService;
+import com.server.concert_reservation.api.user.interfaces.dto.UserHttp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,6 +1,5 @@
-package com.server.concert_reservation.api.user.domain.service;
+package com.server.concert_reservation.api.user.application;
 
-import com.server.concert_reservation.api.user.application.GetUserUseCase;
 import com.server.concert_reservation.api.user.domain.model.dto.UserInfo;
 import com.server.concert_reservation.api.user.domain.model.dto.WalletInfo;
 import com.server.concert_reservation.api.user.domain.repository.UserReader;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UserQueryService implements GetUserUseCase {
+public class UserQueryService implements UserCommandUseCase {
 
     private final UserReader userReader;
 

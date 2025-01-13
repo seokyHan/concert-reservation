@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.token.domain.model.dto;
 
 import com.server.concert_reservation.api.token.domain.model.Token;
-import com.server.concert_reservation.api.token.infrastructure.types.TokenStatus;
+import com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus;
 
 import java.time.LocalDateTime;
 

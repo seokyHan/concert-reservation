@@ -1,6 +1,5 @@
-package com.server.concert_reservation.api.user.domain.service;
+package com.server.concert_reservation.api.user.application;
 
-import com.server.concert_reservation.api.user.application.PointUseCase;
 import com.server.concert_reservation.api.user.domain.model.dto.WalletInfo;
 import com.server.concert_reservation.api.user.domain.model.dto.UserCommand;
 import com.server.concert_reservation.api.user.domain.repository.UserReader;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UserCommandService implements PointUseCase {
+public class UserCommandService implements UserQueryUseCase {
 
     private final UserWriter userWriter;
     private final UserReader userReader;

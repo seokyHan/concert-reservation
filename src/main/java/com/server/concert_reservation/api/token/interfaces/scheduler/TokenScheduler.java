@@ -1,6 +1,7 @@
-package com.server.concert_reservation.api.token.scheduler;
+package com.server.concert_reservation.api.token.interfaces.scheduler;
 
-import com.server.concert_reservation.api.token.application.TokenUseCase;
+import com.server.concert_reservation.api.token.application.TokenCommandUseCase;
+import com.server.concert_reservation.api.token.application.TokenQueryUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -13,15 +14,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TokenScheduler {
 
-    private final TokenUseCase tokenUseCase;
+    private final TokenCommandUseCase tokenCommandUseCase;
+    private final TokenQueryUseCase tokenQueryUseCase;
 
     @Scheduled(fixedDelayString = "60000")
     public void activeWaitingToken() {
         log.info("대기열 토큰 활성화 스케줄러 실행");
-        val waitingTokens= tokenUseCase.getWaitingToken(100);
+        val waitingTokens= tokenQueryUseCase.getWaitingToken(100);
         waitingTokens.forEach(waitingToken -> {
             try {
-                tokenUseCase.activateToken(waitingToken.getToken());
+                tokenCommandUseCase.activateToken(waitingToken.getToken());
             } catch (Exception e) {
                 log.warn("대기열 토큰 활성화 스케쥴러 실행 중 오류 발생 [Token: {}]: {}", waitingToken.getToken(), e.getMessage());
             }
@@ -34,10 +36,10 @@ public class TokenScheduler {
         log.info("대기열 토큰 만료 스케줄러 실행");
         // 대기열 토큰 활성화 시간(activeAt) 10분
         // activeAt이 10분이 지났을 경우 만료 처리 후 expireAt에 업데이트
-        val waitingTokens = tokenUseCase.getWaitingTokenToBeExpired(10);
+        val waitingTokens = tokenQueryUseCase.getWaitingTokenToBeExpired(10);
         waitingTokens.forEach(waitingToken -> {
             try {
-                tokenUseCase.expireToken(waitingToken.getToken());
+                tokenCommandUseCase.expireToken(waitingToken.getToken());
             } catch (Exception e) {
                 log.warn("대기열 토큰 만료 스케쥴러 실행 중 오류 발생 [Token: {}]: {}", waitingToken.getToken(), e.getMessage());
             }
