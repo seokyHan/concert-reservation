@@ -7,13 +7,12 @@ import com.server.concert_reservation.api.token.infrastructure.repository.TokenJ
 import com.server.concert_reservation.api.token.infrastructure.repository.querydsl.TokenQueryDsl;
 import com.server.concert_reservation.common.exception.CustomException;
 import com.server.concert_reservation.common.exception.code.TokenErrorCode;
-import com.server.concert_reservation.common.time.TimeManager;
+import com.server.concert_reservation.support.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

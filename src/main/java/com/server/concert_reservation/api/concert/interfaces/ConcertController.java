@@ -2,9 +2,9 @@ package com.server.concert_reservation.api.concert.interfaces;
 
 import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
 import com.server.concert_reservation.api.concert.application.ConcertCommandUseCase;
-import com.server.concert_reservation.api.concert.domain.model.dto.ReservationCommand;
+import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
 import com.server.concert_reservation.api.concert.interfaces.dto.ConcertHttp;
-import com.server.concert_reservation.common.time.TimeManager;
+import com.server.concert_reservation.support.time.TimeManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

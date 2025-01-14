@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api.payment.domain.model;
 
-import com.server.concert_reservation.api.payment.domain.model.dto.PaymentCommand;
+import com.server.concert_reservation.api.payment.application.dto.PaymentCommand;
 import com.server.concert_reservation.api.payment.infrastructure.entity.PaymentEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

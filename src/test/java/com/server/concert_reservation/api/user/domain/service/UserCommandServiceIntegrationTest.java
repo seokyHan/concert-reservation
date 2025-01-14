@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.user.domain.service;
 
 import com.server.concert_reservation.api.user.application.UserQueryUseCase;
-import com.server.concert_reservation.api.user.domain.model.dto.UserCommand;
+import com.server.concert_reservation.api.user.application.dto.UserCommand;
 import com.server.concert_reservation.api.user.domain.model.User;
 import com.server.concert_reservation.api.user.domain.model.Wallet;
 import com.server.concert_reservation.api.user.domain.repository.UserReader;

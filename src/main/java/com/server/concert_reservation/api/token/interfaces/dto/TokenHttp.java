@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api.token.interfaces.dto;
 
-import com.server.concert_reservation.api.token.domain.model.dto.TokenInfo;
+import com.server.concert_reservation.api.token.application.dto.TokenInfo;
 import com.server.concert_reservation.api.token.domain.model.Token;
 import com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus;
 

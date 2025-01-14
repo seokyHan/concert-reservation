@@ -1,9 +1,9 @@
 package com.server.concert_reservation.api.concert.domain.model;
 
-import com.server.concert_reservation.api.concert.domain.model.dto.ReservationCommand;
+import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
 import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
 import com.server.concert_reservation.common.exception.CustomException;
-import com.server.concert_reservation.common.time.TimeManager;
+import com.server.concert_reservation.support.time.TimeManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.domain.model.dto.ReservationInfo;
-import com.server.concert_reservation.api.concert.domain.model.dto.ReservationCommand;
+import com.server.concert_reservation.api.concert.application.dto.ReservationInfo;
+import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSchedule;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
@@ -9,7 +9,7 @@ import com.server.concert_reservation.api.concert.domain.repository.ConcertReade
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
 import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
 import com.server.concert_reservation.common.exception.CustomException;
-import com.server.concert_reservation.common.time.TimeManager;
+import com.server.concert_reservation.support.time.TimeManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.token.infrastructure.entity;
 
 import com.server.concert_reservation.api.token.domain.model.Token;
-import com.server.concert_reservation.common.uuid.UUIDManager;
+import com.server.concert_reservation.api.token.common.uuid.UUIDManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

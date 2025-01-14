@@ -1,4 +1,4 @@
-package com.server.concert_reservation.common.time;
+package com.server.concert_reservation.support.time;
 
 import java.time.LocalDateTime;
 

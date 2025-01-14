@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api.user.interfaces;
 
-import com.server.concert_reservation.api.user.domain.model.dto.UserCommand;
+import com.server.concert_reservation.api.user.application.dto.UserCommand;
 import com.server.concert_reservation.api.user.application.UserCommandService;
 import com.server.concert_reservation.api.user.application.UserQueryService;
 import com.server.concert_reservation.api.user.interfaces.dto.UserHttp;

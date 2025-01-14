@@ -5,7 +5,6 @@ import com.server.concert_reservation.api.concert.domain.model.Concert;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSchedule;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
-import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
 import com.server.concert_reservation.api.concert.infrastructure.entity.ConcertEntity;
 import com.server.concert_reservation.api.concert.infrastructure.entity.ConcertScheduleEntity;
@@ -14,7 +13,7 @@ import com.server.concert_reservation.api.concert.infrastructure.repository.Conc
 import com.server.concert_reservation.api.concert.infrastructure.repository.ConcertScheduleJpaRepository;
 import com.server.concert_reservation.api.concert.infrastructure.repository.ConcertSeatJpaRepository;
 import com.server.concert_reservation.api.concert.infrastructure.repository.ReservationJpaRepository;
-import com.server.concert_reservation.common.time.TimeManager;
+import com.server.concert_reservation.support.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;

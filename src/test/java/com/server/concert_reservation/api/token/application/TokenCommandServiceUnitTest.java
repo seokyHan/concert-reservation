@@ -1,25 +1,20 @@
 package com.server.concert_reservation.api.token.application;
 
-import com.server.concert_reservation.api.token.domain.model.dto.TokenInfo;
-import com.server.concert_reservation.api.token.domain.model.dto.TokenCommand;
+import com.server.concert_reservation.api.token.application.dto.TokenCommand;
 import com.server.concert_reservation.api.token.domain.model.Token;
 import com.server.concert_reservation.api.token.domain.repository.TokenReader;
 import com.server.concert_reservation.api.token.domain.repository.TokenWriter;
-import com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus;
 import com.server.concert_reservation.common.exception.CustomException;
-import com.server.concert_reservation.common.time.TimeManager;
+import com.server.concert_reservation.support.time.TimeManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.*;
 import static com.server.concert_reservation.common.exception.code.TokenErrorCode.*;

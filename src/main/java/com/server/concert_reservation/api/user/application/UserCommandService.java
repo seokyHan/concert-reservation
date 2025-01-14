@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.user.application;
 
-import com.server.concert_reservation.api.user.domain.model.dto.WalletInfo;
-import com.server.concert_reservation.api.user.domain.model.dto.UserCommand;
+import com.server.concert_reservation.api.user.application.dto.WalletInfo;
+import com.server.concert_reservation.api.user.application.dto.UserCommand;
 import com.server.concert_reservation.api.user.domain.repository.UserReader;
 import com.server.concert_reservation.api.user.domain.repository.UserWriter;
 import jakarta.transaction.Transactional;

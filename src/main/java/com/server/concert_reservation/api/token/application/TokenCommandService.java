@@ -1,16 +1,13 @@
 package com.server.concert_reservation.api.token.application;
 
-import com.server.concert_reservation.api.token.domain.model.dto.TokenInfo;
-import com.server.concert_reservation.api.token.domain.model.dto.TokenCommand;
+import com.server.concert_reservation.api.token.application.dto.TokenCommand;
 import com.server.concert_reservation.api.token.domain.model.Token;
 import com.server.concert_reservation.api.token.domain.repository.TokenReader;
 import com.server.concert_reservation.api.token.domain.repository.TokenWriter;
-import com.server.concert_reservation.common.time.TimeManager;
+import com.server.concert_reservation.support.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @RequiredArgsConstructor

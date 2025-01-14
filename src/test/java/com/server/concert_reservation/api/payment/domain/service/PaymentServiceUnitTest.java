@@ -5,13 +5,13 @@ import com.server.concert_reservation.api.concert.application.ConcertCommandUseC
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
 import com.server.concert_reservation.api.payment.application.PaymentService;
-import com.server.concert_reservation.api.payment.domain.model.dto.PaymentInfo;
-import com.server.concert_reservation.api.payment.domain.model.dto.PaymentCommand;
+import com.server.concert_reservation.api.payment.application.dto.PaymentInfo;
+import com.server.concert_reservation.api.payment.application.dto.PaymentCommand;
 import com.server.concert_reservation.api.payment.domain.model.Payment;
 import com.server.concert_reservation.api.payment.domain.repository.PaymentWriter;
 import com.server.concert_reservation.api.token.application.TokenCommandUseCase;
 import com.server.concert_reservation.api.user.application.UserQueryUseCase;
-import com.server.concert_reservation.api.user.domain.model.dto.UserCommand;
+import com.server.concert_reservation.api.user.application.dto.UserCommand;
 import com.server.concert_reservation.common.exception.CustomException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

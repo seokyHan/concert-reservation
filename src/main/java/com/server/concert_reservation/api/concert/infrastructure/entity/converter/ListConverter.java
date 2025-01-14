@@ -1,4 +1,4 @@
-package com.server.concert_reservation.common.converter;
+package com.server.concert_reservation.api.concert.infrastructure.entity.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

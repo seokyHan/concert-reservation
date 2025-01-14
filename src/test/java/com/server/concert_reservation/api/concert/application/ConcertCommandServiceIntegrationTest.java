@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.domain.model.dto.ReservationInfo;
-import com.server.concert_reservation.api.concert.domain.model.dto.ReservationCommand;
+import com.server.concert_reservation.api.concert.application.dto.ReservationInfo;
+import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
 import com.server.concert_reservation.api.concert.domain.model.Concert;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSchedule;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;

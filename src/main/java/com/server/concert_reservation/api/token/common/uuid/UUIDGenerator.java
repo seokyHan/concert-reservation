@@ -1,4 +1,4 @@
-package com.server.concert_reservation.common.uuid;
+package com.server.concert_reservation.api.token.common.uuid;
 
 import org.springframework.stereotype.Component;
 

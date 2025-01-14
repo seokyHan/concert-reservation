@@ -1,4 +1,4 @@
-package com.server.concert_reservation.api.token.domain.model.dto;
+package com.server.concert_reservation.api.token.application.dto;
 
 import com.server.concert_reservation.api.token.interfaces.dto.TokenHttp;
 

@@ -1,4 +1,4 @@
-package com.server.concert_reservation.api.payment.domain.model.dto;
+package com.server.concert_reservation.api.payment.application.dto;
 
 import com.server.concert_reservation.api.payment.interfaces.dto.PaymentHttp;
 

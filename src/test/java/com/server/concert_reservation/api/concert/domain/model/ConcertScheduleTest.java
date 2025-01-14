@@ -1,12 +1,10 @@
 package com.server.concert_reservation.api.concert.domain.model;
 
-import com.server.concert_reservation.api.concert.domain.model.dto.ReservationCommand;
 import com.server.concert_reservation.common.exception.CustomException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

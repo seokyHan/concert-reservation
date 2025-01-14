@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api.user.interfaces.dto;
 
-import com.server.concert_reservation.api.user.domain.model.dto.WalletInfo;
+import com.server.concert_reservation.api.user.application.dto.WalletInfo;
 
 import java.time.LocalDateTime;
 

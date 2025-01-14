@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.token.application;
 
 import com.server.concert_reservation.api.token.domain.model.Token;
-import com.server.concert_reservation.api.token.domain.model.dto.TokenInfo;
+import com.server.concert_reservation.api.token.application.dto.TokenInfo;
 import com.server.concert_reservation.api.token.domain.repository.TokenReader;
 import lombok.RequiredArgsConstructor;
 import lombok.val;

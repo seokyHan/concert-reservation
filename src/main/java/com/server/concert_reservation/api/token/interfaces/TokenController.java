@@ -2,7 +2,7 @@ package com.server.concert_reservation.api.token.interfaces;
 
 import com.server.concert_reservation.api.token.application.TokenCommandUseCase;
 import com.server.concert_reservation.api.token.application.TokenQueryUseCase;
-import com.server.concert_reservation.api.token.domain.model.dto.TokenCommand;
+import com.server.concert_reservation.api.token.application.dto.TokenCommand;
 import com.server.concert_reservation.api.token.interfaces.dto.TokenHttp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,4 +1,4 @@
-package com.server.concert_reservation.common.config;
+package com.server.concert_reservation.support.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

@@ -1,7 +1,6 @@
 package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
-import com.server.concert_reservation.api.concert.domain.model.dto.ConcertScheduleInfo;
+import com.server.concert_reservation.api.concert.application.dto.ConcertScheduleInfo;
 import com.server.concert_reservation.api.concert.domain.model.Concert;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSchedule;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;

@@ -3,7 +3,7 @@ package com.server.concert_reservation.api.token.domain.model;
 import com.server.concert_reservation.api.token.infrastructure.entity.TokenEntity;
 import com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus;
 import com.server.concert_reservation.common.exception.CustomException;
-import com.server.concert_reservation.common.uuid.UUIDManager;
+import com.server.concert_reservation.api.token.common.uuid.UUIDManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

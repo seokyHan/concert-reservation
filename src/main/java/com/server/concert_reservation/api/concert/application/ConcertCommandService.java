@@ -1,21 +1,18 @@
 package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.domain.model.dto.ReservationInfo;
-import com.server.concert_reservation.api.concert.domain.model.dto.ReservationCommand;
+import com.server.concert_reservation.api.concert.application.dto.ReservationInfo;
+import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
-import com.server.concert_reservation.common.exception.CustomException;
-import com.server.concert_reservation.common.time.TimeManager;
+import com.server.concert_reservation.support.time.TimeManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
-
-import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.CAN_NOT_RESERVE_DATE;
 
 @RequiredArgsConstructor
 @Service
