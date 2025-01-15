@@ -1,4 +1,4 @@
-package com.server.concert_reservation.api.user.domain.service;
+package com.server.concert_reservation.api.user.application;
 
 import com.server.concert_reservation.api.user.application.UserQueryService;
 import com.server.concert_reservation.api.user.application.dto.UserInfo;

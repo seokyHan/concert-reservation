@@ -1,14 +1,12 @@
-package com.server.concert_reservation.api.user.domain.service;
+package com.server.concert_reservation.api.user.application;
 
-import com.server.concert_reservation.api.user.application.UserQueryUseCase;
 import com.server.concert_reservation.api.user.application.dto.UserCommand;
 import com.server.concert_reservation.api.user.domain.model.User;
 import com.server.concert_reservation.api.user.domain.model.Wallet;
 import com.server.concert_reservation.api.user.domain.repository.UserReader;
 import com.server.concert_reservation.api.user.domain.repository.UserWriter;
-import com.server.concert_reservation.api.user.infrastructure.repository.UserJpaRepository;
-import com.server.concert_reservation.api.user.infrastructure.repository.WalletJpaRepository;
-import com.server.concert_reservation.common.exception.CustomException;
+import com.server.concert_reservation.support.DatabaseCleanUp;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +15,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.server.concert_reservation.common.exception.code.UserErrorCode.INVALID_POINT;
+import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.INVALID_POINT;
+import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.NOT_ENOUGH_POINT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,14 +30,11 @@ class UserCommandServiceIntegrationTest {
     @Autowired
     private UserQueryUseCase pointUseCase;
     @Autowired
-    private UserJpaRepository userJpaRepository;
-    @Autowired
-    private WalletJpaRepository walletJpaRepository;
+    private DatabaseCleanUp databaseCleanUp;
 
     @BeforeEach
-    void tearDown() {
-        userJpaRepository.deleteAllInBatch();
-        walletJpaRepository.deleteAllInBatch();
+    void dataBaseCleansing() {
+        databaseCleanUp.execute();
     }
 
     @DisplayName("사용자가 포인트를 사용한다.")
@@ -82,7 +78,7 @@ class UserCommandServiceIntegrationTest {
         // when & then
         assertThatThrownBy(() -> pointUseCase.usePoint(userCommand))
                 .isInstanceOf(CustomException.class)
-                .hasMessage(INVALID_POINT.getMessage());
+                .hasMessage(NOT_ENOUGH_POINT.getMessage());
     }
 
     @DisplayName("사용자가 포인트를 충전한다.")

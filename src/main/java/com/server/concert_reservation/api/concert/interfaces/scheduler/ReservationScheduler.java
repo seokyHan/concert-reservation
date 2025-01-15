@@ -5,6 +5,7 @@ import com.server.concert_reservation.api.concert.application.ConcertCommandUseC
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ public class ReservationScheduler {
     @Scheduled(fixedDelayString = "60000")
     public void expireTemporaryReservations() {
         log.info("임시예약 만료 스케줄러 실행");
-        final List<Reservation> concertReservations = getConcertUseCase.getTemporaryReservationByExpired(5);
+        val concertReservations = getConcertUseCase.getTemporaryReservationByExpired(5);
         concertReservations.forEach(concertReservation -> {
             try {
                 reservationUseCase.cancelTemporaryReservation(concertReservation.getId());

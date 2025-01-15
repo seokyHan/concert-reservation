@@ -1,13 +1,12 @@
-package com.server.concert_reservation.api.user.domain.service;
+package com.server.concert_reservation.api.user.application;
 
-import com.server.concert_reservation.api.user.application.UserCommandService;
 import com.server.concert_reservation.api.user.application.dto.WalletInfo;
 import com.server.concert_reservation.api.user.application.dto.UserCommand;
 import com.server.concert_reservation.api.user.domain.model.Wallet;
 import com.server.concert_reservation.api.user.domain.repository.UserReader;
 import com.server.concert_reservation.api.user.domain.repository.UserWriter;
 import com.server.concert_reservation.api.user.infrastructure.entity.WalletEntity;
-import com.server.concert_reservation.common.exception.CustomException;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,8 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.common.exception.code.UserErrorCode.INVALID_POINT;
-import static com.server.concert_reservation.common.exception.code.UserErrorCode.NOT_ENOUGH_POINT;
+import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.INVALID_POINT;
+import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.NOT_ENOUGH_POINT;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

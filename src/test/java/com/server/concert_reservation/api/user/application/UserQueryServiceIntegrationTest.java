@@ -1,20 +1,18 @@
-package com.server.concert_reservation.api.user.domain.service;
+package com.server.concert_reservation.api.user.application;
 
-import com.server.concert_reservation.api.user.application.UserCommandUseCase;
 import com.server.concert_reservation.api.user.application.dto.WalletInfo;
 import com.server.concert_reservation.api.user.domain.model.User;
 import com.server.concert_reservation.api.user.domain.model.Wallet;
 import com.server.concert_reservation.api.user.domain.repository.UserWriter;
-import com.server.concert_reservation.api.user.infrastructure.repository.UserJpaRepository;
-import com.server.concert_reservation.api.user.infrastructure.repository.WalletJpaRepository;
-import com.server.concert_reservation.common.exception.CustomException;
+import com.server.concert_reservation.support.DatabaseCleanUp;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.server.concert_reservation.common.exception.code.UserErrorCode.USER_NOT_FOUND;
+import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.USER_NOT_FOUND;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,14 +24,11 @@ class UserQueryServiceIntegrationTest {
     @Autowired
     private UserCommandUseCase getUserUseCase;
     @Autowired
-    private UserJpaRepository userJpaRepository;
-    @Autowired
-    private WalletJpaRepository walletJpaRepository;
+    private DatabaseCleanUp databaseCleanUp;
 
     @BeforeEach
-    void tearDown() {
-        userJpaRepository.deleteAllInBatch();
-        walletJpaRepository.deleteAllInBatch();
+    void dataBaseCleansing() {
+        databaseCleanUp.execute();
     }
 
     @DisplayName("사용자 포인트를 조회한다.")

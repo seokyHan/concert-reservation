@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.user.domain.model;
 
 import com.server.concert_reservation.api.user.infrastructure.entity.WalletEntity;
-import com.server.concert_reservation.common.exception.CustomException;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.common.exception.code.UserErrorCode.INVALID_POINT;
-import static com.server.concert_reservation.common.exception.code.UserErrorCode.NOT_ENOUGH_POINT;
+import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.INVALID_POINT;
+import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.NOT_ENOUGH_POINT;
 
 @Getter
 @Builder

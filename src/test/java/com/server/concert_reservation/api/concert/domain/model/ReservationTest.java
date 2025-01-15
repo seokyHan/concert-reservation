@@ -2,8 +2,8 @@ package com.server.concert_reservation.api.concert.domain.model;
 
 import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
 import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
-import com.server.concert_reservation.common.exception.CustomException;
-import com.server.concert_reservation.support.time.TimeManager;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
+import com.server.concert_reservation.support.api.common.time.TimeManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.CANCEL_ONLY_FOR_TEMP_RESERVATION;
-import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.PAYMENT_ONLY_FOR_TEMP_RESERVATION;
+import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.CANCEL_ONLY_FOR_TEMP_RESERVATION;
+import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.PAYMENT_ONLY_FOR_TEMP_RESERVATION;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 

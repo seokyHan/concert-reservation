@@ -13,7 +13,7 @@ import com.server.concert_reservation.api.concert.infrastructure.repository.Conc
 import com.server.concert_reservation.api.concert.infrastructure.repository.ConcertScheduleJpaRepository;
 import com.server.concert_reservation.api.concert.infrastructure.repository.ConcertSeatJpaRepository;
 import com.server.concert_reservation.api.concert.infrastructure.repository.ReservationJpaRepository;
-import com.server.concert_reservation.support.time.TimeManager;
+import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;

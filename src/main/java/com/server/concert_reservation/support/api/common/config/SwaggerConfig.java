@@ -1,4 +1,4 @@
-package com.server.concert_reservation.support.config;
+package com.server.concert_reservation.support.api.common.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

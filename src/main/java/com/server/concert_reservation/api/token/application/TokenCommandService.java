@@ -4,7 +4,7 @@ import com.server.concert_reservation.api.token.application.dto.TokenCommand;
 import com.server.concert_reservation.api.token.domain.model.Token;
 import com.server.concert_reservation.api.token.domain.repository.TokenReader;
 import com.server.concert_reservation.api.token.domain.repository.TokenWriter;
-import com.server.concert_reservation.support.time.TimeManager;
+import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;

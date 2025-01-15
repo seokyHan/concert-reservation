@@ -1,7 +1,6 @@
 package com.server.concert_reservation.api.concert.domain.model;
 
-import com.server.concert_reservation.api.concert.infrastructure.entity.ConcertScheduleEntity;
-import com.server.concert_reservation.common.exception.CustomException;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +8,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.CAN_NOT_RESERVE_DATE;
+import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.CAN_NOT_RESERVE_DATE;
 
 @Getter
 @Builder

@@ -1,4 +1,4 @@
-package com.server.concert_reservation.api.payment.domain.service;
+package com.server.concert_reservation.api.payment.application;
 
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
@@ -14,6 +14,8 @@ import com.server.concert_reservation.api.user.domain.model.User;
 import com.server.concert_reservation.api.user.domain.model.Wallet;
 import com.server.concert_reservation.api.user.domain.repository.UserReader;
 import com.server.concert_reservation.api.user.domain.repository.UserWriter;
+import com.server.concert_reservation.support.DatabaseCleanUp;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,13 @@ class PaymentServiceIntegrationTest {
     private TokenReader tokenReader;
     @Autowired
     private TokenWriter tokenWriter;
+    @Autowired
+    private DatabaseCleanUp databaseCleanUp;
+
+    @BeforeEach
+    void dataBaseCleansing() {
+        databaseCleanUp.execute();
+    }
 
     @DisplayName("임시 예약된 콘서트를 결제한다.")
     @Test

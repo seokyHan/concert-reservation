@@ -7,11 +7,11 @@ import com.server.concert_reservation.api.user.infrastructure.entity.WalletEntit
 import com.server.concert_reservation.api.user.infrastructure.entity.UserEntity;
 import com.server.concert_reservation.api.user.infrastructure.repository.WalletJpaRepository;
 import com.server.concert_reservation.api.user.infrastructure.repository.UserJpaRepository;
-import com.server.concert_reservation.common.exception.CustomException;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import static com.server.concert_reservation.common.exception.code.UserErrorCode.USER_NOT_FOUND;
+import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.USER_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Repository

@@ -1,4 +1,4 @@
-package com.server.concert_reservation.support.config;
+package com.server.concert_reservation.support.api.common.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
