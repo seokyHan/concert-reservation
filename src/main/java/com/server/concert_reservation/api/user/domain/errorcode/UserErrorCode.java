@@ -14,7 +14,7 @@ public enum UserErrorCode implements ErrorType {
     INVALID_USER_ID(HttpStatus.BAD_REQUEST, "유효하지 않은 사용자 ID 입니다.", WARN),
     INVALID_POINT(HttpStatus.BAD_REQUEST, "충전하려는 포인트는 0보다 커야합니다.", WARN),
     NOT_ENOUGH_POINT(HttpStatus.BAD_REQUEST, "포인트가 충분하지 않습니다.", WARN),
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자를 찾을 수 없습니다.", WARN),
+    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "사용자를 찾을 수 없습니다.", WARN),
     ;
 
     private final HttpStatus status;
