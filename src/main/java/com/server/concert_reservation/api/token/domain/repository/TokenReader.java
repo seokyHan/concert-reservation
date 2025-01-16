@@ -9,6 +9,6 @@ public interface TokenReader {
     Token getByToken(String token);
     Token getByUserIdAndToken(Long userId, String token);
     Optional<Token> getLatestActiveToken();
-    List<Token> getWaitingTokenToBeExpired(int minutes);
+    List<Token> getWaitingTokensToBeExpired(int minutes);
     List<Token> getWaitingToken(int activeCount);
 }

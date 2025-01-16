@@ -47,7 +47,7 @@ public class TokenCoreReader implements TokenReader {
     }
 
     @Override
-    public List<Token> getWaitingTokenToBeExpired(int minutes) {
+    public List<Token> getWaitingTokensToBeExpired(int minutes) {
         val expiredAt = timeManager.now().minusMinutes(minutes);
 
         return tokenQueryDsl.findWaitingTokenToBeExpired(expiredAt)

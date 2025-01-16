@@ -9,5 +9,5 @@ public interface TokenQueryUseCase {
 
     TokenInfo getWaitingToken(String token, Long userId);
     List<Token> getWaitingToken(int activeCount);
-    List<Token> getWaitingTokenToBeExpired(int minutes);
+    List<Token> getWaitingTokensToBeExpired(int minutes);
 }

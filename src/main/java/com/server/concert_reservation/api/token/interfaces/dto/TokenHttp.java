@@ -16,7 +16,6 @@ public class TokenHttp {
                                 TokenStatus status,
                                 LocalDateTime activatedAt,
                                 LocalDateTime expiredAt,
-                                LocalDateTime lastActionedAt,
                                 LocalDateTime createdAt,
                                 LocalDateTime updatedAt) {
         public static TokenResponse of (Token token) {
@@ -26,7 +25,6 @@ public class TokenHttp {
                     token.getStatus(),
                     token.getActivatedAt(),
                     token.getExpiredAt(),
-                    token.getLastActionedAt(),
                     token.getCreatedAt(),
                     token.getUpdatedAt());
         }
@@ -37,7 +35,6 @@ public class TokenHttp {
                     tokenInfo.status(),
                     tokenInfo.activatedAt(),
                     tokenInfo.expiredAt(),
-                    tokenInfo.lastActionedAt(),
                     tokenInfo.createdAt(),
                     tokenInfo.updatedAt());
         }

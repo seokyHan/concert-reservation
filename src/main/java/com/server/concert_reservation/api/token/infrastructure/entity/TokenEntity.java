@@ -29,27 +29,22 @@ public class TokenEntity extends BaseTimeEntity {
     private TokenStatus status;
     @Column(name = "activated_at")
     private LocalDateTime activatedAt;
-
     @Column(name = "expired_at")
     private LocalDateTime expiredAt;
 
-    @Column(name = "last_actioned_at")
-    private LocalDateTime lastActionedAt;
-
     @Builder
-    public TokenEntity(Long id, Long userId, String token, TokenStatus status, LocalDateTime activatedAt, LocalDateTime expiredAt, LocalDateTime lastActionedAt) {
+    public TokenEntity(Long id, Long userId, String token, TokenStatus status, LocalDateTime activatedAt, LocalDateTime expiredAt) {
         this.id = id;
         this.userId = userId;
         this.token = token;
         this.status = status;
         this.activatedAt = activatedAt;
         this.expiredAt = expiredAt;
-        this.lastActionedAt = lastActionedAt;
     }
 
 
 
     public Token toDomain() {
-        return Token.of(id, userId, token, status, activatedAt, expiredAt, lastActionedAt, createdAt, updatedAt);
+        return Token.of(id, userId, token, status, activatedAt, expiredAt, createdAt, updatedAt);
     }
 }

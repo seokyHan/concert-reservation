@@ -17,17 +17,17 @@ public class TokenQueryService implements TokenQueryUseCase{
 
     @Override
     public TokenInfo getWaitingToken(String token, Long userId) {
-        val currentWaitingToken = tokenReader.getByUserIdAndToken(userId, token);
+        val waitingToken = tokenReader.getByUserIdAndToken(userId, token);
 
-        if (currentWaitingToken.isWaiting()) {
+        if (waitingToken.isWaiting()) {
             val waitingOrder = tokenReader.getLatestActiveToken()
-                    .map(latestActivatedToken -> currentWaitingToken.getId() - latestActivatedToken.getId())
-                    .orElse(currentWaitingToken.getId());
+                    .map(latestActivatedToken -> waitingToken.getId() - latestActivatedToken.getId())
+                    .orElse(waitingToken.getId());
 
-            return TokenInfo.from(currentWaitingToken, waitingOrder);
+            return TokenInfo.from(waitingToken, waitingOrder);
 
         }
-        return TokenInfo.from(currentWaitingToken, 0L);
+        return TokenInfo.from(waitingToken, 0L);
     }
 
     /**
@@ -42,7 +42,7 @@ public class TokenQueryService implements TokenQueryUseCase{
      * 만료 처리 예정 대기열 토큰 목록 조회
      */
     @Override
-    public List<Token> getWaitingTokenToBeExpired(int minutes) {
-        return tokenReader.getWaitingTokenToBeExpired(minutes);
+    public List<Token> getWaitingTokensToBeExpired(int minutes) {
+        return tokenReader.getWaitingTokensToBeExpired(minutes);
     }
 }

@@ -36,7 +36,7 @@ public class TokenScheduler {
         log.info("대기열 토큰 만료 스케줄러 실행");
         // 대기열 토큰 활성화 시간(activeAt) 10분
         // activeAt이 10분이 지났을 경우 만료 처리 후 expireAt에 업데이트
-        val waitingTokens = tokenQueryUseCase.getWaitingTokenToBeExpired(10);
+        val waitingTokens = tokenQueryUseCase.getWaitingTokensToBeExpired(10);
         waitingTokens.forEach(waitingToken -> {
             try {
                 tokenCommandUseCase.expireToken(waitingToken.getToken());

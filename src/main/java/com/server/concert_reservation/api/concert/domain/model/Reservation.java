@@ -3,7 +3,7 @@ package com.server.concert_reservation.api.concert.domain.model;
 import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
 import com.server.concert_reservation.api.concert.infrastructure.entity.ReservationEntity;
 import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
-import com.server.concert_reservation.common.exception.CustomException;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.*;
-import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.*;
+import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.*;
 
 @Getter
 @Builder
