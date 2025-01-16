@@ -51,14 +51,14 @@ public class Reservation {
                 .build();
     }
 
-    public ReservationEntity toEntity(Reservation reservation, LocalDateTime dateTime) {
+    public ReservationEntity toEntity(Reservation reservation) {
         return ReservationEntity.builder()
                 .id(reservation.getId())
                 .userId(reservation.getUserId())
                 .seatIds(reservation.getSeatIds())
                 .status(reservation.getStatus())
                 .totalPrice(reservation.getTotalPrice())
-                .reservationAt(dateTime)
+                .reservationAt(reservation.getReservationAt())
                 .build();
     }
 

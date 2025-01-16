@@ -42,7 +42,7 @@ public class ConcertCoreWriter implements ConcertWriter {
     }
     @Override
     public Reservation saveReservation(Reservation reservation) {
-        return reservationJpaRepository.save(reservation.toEntity(reservation, timeManager.now())).toDomain();
+        return reservationJpaRepository.save(reservation.toEntity(reservation)).toDomain();
     }
 
     @Override

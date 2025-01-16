@@ -8,8 +8,8 @@ import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
 import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
-import com.server.concert_reservation.common.exception.CustomException;
-import com.server.concert_reservation.support.time.TimeManager;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
+import com.server.concert_reservation.support.api.common.time.TimeManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +23,7 @@ import java.util.List;
 import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.CANCELED;
 import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.RESERVED;
 import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.*;
-import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.*;
+import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -108,9 +108,7 @@ class ConcertCommandServiceUnitTest {
     void thrownExceptionForUnavailableSeatPeriodTest() {
         // given
         LocalDateTime now = LocalDateTime.now();
-        ReservationCommand command = new ReservationCommand(1L, 1L, List.of(1L, 2L), now);
-
-        ConcertSchedule concertSchedule = mock(ConcertSchedule.class);
+        ConcertSchedule concertSchedule = ConcertSchedule.of(1L, 1L, 10, now.minusDays(1L), now.plusDays(1), now, null);
         when(concertReader.getConcertScheduleById(1L)).thenReturn(concertSchedule);
 
         ConcertSeat concertSeat1 = ConcertSeat.builder()
@@ -118,16 +116,9 @@ class ConcertCommandServiceUnitTest {
                 .price(10000)
                 .status(TEMPORARY_RESERVED)
                 .build();
-
-        ConcertSeat concertSeat2 = ConcertSeat.builder()
-                .id(2L)
-                .price(20000)
-                .status(AVAILABLE)
-                .build();
-
         when(concertReader.getConcertSeatById(1L)).thenReturn(concertSeat1);
-        when(concertReader.getConcertSeatById(2L)).thenReturn(concertSeat2);
 
+        ReservationCommand command = new ReservationCommand(1L, 1L, List.of(1L), now);
         // when & then
         assertThatThrownBy(() -> concertCommandService.temporaryReserveConcert(command))
                 .isInstanceOf(CustomException.class)

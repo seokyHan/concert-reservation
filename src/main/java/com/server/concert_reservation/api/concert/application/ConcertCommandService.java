@@ -6,7 +6,7 @@ import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
-import com.server.concert_reservation.support.time.TimeManager;
+import com.server.concert_reservation.support.api.common.time.TimeManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -27,22 +27,28 @@ public class ConcertCommandService implements ConcertCommandUseCase {
      */
     @Override
     public ReservationInfo temporaryReserveConcert(ReservationCommand command) {
-        val concertSchedule = concertReader.getConcertScheduleById(command.concertScheduleId());
-        concertSchedule.isAvailableReservePeriod(command.dateTime());
+        concertReader.getConcertScheduleById(command.concertScheduleId())
+                .isAvailableReservePeriod(command.dateTime());
 
         val concertSeatList = command.seatIds().stream()
-                .map(concertReader::getConcertSeatById)
-                .collect(Collectors.toList());
-        concertSeatList.forEach(ConcertSeat::temporaryReserve);
-        val savedConcertSeatList = concertWriter.saveAll(concertSeatList);
+                .map(seatId -> {
+                    ConcertSeat seat = concertReader.getConcertSeatById(seatId);
+                    seat.temporaryReserve();
+                    return seat;
+                })
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toList(),
+                        concertWriter::saveAll
+                ));
+
+
         val totalPrice = concertSeatList.stream()
                 .mapToInt(ConcertSeat::getPrice)
                 .sum();
 
-        val reservation = Reservation.createReservation(command, totalPrice, timeManager.now());
-        val savedReservation = concertWriter.saveReservation(reservation);
+        val reservation = concertWriter.saveReservation(Reservation.createReservation(command, totalPrice, timeManager.now()));
 
-        return ReservationInfo.of(savedReservation, savedConcertSeatList);
+        return ReservationInfo.of(reservation, concertSeatList);
     }
 
     /**

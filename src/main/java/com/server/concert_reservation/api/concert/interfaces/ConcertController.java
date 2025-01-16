@@ -23,7 +23,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/api/v1/concert")
 public class ConcertController {
 
-    private final ConcertQueryUseCase getConcertUseCase;
+    private final ConcertQueryUseCase concertQueryUseCase;
     private final ConcertCommandUseCase reservationUseCase;
     private final TimeManager timeManager;
 
@@ -34,7 +34,7 @@ public class ConcertController {
     })
     @Parameter(name = "concertId", description = "콘서트 Id")
     public ResponseEntity<ConcertHttp.ConcertScheduleResponse> getAvailableSchedules(@PathVariable Long concertId) {
-        return ResponseEntity.ok(ConcertHttp.ConcertScheduleResponse.of(getConcertUseCase.getAvailableConcertSchedules(concertId, timeManager.now())));
+        return ResponseEntity.ok(ConcertHttp.ConcertScheduleResponse.of(concertQueryUseCase.getAvailableConcertSchedules(concertId, timeManager.now())));
     }
 
     @GetMapping("/{concertScheduleId}/available-seats")
@@ -44,7 +44,7 @@ public class ConcertController {
     })
     @Parameter(name = "concertScheduleId", description = "콘서트 스케쥴 Id")
     public ResponseEntity<ConcertHttp.ConcertSeatsResponse> getAvailableSeats(@PathVariable Long concertScheduleId) {
-        return ResponseEntity.ok(ConcertHttp.ConcertSeatsResponse.of(getConcertUseCase.getAvailableConcertSeats(concertScheduleId)));
+        return ResponseEntity.ok(ConcertHttp.ConcertSeatsResponse.of(concertQueryUseCase.getAvailableConcertSeats(concertScheduleId)));
     }
 
     @PostMapping("/reservation")

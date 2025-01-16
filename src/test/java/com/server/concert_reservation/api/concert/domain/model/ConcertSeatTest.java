@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.concert.domain.model;
 
 import com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus;
-import com.server.concert_reservation.common.exception.CustomException;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,12 +25,6 @@ class ConcertSeatTest {
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
-    }
-
-    @Test
-    @DisplayName("좌석이 사용 가능해야 한다.")
-    void isAvailableTest() {
-        assertTrue(concertSeat.isAvailable());
     }
 
     @Test

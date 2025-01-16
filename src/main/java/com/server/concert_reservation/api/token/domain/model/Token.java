@@ -2,7 +2,7 @@ package com.server.concert_reservation.api.token.domain.model;
 
 import com.server.concert_reservation.api.token.infrastructure.entity.TokenEntity;
 import com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus;
-import com.server.concert_reservation.common.exception.CustomException;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.*;
-import static com.server.concert_reservation.common.exception.code.TokenErrorCode.*;
+import static com.server.concert_reservation.api.token.domain.errorcode.TokenErrorCode.*;
 
 @Getter
 @Builder
@@ -24,7 +24,6 @@ public class Token {
     private TokenStatus status;
     private LocalDateTime activatedAt;
     private LocalDateTime expiredAt;
-    private LocalDateTime lastActionedAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -34,10 +33,9 @@ public class Token {
                            TokenStatus status,
                            LocalDateTime activatedAt,
                            LocalDateTime expiredAt,
-                           LocalDateTime lastActionedAt,
                            LocalDateTime createdAt,
                            LocalDateTime updatedAt) {
-        return new Token(id, userId, token, status, activatedAt, expiredAt, lastActionedAt, createdAt, updatedAt);
+        return new Token(id, userId, token, status, activatedAt, expiredAt, createdAt, updatedAt);
     }
 
     public Token(Long userId, String token) {
@@ -50,20 +48,12 @@ public class Token {
         return this.status == WAITING;
     }
 
-    public boolean isActivated() {
-        return this.status == ACTIVE;
-    }
-
-    public boolean isExpired() {
-        return this.status == EXPIRED;
-    }
-
     public void activate(LocalDateTime activatedAt) {
-        if (this.isActivated()) {
+        if (this.status == ACTIVE) {
             throw new CustomException(ALREADY_ACTIVATED);
         }
 
-        if (this.isExpired()) {
+        if (this.status == EXPIRED) {
             throw new CustomException(TOKEN_EXPIRED);
         }
 
@@ -77,11 +67,11 @@ public class Token {
     }
 
     public void validateToken() {
-        if (this.isExpired()) {
+        if (this.status == EXPIRED) {
             throw new CustomException(TOKEN_EXPIRED);
         }
 
-        if (!this.isActivated()) {
+        if (this.status != ACTIVE) {
             throw new CustomException(TOKEN_NOT_ACTIVATED);
         }
 
@@ -95,7 +85,6 @@ public class Token {
                 .status(token.getStatus())
                 .activatedAt(token.getActivatedAt())
                 .expiredAt(token.getExpiredAt())
-                .lastActionedAt(token.getLastActionedAt())
                 .build();
     }
 }

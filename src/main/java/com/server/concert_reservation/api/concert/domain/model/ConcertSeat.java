@@ -2,7 +2,7 @@ package com.server.concert_reservation.api.concert.domain.model;
 
 import com.server.concert_reservation.api.concert.infrastructure.entity.ConcertSeatEntity;
 import com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus;
-import com.server.concert_reservation.common.exception.CustomException;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,8 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.*;
-import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.CAN_NOT_RESERVE_SEAT;
-import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.RESERVING_ONLY;
+import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.CAN_NOT_RESERVE_SEAT;
+import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.RESERVING_ONLY;
 
 @Getter
 @Builder
@@ -48,12 +48,9 @@ public class ConcertSeat {
                 .build();
     }
 
-    public boolean isAvailable() {
-        return this.status == AVAILABLE;
-    }
 
     public void temporaryReserve() {
-        if (!isAvailable()) {
+        if (this.status != AVAILABLE) {
             throw new CustomException(CAN_NOT_RESERVE_SEAT);
         }
         this.status = TEMPORARY_RESERVED;

@@ -2,8 +2,8 @@ package com.server.concert_reservation.api.token.domain.model;
 
 import com.server.concert_reservation.api.token.infrastructure.entity.TokenEntity;
 import com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus;
-import com.server.concert_reservation.common.exception.CustomException;
-import com.server.concert_reservation.api.token.common.uuid.UUIDManager;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
+import com.server.concert_reservation.support.api.common.uuid.UUIDManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.common.exception.code.TokenErrorCode.*;
+import static com.server.concert_reservation.api.token.domain.errorcode.TokenErrorCode.*;
+import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.ACTIVE;
+import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.EXPIRED;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,8 +35,8 @@ class TokenTest {
         token.activate(activatedAt);
 
         // then
-        assertTrue(token.isActivated());
         assertEquals(activatedAt, token.getActivatedAt());
+        assertEquals(ACTIVE, token.getStatus());
     }
 
     @Test
@@ -48,8 +50,8 @@ class TokenTest {
         token.expire(expiredAt);
 
         // then
-        assertTrue(token.isExpired());
         assertEquals(expiredAt, token.getExpiredAt());
+        assertEquals(EXPIRED, token.getStatus());
     }
 
     @Test
@@ -69,8 +71,9 @@ class TokenTest {
     @DisplayName("Token 유효성 검사 테스트 - 만료된 경우")
     void validateTokenExpiredTest() {
         // given
+        LocalDateTime now = LocalDateTime.now();
         Token token = new Token(1L, uuidGenerator.generateUuid());
-        token.expire(LocalDateTime.now());
+        token.expire(now);
 
         // when & then
         assertThatThrownBy(() -> token.validateToken())
@@ -82,7 +85,7 @@ class TokenTest {
     @DisplayName("TokenEntity 변환 테스트")
     void toEntityTest() {
         // given
-        Token token = createToken(1L, 1L, uuidGenerator.generateUuid(), TokenStatus.WAITING, LocalDateTime.now(), LocalDateTime.now().plusDays(1), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now());
+        Token token = createToken(1L, 1L, uuidGenerator.generateUuid(), TokenStatus.WAITING, LocalDateTime.now(), LocalDateTime.now().plusDays(1), LocalDateTime.now(), LocalDateTime.now());
 
         // when
         TokenEntity tokenEntity = token.toEntity(token);
@@ -95,11 +98,10 @@ class TokenTest {
         assertEquals(token.getStatus(), tokenEntity.getStatus());
         assertEquals(token.getActivatedAt(), tokenEntity.getActivatedAt());
         assertEquals(token.getExpiredAt(), tokenEntity.getExpiredAt());
-        assertEquals(token.getLastActionedAt(), tokenEntity.getLastActionedAt());
     }
 
-    private Token createToken(Long id, Long userId, String token, TokenStatus status, LocalDateTime activatedAt, LocalDateTime expiredAt, LocalDateTime lastActionedAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        return Token.of(id, userId, token, status, activatedAt, expiredAt, lastActionedAt, createdAt, updatedAt);
+    private Token createToken(Long id, Long userId, String token, TokenStatus status, LocalDateTime activatedAt, LocalDateTime expiredAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return Token.of(id, userId, token, status, activatedAt, expiredAt, createdAt, updatedAt);
     }
 
 

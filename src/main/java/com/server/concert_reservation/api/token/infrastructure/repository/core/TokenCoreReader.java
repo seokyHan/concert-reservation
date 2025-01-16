@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Repository
 public class TokenCoreReader implements TokenReader {

@@ -28,8 +28,7 @@ public class TokenCommandService implements TokenCommandUseCase {
      */
     @Override
     public void checkActivatedToken(String token) {
-        val tokenInfo = tokenReader.getByToken(token);
-        tokenInfo.validateToken();
+        tokenReader.getByToken(token).validateToken();
     }
 
     /**
