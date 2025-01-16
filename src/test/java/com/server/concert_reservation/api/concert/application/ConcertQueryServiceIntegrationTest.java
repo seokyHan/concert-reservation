@@ -4,6 +4,8 @@ import com.server.concert_reservation.api.concert.application.dto.ConcertSchedul
 import com.server.concert_reservation.api.concert.domain.model.Concert;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSchedule;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
+import com.server.concert_reservation.support.DatabaseCleanUp;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,14 @@ class ConcertQueryServiceIntegrationTest {
     private ConcertQueryUseCase getConcertUseCase;
     @Autowired
     private ConcertWriter concertWriter;
+
+    @Autowired
+    private DatabaseCleanUp databaseCleanUp;
+
+    @BeforeEach
+    void dataBaseCleansing() {
+        databaseCleanUp.execute();
+    }
 
     @DisplayName("예약 가능한 콘서트 스케쥴 조회")
     @Test

@@ -7,14 +7,10 @@ import com.server.concert_reservation.api.concert.domain.model.ConcertSchedule;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
-import com.server.concert_reservation.api.concert.infrastructure.repository.ConcertJpaRepository;
-import com.server.concert_reservation.api.concert.infrastructure.repository.ConcertScheduleJpaRepository;
-import com.server.concert_reservation.api.concert.infrastructure.repository.ConcertSeatJpaRepository;
-import com.server.concert_reservation.api.concert.infrastructure.repository.ReservationJpaRepository;
 import com.server.concert_reservation.api.user.domain.model.User;
 import com.server.concert_reservation.api.user.domain.repository.UserWriter;
-import com.server.concert_reservation.api.user.infrastructure.repository.UserJpaRepository;
-import com.server.concert_reservation.common.exception.CustomException;
+import com.server.concert_reservation.support.DatabaseCleanUp;
+import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +23,7 @@ import java.util.List;
 import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.RESERVING;
 import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.AVAILABLE;
 import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.TEMPORARY_RESERVED;
-import static com.server.concert_reservation.common.exception.code.ConcertErrorCode.*;
+import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,25 +40,11 @@ class ConcertCommandServiceIntegrationTest {
     @Autowired
     private ConcertReader concertReader;
     @Autowired
-    private UserJpaRepository userJpaRepository;
-    @Autowired
-    private ConcertJpaRepository concertJpaRepository;
-    @Autowired
-    private ConcertScheduleJpaRepository concertScheduleJpaRepository;
-    @Autowired
-    private ConcertSeatJpaRepository concertSeatJpaRepository;
-    @Autowired
-    private ReservationJpaRepository reservationJpaRepository;
-
+    private DatabaseCleanUp databaseCleanUp;
 
     @BeforeEach
-    void tearDown() {
-        userJpaRepository.deleteAllInBatch();
-        concertJpaRepository.deleteAllInBatch();
-        concertScheduleJpaRepository.deleteAllInBatch();
-        concertSeatJpaRepository.deleteAllInBatch();
-        reservationJpaRepository.deleteAllInBatch();
-
+    void dataBaseCleansing() {
+        databaseCleanUp.execute();
     }
 
     @DisplayName("콘서트 좌석 임시 예약 성공 테스트")

@@ -5,6 +5,7 @@ import com.server.concert_reservation.api.token.application.dto.TokenInfo;
 import com.server.concert_reservation.api.token.domain.repository.TokenWriter;
 import com.server.concert_reservation.api.token.infrastructure.repository.TokenJpaRepository;
 import com.server.concert_reservation.api.user.infrastructure.repository.UserJpaRepository;
+import com.server.concert_reservation.support.DatabaseCleanUp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,14 +24,11 @@ public class TokenQueryServiceIntegrationTest {
     @Autowired
     private TokenQueryUseCase tokenQueryUseCase;
     @Autowired
-    private UserJpaRepository userJpaRepository;
-    @Autowired
-    private TokenJpaRepository tokenJpaRepository;
+    private DatabaseCleanUp databaseCleanUp;
 
     @BeforeEach
-    void tearDown() {
-        userJpaRepository.deleteAllInBatch();
-        tokenJpaRepository.deleteAllInBatch();
+    void dataBaseCleansing() {
+        databaseCleanUp.execute();
     }
 
     @DisplayName("대기열 토큰 대기 순서 조회 성공 - 대기열상태가 WAITING인 경우만 순서(id) 반환")
