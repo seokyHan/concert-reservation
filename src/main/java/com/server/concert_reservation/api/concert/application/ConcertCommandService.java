@@ -7,10 +7,10 @@ import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
@@ -26,6 +26,7 @@ public class ConcertCommandService implements ConcertCommandUseCase {
      * 임시 예약
      */
     @Override
+    @Transactional
     public ReservationInfo temporaryReserveConcert(ReservationCommand command) {
         concertReader.getConcertScheduleById(command.concertScheduleId())
                 .isAvailableReservePeriod(command.dateTime());

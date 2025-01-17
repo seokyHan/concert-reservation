@@ -16,7 +16,6 @@ import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,7 +49,7 @@ public class ConcertCoreReader implements ConcertReader {
 
     @Override
     public ConcertSeat getConcertSeatById(Long concertSeatId) {
-        return concertSeatJpaRepository.findById(concertSeatId)
+        return concertSeatJpaRepository.findWithPessimisticLockById(concertSeatId)
                 .orElseThrow(() -> new CustomException(CONCERT_SEAT_NOT_FOUND))
                 .toDomain();
     }
