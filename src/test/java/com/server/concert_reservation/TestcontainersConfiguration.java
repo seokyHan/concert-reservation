@@ -2,30 +2,30 @@ package com.server.concert_reservation;
 
 import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Configuration;
-import org.testcontainers.containers.MariaDBContainer;
+import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @Configuration
 class TestcontainersConfiguration {
 
-	public static final MariaDBContainer<?> MARIADB_CONTAINER;
+	public static final MySQLContainer<?> MYSQL_CONTAINER;
 
 	static {
-		MARIADB_CONTAINER = new MariaDBContainer<>(DockerImageName.parse("mariadb:11.6.2"))
+		MYSQL_CONTAINER = new MySQLContainer<>(DockerImageName.parse("mysql:8.0"))
 				.withDatabaseName("concert")
 				.withUsername("test")
 				.withPassword("test");
-		MARIADB_CONTAINER.start();
+		MYSQL_CONTAINER.start();
 
-		System.setProperty("spring.datasource.url", MARIADB_CONTAINER.getJdbcUrl() + "?characterEncoding=UTF-8&serverTimezone=UTC");
-		System.setProperty("spring.datasource.username", MARIADB_CONTAINER.getUsername());
-		System.setProperty("spring.datasource.password", MARIADB_CONTAINER.getPassword());
+		System.setProperty("spring.datasource.url", MYSQL_CONTAINER.getJdbcUrl() + "?characterEncoding=UTF-8&serverTimezone=UTC");
+		System.setProperty("spring.datasource.username", MYSQL_CONTAINER.getUsername());
+		System.setProperty("spring.datasource.password", MYSQL_CONTAINER.getPassword());
 	}
 
 	@PreDestroy
 	public void preDestroy() {
-		if (MARIADB_CONTAINER.isRunning()) {
-			MARIADB_CONTAINER.stop();
+		if (MYSQL_CONTAINER.isRunning()) {
+			MYSQL_CONTAINER.stop();
 		}
 	}
 
