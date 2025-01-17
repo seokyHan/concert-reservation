@@ -7,3 +7,4 @@
 - [플로우 차트](./docs/FLOWCHART.md)
 - [ERD 다이어그램](./docs/ERD.md)
 - [API 명세 Swagger](./docs/API_SPEC_SWAGGER.md)
+- [3~5주차 회고](./docs/RETRO_SPEC.md)
