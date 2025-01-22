@@ -1,6 +1,5 @@
 package com.server.concert_reservation.api.concert.infrastructure.repository;
 
-import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.infrastructure.entity.ConcertSeatEntity;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
