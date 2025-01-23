@@ -8,3 +8,4 @@
 - [ERD 다이어그램](./docs/ERD.md)
 - [API 명세 Swagger](./docs/API_SPEC_SWAGGER.md)
 - [3~5주차 회고](./docs/RETRO_SPEC.md)
+- [콘서트 티케팅 동시성 이슈 보고서](./docs/CONCERT_CONCURRENCY_REPORT.md)
