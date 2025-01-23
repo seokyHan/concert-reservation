@@ -1,7 +1,13 @@
 package com.server.concert_reservation.support.api.common.aop.annotation;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface DistributedLock {
 
     // Lock 고유 식별 접두사

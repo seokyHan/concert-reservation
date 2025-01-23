@@ -68,10 +68,10 @@ public class DistributedLockAspect {
             context.setVariable(parameterNames[i], args[i]);
         }
 
-        List<String> lockKeys = parser.parseExpression(lockAnnotation.key()).getValue(context, List.class);
+        List<Object> lockKeys = parser.parseExpression(lockAnnotation.key()).getValue(context, List.class);
 
         return lockKeys.stream()
-                .map(key -> LOCK_PREFIX + lockAnnotation.prefix() + key)
+                .map(key -> String.format("%s:%s:%s", LOCK_PREFIX, lockAnnotation.prefix(), key.toString()))
                 .collect(Collectors.toList());
     }
 
@@ -90,10 +90,8 @@ public class DistributedLockAspect {
 
     private void releaseLock(RLock lock, List<String> lockKeys) {
         try {
-            if (lock.isLocked() && lock.isHeldByCurrentThread()) {
-                lock.unlock();
-                log.info("unlock successfully: {}", lockKeys);
-            }
+            lock.unlock();
+            log.info("unlock successfully: {}", lockKeys);
         } catch (IllegalMonitorStateException e) {
             log.warn("already unlock or not held : {}", lockKeys);
         }
