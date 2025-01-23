@@ -20,11 +20,12 @@ public class Wallet {
     private Long id;
     private Long userId;
     private int amount;
+    private Long version;
     private LocalDateTime createAt;
     private LocalDateTime updatedAt;
 
-    public static Wallet of(Long id, Long userId, int amount, LocalDateTime createAt, LocalDateTime updatedAt) {
-        return new Wallet(id, userId, amount, createAt, updatedAt);
+    public static Wallet of(Long id, Long userId, int amount, Long version, LocalDateTime createAt, LocalDateTime updatedAt) {
+        return new Wallet(id, userId, amount, version, createAt, updatedAt);
     }
 
     public WalletEntity toEntity(Wallet wallet) {
@@ -32,11 +33,12 @@ public class Wallet {
                 .id(wallet.getId())
                 .userId(wallet.getUserId())
                 .amount(wallet.getAmount())
+                .version(wallet.getVersion())
                 .build();
     }
 
     public void chargeAmount(int point) {
-        if(point <= 0) {
+        if (point <= 0) {
             throw new CustomException(INVALID_POINT);
         }
 
@@ -44,7 +46,7 @@ public class Wallet {
     }
 
     public void useAmount(int point) {
-        if(isAmountLessThan(point)) {
+        if (isAmountLessThan(point)) {
             throw new CustomException(NOT_ENOUGH_POINT);
         }
         this.amount -= point;

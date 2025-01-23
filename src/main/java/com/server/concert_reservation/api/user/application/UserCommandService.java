@@ -1,17 +1,20 @@
 package com.server.concert_reservation.api.user.application;
 
-import com.server.concert_reservation.api.user.application.dto.WalletInfo;
 import com.server.concert_reservation.api.user.application.dto.UserCommand;
+import com.server.concert_reservation.api.user.application.dto.WalletInfo;
 import com.server.concert_reservation.api.user.domain.repository.UserReader;
 import com.server.concert_reservation.api.user.domain.repository.UserWriter;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UserCommandService implements UserQueryUseCase {
+public class UserCommandService implements UserCommandUseCase {
 
     private final UserWriter userWriter;
     private final UserReader userReader;
@@ -25,6 +28,11 @@ public class UserCommandService implements UserQueryUseCase {
         return WalletInfo.from(userWriter.saveUserPoint(wallet.toEntity(wallet)));
     }
 
+    @Retryable(
+            retryFor = {OptimisticLockingFailureException.class},
+            maxAttempts = 4,
+            backoff = @Backoff(delay = 100)
+    )
     @Override
     @Transactional
     public WalletInfo chargePoint(UserCommand command) {
