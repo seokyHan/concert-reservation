@@ -32,16 +32,21 @@ public class ConcertSeatEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private SeatStatus status;
 
+    @Version
+    private Long version;
+
+
     @Builder
-    public ConcertSeatEntity(Long id, Long concertScheduleId, int number, int price, SeatStatus status) {
+    public ConcertSeatEntity(Long id, Long concertScheduleId, int number, int price, SeatStatus status, Long version) {
         this.id = id;
         this.concertScheduleId = concertScheduleId;
         this.number = number;
         this.price = price;
         this.status = status;
+        this.version = version;
     }
 
     public ConcertSeat toDomain() {
-        return ConcertSeat.of(id, concertScheduleId, number, price, status, createdAt, updatedAt);
+        return ConcertSeat.of(id, concertScheduleId, number, price, status, version, createdAt, updatedAt);
     }
 }

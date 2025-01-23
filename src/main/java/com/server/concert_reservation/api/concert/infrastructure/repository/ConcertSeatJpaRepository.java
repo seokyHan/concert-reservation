@@ -8,6 +8,4 @@ import java.util.List;
 public interface ConcertSeatJpaRepository extends JpaRepository<ConcertSeatEntity, Long> {
     List<ConcertSeatEntity> findByConcertScheduleId(Long concertScheduleId);
 
-//    @Lock(LockModeType.PESSIMISTIC_WRITE)
-//    Optional<ConcertSeatEntity> findWithPessimisticLockById(Long seatId);
 }

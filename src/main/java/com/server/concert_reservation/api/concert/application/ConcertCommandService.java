@@ -6,7 +6,6 @@ import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
-import com.server.concert_reservation.support.api.common.aop.annotation.DistributedLock;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -27,7 +26,7 @@ public class ConcertCommandService implements ConcertCommandUseCase {
      * 임시 예약
      */
     @Override
-    @DistributedLock(prefix = "concertSeatId", key = "#command.seatIds")
+    @Transactional
     public ReservationInfo temporaryReserveConcert(ReservationCommand command) {
         concertReader.getConcertScheduleById(command.concertScheduleId())
                 .isAvailableReservePeriod(command.dateTime());

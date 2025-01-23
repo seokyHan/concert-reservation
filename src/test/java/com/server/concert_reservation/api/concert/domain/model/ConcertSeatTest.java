@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ConcertSeatTest {
 
@@ -22,6 +23,7 @@ class ConcertSeatTest {
                 10,
                 50000,
                 SeatStatus.AVAILABLE,
+                0L,
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );

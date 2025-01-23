@@ -10,9 +10,9 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.*;
 import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.CAN_NOT_RESERVE_SEAT;
 import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.RESERVING_ONLY;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.*;
 
 @Getter
 @Builder
@@ -24,18 +24,20 @@ public class ConcertSeat {
     private int number;
     private int price;
     private SeatStatus status;
+    private Long version;
     private LocalDateTime createAt;
     private LocalDateTime updatedAt;
 
     public static ConcertSeat of(Long id,
-                          Long concertScheduleId,
-                          int number,
-                          int price,
-                          SeatStatus status,
-                          LocalDateTime createAt,
-                          LocalDateTime updatedAt) {
+                                 Long concertScheduleId,
+                                 int number,
+                                 int price,
+                                 SeatStatus status,
+                                 Long version,
+                                 LocalDateTime createAt,
+                                 LocalDateTime updatedAt) {
 
-        return new ConcertSeat(id, concertScheduleId, number, price, status, createAt, updatedAt);
+        return new ConcertSeat(id, concertScheduleId, number, price, status, version, createAt, updatedAt);
     }
 
     public ConcertSeatEntity toEntity(ConcertSeat concertSeat) {
@@ -45,6 +47,7 @@ public class ConcertSeat {
                 .number(concertSeat.getNumber())
                 .price(concertSeat.getPrice())
                 .status(concertSeat.getStatus())
+                .version(concertSeat.getVersion())
                 .build();
     }
 
