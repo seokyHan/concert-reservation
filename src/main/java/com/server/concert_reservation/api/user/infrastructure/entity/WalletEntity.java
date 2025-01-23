@@ -22,18 +22,15 @@ public class WalletEntity extends BaseTimeEntity {
     private Long userId;
     @Column(name = "amount")
     private int amount;
-    @Version
-    private Long version;
 
     @Builder
-    public WalletEntity(Long id, Long userId, int amount, Long version) {
+    public WalletEntity(Long id, Long userId, int amount) {
         this.id = id;
         this.userId = userId;
         this.amount = amount;
-        this.version = version;
     }
 
     public Wallet toDomain() {
-        return Wallet.of(id, userId, amount, version, createdAt, updatedAt);
+        return Wallet.of(id, userId, amount, createdAt, updatedAt);
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.INVALID_POINT;
 import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.NOT_ENOUGH_POINT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class UserCommandServiceIntegrationTest {
@@ -28,7 +28,7 @@ class UserCommandServiceIntegrationTest {
     @Autowired
     private UserReader userReader;
     @Autowired
-    private UserQueryUseCase pointUseCase;
+    private UserCommandUseCase userCommandUseCase;
     @Autowired
     private DatabaseCleanUp databaseCleanUp;
 
@@ -53,7 +53,7 @@ class UserCommandServiceIntegrationTest {
         UserCommand userCommand = new UserCommand(userId, point);
 
         //when
-        pointUseCase.usePoint(userCommand);
+        userCommandUseCase.usePoint(userCommand);
         Wallet userPoint = userReader.getWalletByUserId(userId);
 
         //then
@@ -76,7 +76,7 @@ class UserCommandServiceIntegrationTest {
         UserCommand userCommand = new UserCommand(userId, point);
 
         // when & then
-        assertThatThrownBy(() -> pointUseCase.usePoint(userCommand))
+        assertThatThrownBy(() -> userCommandUseCase.usePoint(userCommand))
                 .isInstanceOf(CustomException.class)
                 .hasMessage(NOT_ENOUGH_POINT.getMessage());
     }
@@ -97,7 +97,7 @@ class UserCommandServiceIntegrationTest {
         UserCommand userCommand = new UserCommand(userId, point);
 
         //when
-        pointUseCase.chargePoint(userCommand);
+        userCommandUseCase.chargePoint(userCommand);
         Wallet userPoint = userReader.getWalletByUserId(userId);
 
         //then
@@ -121,7 +121,7 @@ class UserCommandServiceIntegrationTest {
         UserCommand userCommand = new UserCommand(userId, amount);
 
         //when & then
-        assertThatThrownBy(() -> pointUseCase.chargePoint(userCommand))
+        assertThatThrownBy(() -> userCommandUseCase.chargePoint(userCommand))
                 .isInstanceOf(CustomException.class)
                 .hasMessage(INVALID_POINT.getMessage());
     }

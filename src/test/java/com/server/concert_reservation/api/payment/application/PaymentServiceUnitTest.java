@@ -1,15 +1,15 @@
 package com.server.concert_reservation.api.payment.application;
 
-import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
 import com.server.concert_reservation.api.concert.application.ConcertCommandUseCase;
+import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
-import com.server.concert_reservation.api.payment.application.dto.PaymentInfo;
 import com.server.concert_reservation.api.payment.application.dto.PaymentCommand;
+import com.server.concert_reservation.api.payment.application.dto.PaymentInfo;
 import com.server.concert_reservation.api.payment.domain.model.Payment;
 import com.server.concert_reservation.api.payment.domain.repository.PaymentWriter;
 import com.server.concert_reservation.api.token.application.TokenCommandUseCase;
-import com.server.concert_reservation.api.user.application.UserQueryUseCase;
+import com.server.concert_reservation.api.user.application.UserCommandUseCase;
 import com.server.concert_reservation.api.user.application.dto.UserCommand;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +23,7 @@ import java.util.List;
 
 import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.IS_NOT_TEMPORARY_RESERVATION;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,7 +40,7 @@ class PaymentServiceUnitTest {
     @Mock
     private ConcertCommandUseCase reservationUseCase;
     @Mock
-    private UserQueryUseCase pointUseCase;
+    private UserCommandUseCase pointUseCase;
 
     @DisplayName("임시 예약중이 아닌경우 얘외가 발생한다.")
     @Test

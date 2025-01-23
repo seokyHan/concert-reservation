@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.USER_NOT_FOUND;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class UserQueryServiceIntegrationTest {
@@ -22,7 +22,7 @@ class UserQueryServiceIntegrationTest {
     @Autowired
     private UserWriter userWriter;
     @Autowired
-    private UserCommandUseCase getUserUseCase;
+    private UserQueryUseCase getUserUseCase;
     @Autowired
     private DatabaseCleanUp databaseCleanUp;
 

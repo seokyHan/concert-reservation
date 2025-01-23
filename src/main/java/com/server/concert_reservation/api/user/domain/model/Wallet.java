@@ -20,12 +20,11 @@ public class Wallet {
     private Long id;
     private Long userId;
     private int amount;
-    private Long version;
     private LocalDateTime createAt;
     private LocalDateTime updatedAt;
 
-    public static Wallet of(Long id, Long userId, int amount, Long version, LocalDateTime createAt, LocalDateTime updatedAt) {
-        return new Wallet(id, userId, amount, version, createAt, updatedAt);
+    public static Wallet of(Long id, Long userId, int amount, LocalDateTime createAt, LocalDateTime updatedAt) {
+        return new Wallet(id, userId, amount, createAt, updatedAt);
     }
 
     public WalletEntity toEntity(Wallet wallet) {
@@ -33,7 +32,6 @@ public class Wallet {
                 .id(wallet.getId())
                 .userId(wallet.getUserId())
                 .amount(wallet.getAmount())
-                .version(wallet.getVersion())
                 .build();
     }
 

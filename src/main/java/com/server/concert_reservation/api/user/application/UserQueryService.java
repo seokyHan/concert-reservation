@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UserQueryService implements UserCommandUseCase {
+public class UserQueryService implements UserQueryUseCase {
 
     private final UserReader userReader;
 
