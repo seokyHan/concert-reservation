@@ -40,7 +40,7 @@ public class UserPointConcurrencyTest {
         databaseCleanUp.execute();
     }
 
-    @DisplayName("동일한 사용자가 포인트를 동시에 5번 충전한다. - 낙관적 락(재시도 4번)")
+    @DisplayName("동일한 사용자가 포인트를 동시에 5번 충전한다. - 분산락")
     @Test
     void concurrentPointRechargeTest() {
         //given
@@ -83,9 +83,9 @@ public class UserPointConcurrencyTest {
         //then
         Wallet walletByUserId = userReader.getWalletByUserId(userId);
         assertAll(
-                () -> assertThat(walletByUserId.getAmount()).isEqualTo(4000),
-                () -> assertThat(successCount.get()).isEqualTo(4),
-                () -> assertThat(failedCount.get()).isEqualTo(1)
+                () -> assertThat(walletByUserId.getAmount()).isEqualTo(5000),
+                () -> assertThat(successCount.get()).isEqualTo(5),
+                () -> assertThat(failedCount.get()).isEqualTo(0)
         );
 
         long minDuration = durations.stream().min(Long::compare).orElse(0L);
