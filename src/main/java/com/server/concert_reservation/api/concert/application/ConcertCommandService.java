@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.application.dto.ReservationInfo;
 import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
+import com.server.concert_reservation.api.concert.application.dto.ReservationInfo;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
@@ -37,10 +37,7 @@ public class ConcertCommandService implements ConcertCommandUseCase {
                     seat.temporaryReserve();
                     return seat;
                 })
-                .collect(Collectors.collectingAndThen(
-                        Collectors.toList(),
-                        concertWriter::saveAll
-                ));
+                .collect(Collectors.collectingAndThen(Collectors.toList(), concertWriter::saveAll));
 
 
         val totalPrice = concertSeatList.stream()
@@ -50,6 +47,7 @@ public class ConcertCommandService implements ConcertCommandUseCase {
         val reservation = concertWriter.saveReservation(Reservation.createReservation(command, totalPrice, timeManager.now()));
 
         return ReservationInfo.of(reservation, concertSeatList);
+
     }
 
     /**

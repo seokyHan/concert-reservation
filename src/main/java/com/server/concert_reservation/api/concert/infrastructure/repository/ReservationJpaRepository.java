@@ -11,10 +11,10 @@ import java.util.List;
 public interface ReservationJpaRepository extends JpaRepository<ReservationEntity, Long> {
 
     @Query("""
-        SELECT re
-        FROM ReservationEntity re
-        WHERE re.status = 'RESERVING'
-        AND re.reservationAt <= :expirationTime
-    """)
+                SELECT re
+                FROM ReservationEntity re
+                WHERE re.status = 'RESERVING'
+                AND re.reservationAt <= :expirationTime
+            """)
     List<ReservationEntity> findTemporaryReservationsToBeExpired(@Param("expirationTime") LocalDateTime expirationTime);
 }

@@ -12,8 +12,8 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.*;
 import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.*;
+import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.*;
 
 @Getter
 @Builder
@@ -36,7 +36,7 @@ public class Reservation {
                                  int totalPrice,
                                  LocalDateTime reservationAt,
                                  LocalDateTime createdAt,
-                                 LocalDateTime updatedAt ) {
+                                 LocalDateTime updatedAt) {
 
         return new Reservation(id, userId, seatIds, status, totalPrice, reservationAt, createdAt, updatedAt);
     }

@@ -11,7 +11,10 @@ import java.util.List;
 public interface ConcertQueryUseCase {
 
     List<ConcertScheduleInfo> getAvailableConcertSchedules(Long concertId, LocalDateTime dateTime);
+
     ConcertSeatInfo getAvailableConcertSeats(Long concertScheduleId);
+
     Reservation getReservation(Long reservationId);
+
     List<Reservation> getTemporaryReservationByExpired(int minute);
 }

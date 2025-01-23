@@ -36,7 +36,7 @@ public class Wallet {
     }
 
     public void chargeAmount(int point) {
-        if(point <= 0) {
+        if (point <= 0) {
             throw new CustomException(INVALID_POINT);
         }
 
@@ -44,7 +44,7 @@ public class Wallet {
     }
 
     public void useAmount(int point) {
-        if(isAmountLessThan(point)) {
+        if (isAmountLessThan(point)) {
             throw new CustomException(NOT_ENOUGH_POINT);
         }
         this.amount -= point;
