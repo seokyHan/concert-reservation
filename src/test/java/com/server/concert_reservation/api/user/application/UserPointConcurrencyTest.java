@@ -40,7 +40,7 @@ public class UserPointConcurrencyTest {
         databaseCleanUp.execute();
     }
 
-    @DisplayName("동일한 사용자가 포인트를 동시에 5번 충전한다. - 분산락")
+    @DisplayName("동일한 사용자가 포인트를 동시에 5번 충전한다. - 비관적 락")
     @Test
     void concurrentPointRechargeTest() {
         //given

@@ -4,7 +4,6 @@ import com.server.concert_reservation.api.user.application.dto.UserCommand;
 import com.server.concert_reservation.api.user.application.dto.WalletInfo;
 import com.server.concert_reservation.api.user.domain.repository.UserReader;
 import com.server.concert_reservation.api.user.domain.repository.UserWriter;
-import com.server.concert_reservation.support.api.common.aop.annotation.DistributedLock;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -27,9 +26,9 @@ public class UserCommandService implements UserCommandUseCase {
     }
 
     @Override
-    @DistributedLock(prefix = "pointCharge", key = "#command.userId", waitTime = 500)
+    @Transactional
     public WalletInfo chargePoint(UserCommand command) {
-        val wallet = userReader.getWalletByUserId(command.userId());
+        val wallet = userReader.getWalletByUserIdWithLock(command.userId());
         wallet.chargeAmount(command.point());
 
         return WalletInfo.from(userWriter.saveUserPoint(wallet.toEntity(wallet)));
