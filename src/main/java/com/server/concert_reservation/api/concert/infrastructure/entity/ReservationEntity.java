@@ -41,21 +41,17 @@ public class ReservationEntity extends BaseTimeEntity {
     @Column(name = "reservation_at")
     private LocalDateTime reservationAt;
 
-    @Version
-    private Long version;
-
     @Builder
-    public ReservationEntity(Long id, Long userId, List<Long> seatIds, ReservationStatus status, int totalPrice, LocalDateTime reservationAt, Long version) {
+    public ReservationEntity(Long id, Long userId, List<Long> seatIds, ReservationStatus status, int totalPrice, LocalDateTime reservationAt) {
         this.id = id;
         this.userId = userId;
         this.seatIds = seatIds;
         this.status = status;
         this.totalPrice = totalPrice;
         this.reservationAt = reservationAt;
-        this.version = version;
     }
 
     public Reservation toDomain() {
-        return Reservation.of(id, userId, seatIds, status, totalPrice, reservationAt, version, createdAt, updatedAt);
+        return Reservation.of(id, userId, seatIds, status, totalPrice, reservationAt, createdAt, updatedAt);
     }
 }

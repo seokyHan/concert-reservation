@@ -62,6 +62,13 @@ public class ConcertCoreReader implements ConcertReader {
     }
 
     @Override
+    public Reservation getReservationByIdWithLock(Long reservationId) {
+        return reservationJpaRepository.findWithLockById(reservationId)
+                .map(ReservationEntity::toDomain)
+                .orElseThrow(() -> new CustomException(RESERVATION_NOT_FOUND));
+    }
+
+    @Override
     public List<ConcertSeat> getConcertSeatsByIds(List<Long> seatIds) {
         return concertSeatJpaRepository.findAllById(seatIds).stream()
                 .map(ConcertSeatEntity::toDomain)

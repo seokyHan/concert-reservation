@@ -2,10 +2,8 @@ package com.server.concert_reservation.api.concert.application;
 
 import com.server.concert_reservation.api.concert.application.dto.ConcertScheduleInfo;
 import com.server.concert_reservation.api.concert.application.dto.ConcertSeatInfo;
-import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
-import com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,7 @@ public class ConcertQueryService implements ConcertQueryUseCase {
     @Override
     public List<ConcertScheduleInfo> getAvailableConcertSchedules(Long concertId, LocalDateTime dateTime) {
         val concertSchedules = concertReader.getConcertScheduleByConcertIdAndDate(concertId, dateTime);
-        
+
         return concertSchedules.isEmpty() ?
                 List.of() :
                 concertSchedules.stream()
@@ -54,6 +52,11 @@ public class ConcertQueryService implements ConcertQueryUseCase {
     @Override
     public Reservation getReservation(Long reservationId) {
         return concertReader.getReservationById(reservationId);
+    }
+
+    @Override
+    public Reservation getReservationWithLock(Long reservationId) {
+        return concertReader.getReservationByIdWithLock(reservationId);
     }
 
     @Override

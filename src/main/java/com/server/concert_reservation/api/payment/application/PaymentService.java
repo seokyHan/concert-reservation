@@ -9,6 +9,7 @@ import com.server.concert_reservation.api.payment.domain.repository.PaymentWrite
 import com.server.concert_reservation.api.token.application.TokenCommandUseCase;
 import com.server.concert_reservation.api.user.application.UserCommandUseCase;
 import com.server.concert_reservation.api.user.application.dto.UserCommand;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,14 @@ public class PaymentService implements PaymentUseCase {
 
     private final PaymentWriter paymentWriter;
     private final UserCommandUseCase pointUseCase;
-    private final ConcertQueryUseCase getConcertUseCase;
+    private final ConcertQueryUseCase concertQueryUseCase;
     private final ConcertCommandUseCase reservationUseCase;
     private final TokenCommandUseCase tokenUseCase;
 
     @Override
+    @Transactional
     public PaymentInfo paymentReservation(PaymentCommand command) {
-        val reservation = getConcertUseCase.getReservation(command.reservationId());
+        val reservation = concertQueryUseCase.getReservationWithLock(command.reservationId());
         reservation.isTemporaryReserved();
 
         pointUseCase.usePoint(UserCommand.from(command.userId(), reservation.getTotalPrice()));

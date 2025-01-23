@@ -26,7 +26,6 @@ public class Reservation {
     private ReservationStatus status;
     private int totalPrice;
     private LocalDateTime reservationAt;
-    private Long version;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -36,11 +35,10 @@ public class Reservation {
                                  ReservationStatus status,
                                  int totalPrice,
                                  LocalDateTime reservationAt,
-                                 Long version,
                                  LocalDateTime createdAt,
                                  LocalDateTime updatedAt) {
 
-        return new Reservation(id, userId, seatIds, status, totalPrice, reservationAt, version, createdAt, updatedAt);
+        return new Reservation(id, userId, seatIds, status, totalPrice, reservationAt, createdAt, updatedAt);
     }
 
     public static Reservation createReservation(ReservationCommand command, int totalPrice, LocalDateTime now) {
@@ -61,7 +59,6 @@ public class Reservation {
                 .status(reservation.getStatus())
                 .totalPrice(reservation.getTotalPrice())
                 .reservationAt(reservation.getReservationAt())
-                .version(reservation.getVersion())
                 .build();
     }
 

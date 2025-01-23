@@ -19,7 +19,7 @@ public class UserCommandService implements UserCommandUseCase {
     @Override
     @Transactional
     public WalletInfo usePoint(UserCommand command) {
-        val wallet = userReader.getWalletByUserId(command.userId());
+        val wallet = userReader.getWalletByUserIdWithLock(command.userId());
         wallet.useAmount(command.point());
 
         return WalletInfo.from(userWriter.saveUserPoint(wallet.toEntity(wallet)));

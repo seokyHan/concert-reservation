@@ -64,7 +64,7 @@ public class PaymentConcurrentTest {
         databaseCleanUp.execute();
     }
 
-    @DisplayName("동시에 예약된 콘서트를 5번 결제한다. - 낙관적 락")
+    @DisplayName("동시에 예약된 콘서트를 5번 결제한다. - 비관적 락")
     @Test
     void concurrentPaymentReservationTest() throws InterruptedException {
         // given

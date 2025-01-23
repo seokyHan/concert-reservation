@@ -72,7 +72,6 @@ class ReservationTest {
                 ReservationStatus.CANCELED,
                 10000,
                 LocalDateTime.now(),
-                0L,
                 LocalDateTime.now(),
                 null
         );
@@ -112,7 +111,6 @@ class ReservationTest {
                 ReservationStatus.CANCELED,
                 10000,
                 LocalDateTime.now(),
-                0L,
                 LocalDateTime.now(),
                 null
         );
