@@ -55,11 +55,6 @@ public class ConcertQueryService implements ConcertQueryUseCase {
     }
 
     @Override
-    public Reservation getReservationWithLock(Long reservationId) {
-        return concertReader.getReservationByIdWithLock(reservationId);
-    }
-
-    @Override
     public List<Reservation> getTemporaryReservationByExpired(int minute) {
         return concertReader.getTemporaryReservationsExpired(minute);
     }

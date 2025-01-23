@@ -16,7 +16,5 @@ public interface ConcertQueryUseCase {
 
     Reservation getReservation(Long reservationId);
 
-    Reservation getReservationWithLock(Long reservationId);
-
     List<Reservation> getTemporaryReservationByExpired(int minute);
 }

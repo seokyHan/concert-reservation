@@ -16,8 +16,6 @@ public interface ConcertReader {
 
     Reservation getReservationById(Long reservationId);
 
-    Reservation getReservationByIdWithLock(Long reservationId);
-
     List<ConcertSeat> getConcertSeatsByIds(List<Long> seatIds);
 
     List<ConcertSeat> getConcertSeatByScheduleId(Long concertScheduleId);
