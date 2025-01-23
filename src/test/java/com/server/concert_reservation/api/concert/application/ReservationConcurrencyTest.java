@@ -208,7 +208,6 @@ public class ReservationConcurrencyTest {
         }));
         countDownLatch.await();
 
-
         // then
         assertAll(
                 () -> assertEquals(1, successCount.get()),

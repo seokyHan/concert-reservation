@@ -1,11 +1,12 @@
 package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.application.dto.ReservationInfo;
 import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
+import com.server.concert_reservation.api.concert.application.dto.ReservationInfo;
 import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
 import com.server.concert_reservation.api.concert.domain.model.Reservation;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
 import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
+import com.server.concert_reservation.support.api.common.aop.annotation.DistributedLock;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -26,7 +27,7 @@ public class ConcertCommandService implements ConcertCommandUseCase {
      * 임시 예약
      */
     @Override
-    @Transactional
+    @DistributedLock(prefix = "concertSeatId", key = "#command.seatIds")
     public ReservationInfo temporaryReserveConcert(ReservationCommand command) {
         concertReader.getConcertScheduleById(command.concertScheduleId())
                 .isAvailableReservePeriod(command.dateTime());
@@ -37,10 +38,7 @@ public class ConcertCommandService implements ConcertCommandUseCase {
                     seat.temporaryReserve();
                     return seat;
                 })
-                .collect(Collectors.collectingAndThen(
-                        Collectors.toList(),
-                        concertWriter::saveAll
-                ));
+                .collect(Collectors.collectingAndThen(Collectors.toList(), concertWriter::saveAll));
 
 
         val totalPrice = concertSeatList.stream()
@@ -50,6 +48,7 @@ public class ConcertCommandService implements ConcertCommandUseCase {
         val reservation = concertWriter.saveReservation(Reservation.createReservation(command, totalPrice, timeManager.now()));
 
         return ReservationInfo.of(reservation, concertSeatList);
+
     }
 
     /**

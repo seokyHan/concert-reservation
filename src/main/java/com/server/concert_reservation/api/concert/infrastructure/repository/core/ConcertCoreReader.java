@@ -49,7 +49,7 @@ public class ConcertCoreReader implements ConcertReader {
 
     @Override
     public ConcertSeat getConcertSeatById(Long concertSeatId) {
-        return concertSeatJpaRepository.findWithPessimisticLockById(concertSeatId)
+        return concertSeatJpaRepository.findById(concertSeatId)
                 .orElseThrow(() -> new CustomException(CONCERT_SEAT_NOT_FOUND))
                 .toDomain();
     }
