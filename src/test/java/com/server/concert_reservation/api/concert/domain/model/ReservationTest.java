@@ -17,7 +17,8 @@ import java.util.List;
 import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.CANCEL_ONLY_FOR_TEMP_RESERVATION;
 import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.PAYMENT_ONLY_FOR_TEMP_RESERVATION;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 class ReservationTest {
@@ -50,7 +51,7 @@ class ReservationTest {
         // given
         Reservation reservation = Reservation.createReservation(
                 new ReservationCommand(1L, 1L, List.of(101L, 102L), LocalDateTime.now())
-                ,1000,
+                , 1000,
                 timeManager.now());
 
         // when
@@ -71,6 +72,7 @@ class ReservationTest {
                 ReservationStatus.CANCELED,
                 10000,
                 LocalDateTime.now(),
+                0L,
                 LocalDateTime.now(),
                 null
         );
@@ -110,6 +112,7 @@ class ReservationTest {
                 ReservationStatus.CANCELED,
                 10000,
                 LocalDateTime.now(),
+                0L,
                 LocalDateTime.now(),
                 null
         );
