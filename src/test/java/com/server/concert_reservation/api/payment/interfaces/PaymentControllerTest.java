@@ -2,16 +2,16 @@ package com.server.concert_reservation.api.payment.interfaces;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.concert_reservation.api_backup.concert.application.ConcertQueryUseCase;
-import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.api_backup.payment.application.PaymentUseCase;
 import com.server.concert_reservation.api_backup.payment.application.dto.PaymentCommand;
 import com.server.concert_reservation.api_backup.payment.application.dto.PaymentInfo;
+import com.server.concert_reservation.api_backup.token.application.TokenCommandUseCase;
+import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.payment.model.Payment;
 import com.server.concert_reservation.domain.payment.repository.PaymentWriter;
-import com.server.concert_reservation.interfaces.api.payment.dto.PaymentHttp;
-import com.server.concert_reservation.api_backup.token.application.TokenCommandUseCase;
 import com.server.concert_reservation.domain.queue_token.model.Token;
 import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
+import com.server.concert_reservation.interfaces.api.payment.dto.PaymentHttpRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,7 +51,7 @@ class PaymentControllerTest {
     @Test
     @DisplayName("헤더에 토큰이 없으면 예외를 발생시킨다. - 결제 요청 API")
     void paymentMissingTokenThrowsExceptionTest() throws Exception {
-        PaymentHttp.PaymentRequest request = new PaymentHttp.PaymentRequest(1L, 1L, "expired-token");
+        PaymentHttpRequest.PaymentRequest request = new PaymentHttpRequest.PaymentRequest(1L, 1L, "expired-token");
 
         mockMvc.perform(post("/api/v1/payment")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -65,7 +64,7 @@ class PaymentControllerTest {
     @Test
     @DisplayName("만료시간이 지난 토큰으로 요청하면 예외를 발생시킨다. - 결제요청 API")
     void paymentExpiredTokenThrowsExceptionTest() throws Exception {
-        PaymentHttp.PaymentRequest request = new PaymentHttp.PaymentRequest(1L, 1L, "expired-token");
+        PaymentHttpRequest.PaymentRequest request = new PaymentHttpRequest.PaymentRequest(1L, 1L, "expired-token");
 
         Token expiredToken = Token.builder()
                 .token("expired-token")
@@ -85,7 +84,7 @@ class PaymentControllerTest {
     @Test
     @DisplayName("유효한 토큰으로 요청하면 성공한다. - 결제 요청 API")
     void paymentValidTokenSuccess() throws Exception {
-        PaymentHttp.PaymentRequest request = new PaymentHttp.PaymentRequest(1L, 1L, "expired-token");
+        PaymentHttpRequest.PaymentRequest request = new PaymentHttpRequest.PaymentRequest(1L, 1L, "expired-token");
 
         Long reservationId = 1L;
         Long userId = 1L;

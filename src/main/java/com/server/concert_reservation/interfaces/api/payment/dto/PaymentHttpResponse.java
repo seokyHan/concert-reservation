@@ -4,10 +4,8 @@ import com.server.concert_reservation.api_backup.payment.application.dto.Payment
 
 import java.time.LocalDateTime;
 
-public class PaymentHttp {
-    public record PaymentRequest(Long userId,
-                                 Long reservationId,
-                                 String token) {}
+public class PaymentHttpResponse {
+
     public record PaymentResponse(Long id,
                                   Long userId,
                                   Long reservationId,
