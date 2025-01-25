@@ -1,10 +1,10 @@
 package com.server.concert_reservation.api_backup.user.application.dto;
 
-import com.server.concert_reservation.interfaces.api.user.dto.UserHttp;
+import com.server.concert_reservation.interfaces.api.user.dto.UserHttpRequest;
 
 public record UserCommand(Long userId, int point) {
 
-    public static UserCommand of(UserHttp.UserWalletRequest request) {
+    public static UserCommand of(UserHttpRequest.UserWalletRequest request) {
         return new UserCommand(request.userId(), request.point());
     }
 

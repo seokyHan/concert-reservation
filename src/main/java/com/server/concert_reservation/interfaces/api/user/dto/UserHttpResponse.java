@@ -4,10 +4,7 @@ import com.server.concert_reservation.api_backup.user.application.dto.WalletInfo
 
 import java.time.LocalDateTime;
 
-public class UserHttp {
-
-    public record UserWalletRequest(Long userId, int point) {
-    }
+public class UserHttpResponse {
 
     public record UserWalletResponse(Long id,
                                      Long userId,
@@ -19,5 +16,4 @@ public class UserHttp {
             return new UserWalletResponse(walletInfo.id(), walletInfo.userId(), walletInfo.amount(), walletInfo.createAt(), walletInfo.updatedAt());
         }
     }
-
 }

@@ -1,9 +1,10 @@
 package com.server.concert_reservation.interfaces.api.user;
 
-import com.server.concert_reservation.api_backup.user.application.dto.UserCommand;
 import com.server.concert_reservation.api_backup.user.application.UserCommandService;
 import com.server.concert_reservation.api_backup.user.application.UserQueryService;
-import com.server.concert_reservation.interfaces.api.user.dto.UserHttp;
+import com.server.concert_reservation.api_backup.user.application.dto.UserCommand;
+import com.server.concert_reservation.interfaces.api.user.dto.UserHttpRequest;
+import com.server.concert_reservation.interfaces.api.user.dto.UserHttpResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,8 +30,8 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "요청 성공.", content = @Content(mediaType = "application/json")),
     })
     @Parameter(name = "userId", description = "유저 Id")
-    public ResponseEntity<UserHttp.UserWalletResponse> getUserWallet(@PathVariable Long userId) {
-        return ResponseEntity.ok(UserHttp.UserWalletResponse.of(userQueryService.getWallet(userId)));
+    public ResponseEntity<UserHttpResponse.UserWalletResponse> getUserWallet(@PathVariable Long userId) {
+        return ResponseEntity.ok(UserHttpResponse.UserWalletResponse.of(userQueryService.getWallet(userId)));
     }
 
     @PatchMapping("/users/charge/point")
@@ -38,8 +39,8 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "요청 성공.", content = @Content(mediaType = "application/json")),
     })
-    public ResponseEntity<UserHttp.UserWalletResponse> chargePoint(@RequestBody UserHttp.UserWalletRequest request) {
-        return ResponseEntity.ok(UserHttp.UserWalletResponse.of(userCommandService.chargePoint(UserCommand.of(request))));
+    public ResponseEntity<UserHttpResponse.UserWalletResponse> chargePoint(@RequestBody UserHttpRequest.UserWalletRequest request) {
+        return ResponseEntity.ok(UserHttpResponse.UserWalletResponse.of(userCommandService.chargePoint(UserCommand.of(request))));
     }
 
 }
