@@ -1,10 +1,9 @@
 package com.server.concert_reservation.api.token.application;
 
-import com.server.concert_reservation.api.token.domain.model.Token;
-import com.server.concert_reservation.api.token.application.dto.TokenInfo;
-import com.server.concert_reservation.api.token.domain.repository.TokenWriter;
-import com.server.concert_reservation.api.token.infrastructure.repository.TokenJpaRepository;
-import com.server.concert_reservation.api.user.infrastructure.repository.UserJpaRepository;
+import com.server.concert_reservation.api_backup.token.application.TokenQueryUseCase;
+import com.server.concert_reservation.domain.queue_token.model.Token;
+import com.server.concert_reservation.api_backup.token.application.dto.TokenInfo;
+import com.server.concert_reservation.domain.queue_token.repository.TokenWriter;
 import com.server.concert_reservation.support.DatabaseCleanUp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

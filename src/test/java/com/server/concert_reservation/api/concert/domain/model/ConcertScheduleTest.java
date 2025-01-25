@@ -1,5 +1,6 @@
 package com.server.concert_reservation.api.concert.domain.model;
 
+import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

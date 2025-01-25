@@ -1,12 +1,13 @@
 package com.server.concert_reservation.api.concert.infrastructure.entity;
 
-import com.server.concert_reservation.api.concert.domain.model.Reservation;
+import com.server.concert_reservation.domain.concert.model.Reservation;
+import com.server.concert_reservation.infrastructure.concert.entity.ReservationEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.RESERVED;
+import static com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus.RESERVED;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReservationEntityTest {

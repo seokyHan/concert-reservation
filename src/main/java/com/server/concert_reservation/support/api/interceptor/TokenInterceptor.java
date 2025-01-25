@@ -1,7 +1,7 @@
 package com.server.concert_reservation.support.api.interceptor;
 
-import com.server.concert_reservation.api.token.application.TokenCommandUseCase;
-import com.server.concert_reservation.api.token.domain.repository.TokenReader;
+import com.server.concert_reservation.api_backup.token.application.TokenCommandUseCase;
+import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,8 +14,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.api.token.domain.errorcode.TokenErrorCode.TOKEN_EXPIRED;
-import static com.server.concert_reservation.api.token.domain.errorcode.TokenErrorCode.TOKEN_NOT_FOUND;
+import static com.server.concert_reservation.domain.queue_token.errorcode.TokenErrorCode.TOKEN_EXPIRED;
+import static com.server.concert_reservation.domain.queue_token.errorcode.TokenErrorCode.TOKEN_NOT_FOUND;
 
 @Component
 @RequiredArgsConstructor
@@ -29,13 +29,13 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         val requestToken = request.getHeader("X-Waiting-Token");
         // 헤더 토큰 유무 검증
-        if(StringUtils.isBlank(requestToken)) {
+        if (StringUtils.isBlank(requestToken)) {
             throw new CustomException(TOKEN_NOT_FOUND);
         }
 
         // 토큰 만료 스케쥴러와 타이밍이 어긋날 수 있기 때문에 토큰 만료 여부 검증
         val token = tokenReader.getByToken(requestToken);
-        if(isActivatedAtExceed(token.getActivatedAt())) {
+        if (isActivatedAtExceed(token.getActivatedAt())) {
             tokenCommandUseCase.expireToken(requestToken);
             throw new CustomException(TOKEN_EXPIRED);
         }

@@ -1,9 +1,10 @@
 package com.server.concert_reservation.api.token.application;
 
-import com.server.concert_reservation.api.token.domain.model.Token;
-import com.server.concert_reservation.api.token.application.dto.TokenInfo;
-import com.server.concert_reservation.api.token.domain.repository.TokenReader;
-import com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus;
+import com.server.concert_reservation.api_backup.token.application.TokenQueryService;
+import com.server.concert_reservation.domain.queue_token.model.Token;
+import com.server.concert_reservation.api_backup.token.application.dto.TokenInfo;
+import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
+import com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,8 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.ACTIVE;
-import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.WAITING;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.ACTIVE;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.WAITING;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.then;

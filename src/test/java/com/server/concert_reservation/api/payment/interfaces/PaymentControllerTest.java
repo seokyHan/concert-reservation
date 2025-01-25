@@ -1,17 +1,17 @@
 package com.server.concert_reservation.api.payment.interfaces;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
-import com.server.concert_reservation.api.concert.domain.model.Reservation;
-import com.server.concert_reservation.api.payment.application.PaymentUseCase;
-import com.server.concert_reservation.api.payment.application.dto.PaymentCommand;
-import com.server.concert_reservation.api.payment.application.dto.PaymentInfo;
-import com.server.concert_reservation.api.payment.domain.model.Payment;
-import com.server.concert_reservation.api.payment.domain.repository.PaymentWriter;
-import com.server.concert_reservation.api.payment.interfaces.dto.PaymentHttp;
-import com.server.concert_reservation.api.token.application.TokenCommandUseCase;
-import com.server.concert_reservation.api.token.domain.model.Token;
-import com.server.concert_reservation.api.token.domain.repository.TokenReader;
+import com.server.concert_reservation.api_backup.concert.application.ConcertQueryUseCase;
+import com.server.concert_reservation.domain.concert.model.Reservation;
+import com.server.concert_reservation.api_backup.payment.application.PaymentUseCase;
+import com.server.concert_reservation.api_backup.payment.application.dto.PaymentCommand;
+import com.server.concert_reservation.api_backup.payment.application.dto.PaymentInfo;
+import com.server.concert_reservation.domain.payment.model.Payment;
+import com.server.concert_reservation.domain.payment.repository.PaymentWriter;
+import com.server.concert_reservation.interfaces.api.payment.dto.PaymentHttp;
+import com.server.concert_reservation.api_backup.token.application.TokenCommandUseCase;
+import com.server.concert_reservation.domain.queue_token.model.Token;
+import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

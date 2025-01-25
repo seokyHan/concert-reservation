@@ -1,9 +1,10 @@
 package com.server.concert_reservation.api.token.application;
 
-import com.server.concert_reservation.api.token.application.dto.TokenCommand;
-import com.server.concert_reservation.api.token.domain.model.Token;
-import com.server.concert_reservation.api.token.domain.repository.TokenReader;
-import com.server.concert_reservation.api.token.domain.repository.TokenWriter;
+import com.server.concert_reservation.api_backup.token.application.TokenCommandService;
+import com.server.concert_reservation.api_backup.token.application.dto.TokenCommand;
+import com.server.concert_reservation.domain.queue_token.model.Token;
+import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
+import com.server.concert_reservation.domain.queue_token.repository.TokenWriter;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import org.junit.jupiter.api.DisplayName;
@@ -16,8 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.*;
-import static com.server.concert_reservation.api.token.domain.errorcode.TokenErrorCode.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -86,7 +85,7 @@ class TokenCommandServiceUnitTest {
     @Test
     void expiredTokenThrowExceptionTest() {
         // given
-         String token = "token-uuid";
+        String token = "token-uuid";
         Long userId = 200L;
 
         Token waitingToken = Token.builder()

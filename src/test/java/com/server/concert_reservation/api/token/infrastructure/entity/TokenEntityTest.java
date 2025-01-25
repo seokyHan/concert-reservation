@@ -1,6 +1,7 @@
 package com.server.concert_reservation.api.token.infrastructure.entity;
 
-import com.server.concert_reservation.api.token.domain.model.Token;
+import com.server.concert_reservation.domain.queue_token.model.Token;
+import com.server.concert_reservation.infrastructure.queue_token.entity.TokenEntity;
 import com.server.concert_reservation.support.api.common.uuid.UUIDManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.WAITING;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.WAITING;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)

@@ -1,10 +1,11 @@
 package com.server.concert_reservation.api.user.application;
 
-import com.server.concert_reservation.api.user.application.dto.UserCommand;
-import com.server.concert_reservation.api.user.domain.model.User;
-import com.server.concert_reservation.api.user.domain.model.Wallet;
-import com.server.concert_reservation.api.user.domain.repository.UserReader;
-import com.server.concert_reservation.api.user.domain.repository.UserWriter;
+import com.server.concert_reservation.api_backup.user.application.UserCommandUseCase;
+import com.server.concert_reservation.api_backup.user.application.dto.UserCommand;
+import com.server.concert_reservation.domain.user.model.User;
+import com.server.concert_reservation.domain.user.model.Wallet;
+import com.server.concert_reservation.domain.user.repository.UserReader;
+import com.server.concert_reservation.domain.user.repository.UserWriter;
 import com.server.concert_reservation.support.DatabaseCleanUp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

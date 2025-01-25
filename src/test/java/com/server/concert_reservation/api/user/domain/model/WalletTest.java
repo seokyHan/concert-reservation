@@ -1,13 +1,14 @@
 package com.server.concert_reservation.api.user.domain.model;
 
+import com.server.concert_reservation.domain.user.model.Wallet;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.INVALID_POINT;
-import static com.server.concert_reservation.api.user.domain.errorcode.UserErrorCode.NOT_ENOUGH_POINT;
+import static com.server.concert_reservation.domain.user.errorcode.UserErrorCode.INVALID_POINT;
+import static com.server.concert_reservation.domain.user.errorcode.UserErrorCode.NOT_ENOUGH_POINT;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 

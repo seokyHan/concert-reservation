@@ -1,13 +1,14 @@
 package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.application.dto.ConcertScheduleInfo;
-import com.server.concert_reservation.api.concert.application.dto.ConcertSeatInfo;
-import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
-import com.server.concert_reservation.api.concert.domain.model.Concert;
-import com.server.concert_reservation.api.concert.domain.model.ConcertSchedule;
-import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
-import com.server.concert_reservation.api.concert.domain.model.Reservation;
-import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
+import com.server.concert_reservation.api_backup.concert.application.ConcertQueryUseCase;
+import com.server.concert_reservation.api_backup.concert.application.dto.ConcertScheduleInfo;
+import com.server.concert_reservation.api_backup.concert.application.dto.ConcertSeatInfo;
+import com.server.concert_reservation.api_backup.concert.application.dto.ReservationCommand;
+import com.server.concert_reservation.domain.concert.model.Concert;
+import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
+import com.server.concert_reservation.domain.concert.model.ConcertSeat;
+import com.server.concert_reservation.domain.concert.model.Reservation;
+import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
 import com.server.concert_reservation.support.DatabaseCleanUp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,13 +19,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.RESERVING;
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.AVAILABLE;
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.TEMPORARY_RESERVED;
+import static com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus.RESERVING;
+import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.AVAILABLE;
+import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.TEMPORARY_RESERVED;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class ConcertQueryServiceIntegrationTest {
@@ -160,7 +160,6 @@ class ConcertQueryServiceIntegrationTest {
                 () -> assertEquals(RESERVING, temporaryReservationByExpired.get(0).getStatus())
         );
     }
-
 
 
 }

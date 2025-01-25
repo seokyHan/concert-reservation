@@ -1,12 +1,13 @@
 package com.server.concert_reservation.api.concert.infrastructure.entity;
 
-import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
+import com.server.concert_reservation.domain.concert.model.ConcertSeat;
+import com.server.concert_reservation.infrastructure.concert.entity.ConcertSeatEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.SOLD;
+import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.SOLD;
 import static org.junit.Assert.assertEquals;
 
 class ConcertSeatEntityTest {

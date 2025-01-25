@@ -1,6 +1,7 @@
 package com.server.concert_reservation.api.concert.infrastructure.entity;
 
-import com.server.concert_reservation.api.concert.domain.model.Concert;
+import com.server.concert_reservation.domain.concert.model.Concert;
+import com.server.concert_reservation.infrastructure.concert.entity.ConcertEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,11 +1,11 @@
 package com.server.concert_reservation.api.user.application;
 
-import com.server.concert_reservation.api.user.application.UserQueryService;
-import com.server.concert_reservation.api.user.application.dto.UserInfo;
-import com.server.concert_reservation.api.user.application.dto.WalletInfo;
-import com.server.concert_reservation.api.user.domain.model.User;
-import com.server.concert_reservation.api.user.domain.model.Wallet;
-import com.server.concert_reservation.api.user.domain.repository.UserReader;
+import com.server.concert_reservation.api_backup.user.application.UserQueryService;
+import com.server.concert_reservation.api_backup.user.application.dto.UserInfo;
+import com.server.concert_reservation.api_backup.user.application.dto.WalletInfo;
+import com.server.concert_reservation.domain.user.model.User;
+import com.server.concert_reservation.domain.user.model.Wallet;
+import com.server.concert_reservation.domain.user.repository.UserReader;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

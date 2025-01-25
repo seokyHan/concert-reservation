@@ -1,14 +1,15 @@
 package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.application.dto.ReservationInfo;
-import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
-import com.server.concert_reservation.api.concert.domain.model.Concert;
-import com.server.concert_reservation.api.concert.domain.model.ConcertSchedule;
-import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
-import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
-import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
-import com.server.concert_reservation.api.user.domain.model.User;
-import com.server.concert_reservation.api.user.domain.repository.UserWriter;
+import com.server.concert_reservation.api_backup.concert.application.ConcertCommandUseCase;
+import com.server.concert_reservation.api_backup.concert.application.dto.ReservationInfo;
+import com.server.concert_reservation.api_backup.concert.application.dto.ReservationCommand;
+import com.server.concert_reservation.domain.concert.model.Concert;
+import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
+import com.server.concert_reservation.domain.concert.model.ConcertSeat;
+import com.server.concert_reservation.domain.concert.repository.ConcertReader;
+import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
+import com.server.concert_reservation.domain.user.model.User;
+import com.server.concert_reservation.domain.user.repository.UserWriter;
 import com.server.concert_reservation.support.DatabaseCleanUp;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,10 +21,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.RESERVING;
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.AVAILABLE;
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.TEMPORARY_RESERVED;
-import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.*;
+import static com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus.RESERVING;
+import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.AVAILABLE;
+import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.TEMPORARY_RESERVED;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;

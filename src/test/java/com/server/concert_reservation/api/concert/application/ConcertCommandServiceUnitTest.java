@@ -1,13 +1,14 @@
 package com.server.concert_reservation.api.concert.application;
 
-import com.server.concert_reservation.api.concert.application.dto.ReservationInfo;
-import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
-import com.server.concert_reservation.api.concert.domain.model.ConcertSchedule;
-import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
-import com.server.concert_reservation.api.concert.domain.model.Reservation;
-import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
-import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
-import com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus;
+import com.server.concert_reservation.api_backup.concert.application.ConcertCommandService;
+import com.server.concert_reservation.api_backup.concert.application.dto.ReservationInfo;
+import com.server.concert_reservation.api_backup.concert.application.dto.ReservationCommand;
+import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
+import com.server.concert_reservation.domain.concert.model.ConcertSeat;
+import com.server.concert_reservation.domain.concert.model.Reservation;
+import com.server.concert_reservation.domain.concert.repository.ConcertReader;
+import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
+import com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import org.junit.jupiter.api.DisplayName;
@@ -20,10 +21,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.CANCELED;
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.ReservationStatus.RESERVED;
-import static com.server.concert_reservation.api.concert.infrastructure.entity.types.SeatStatus.*;
-import static com.server.concert_reservation.api.concert.domain.errorcode.ConcertErrorCode.*;
+import static com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus.CANCELED;
+import static com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus.RESERVED;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

@@ -1,7 +1,8 @@
 package com.server.concert_reservation.api.token.domain.model;
 
-import com.server.concert_reservation.api.token.infrastructure.entity.TokenEntity;
-import com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus;
+import com.server.concert_reservation.domain.queue_token.model.Token;
+import com.server.concert_reservation.infrastructure.queue_token.entity.TokenEntity;
+import com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.uuid.UUIDManager;
 import org.junit.jupiter.api.DisplayName;
@@ -12,9 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.api.token.domain.errorcode.TokenErrorCode.*;
-import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.ACTIVE;
-import static com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus.EXPIRED;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.ACTIVE;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.EXPIRED;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
