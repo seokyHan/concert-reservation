@@ -1,9 +1,10 @@
-package com.server.concert_reservation.api.concert.interfaces;
+package com.server.concert_reservation.interfaces.api.concert;
 
-import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
-import com.server.concert_reservation.api.concert.application.ConcertCommandUseCase;
-import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
-import com.server.concert_reservation.api.concert.interfaces.dto.ConcertHttp;
+import com.server.concert_reservation.api_backup.concert.application.ConcertCommandUseCase;
+import com.server.concert_reservation.api_backup.concert.application.ConcertQueryUseCase;
+import com.server.concert_reservation.api_backup.concert.application.dto.ReservationCommand;
+import com.server.concert_reservation.interfaces.api.concert.dto.ConcertHttpRequest;
+import com.server.concert_reservation.interfaces.api.concert.dto.ConcertHttpResponse;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,8 +34,8 @@ public class ConcertController {
             @ApiResponse(responseCode = "200", description = "예약 가능 콘서트 날짜 조회 성공.", content = @Content(mediaType = "application/json")),
     })
     @Parameter(name = "concertId", description = "콘서트 Id")
-    public ResponseEntity<ConcertHttp.ConcertScheduleResponse> getAvailableSchedules(@PathVariable Long concertId) {
-        return ResponseEntity.ok(ConcertHttp.ConcertScheduleResponse.of(concertQueryUseCase.getAvailableConcertSchedules(concertId, timeManager.now())));
+    public ResponseEntity<ConcertHttpResponse.ConcertScheduleResponse> getAvailableSchedules(@PathVariable Long concertId) {
+        return ResponseEntity.ok(ConcertHttpResponse.ConcertScheduleResponse.of(concertQueryUseCase.getAvailableConcertSchedules(concertId, timeManager.now())));
     }
 
     @GetMapping("/{concertScheduleId}/available-seats")
@@ -43,8 +44,9 @@ public class ConcertController {
             @ApiResponse(responseCode = "200", description = "예약 가능 좌석 성공.", content = @Content(mediaType = "application/json")),
     })
     @Parameter(name = "concertScheduleId", description = "콘서트 스케쥴 Id")
-    public ResponseEntity<ConcertHttp.ConcertSeatsResponse> getAvailableSeats(@PathVariable Long concertScheduleId) {
-        return ResponseEntity.ok(ConcertHttp.ConcertSeatsResponse.of(concertQueryUseCase.getAvailableConcertSeats(concertScheduleId)));
+    public ResponseEntity<ConcertHttpResponse.ConcertSeatsResponse> getAvailableSeats(@PathVariable Long concertScheduleId) {
+
+        return ResponseEntity.ok(ConcertHttpResponse.ConcertSeatsResponse.of(concertQueryUseCase.getAvailableConcertSeats(concertScheduleId)));
     }
 
     @PostMapping("/reservation")
@@ -52,9 +54,9 @@ public class ConcertController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "좌석 예약 성공.", content = @Content(mediaType = "application/json")),
     })
-    public ResponseEntity<ConcertHttp.ReservationResponse> reservationSeats(@RequestBody ConcertHttp.ConcertReservationRequest request) {
+    public ResponseEntity<ConcertHttpResponse.ReservationResponse> reservationSeats(@RequestBody ConcertHttpRequest.ConcertReservationRequest request) {
         return ResponseEntity
                 .status(CREATED)
-                .body(ConcertHttp.ReservationResponse.of(reservationUseCase.temporaryReserveConcert(ReservationCommand.of(request))));
+                .body(ConcertHttpResponse.ReservationResponse.of(reservationUseCase.temporaryReserveConcert(ReservationCommand.of(request))));
     }
 }

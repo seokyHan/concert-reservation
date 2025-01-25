@@ -1,19 +1,19 @@
 package com.server.concert_reservation.api.concert.interfaces;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.server.concert_reservation.api.concert.application.ConcertQueryUseCase;
-import com.server.concert_reservation.api.concert.application.dto.ConcertSeatInfo;
-import com.server.concert_reservation.api.concert.application.dto.ReservationCommand;
-import com.server.concert_reservation.api.concert.domain.model.ConcertSchedule;
-import com.server.concert_reservation.api.concert.domain.model.ConcertSeat;
-import com.server.concert_reservation.api.concert.domain.model.Reservation;
-import com.server.concert_reservation.api.concert.domain.repository.ConcertReader;
-import com.server.concert_reservation.api.concert.domain.repository.ConcertWriter;
-import com.server.concert_reservation.api.concert.interfaces.dto.ConcertHttp;
-import com.server.concert_reservation.api.token.application.TokenCommandUseCase;
-import com.server.concert_reservation.api.token.domain.model.Token;
-import com.server.concert_reservation.api.token.domain.repository.TokenReader;
-import com.server.concert_reservation.api.token.infrastructure.entity.types.TokenStatus;
+import com.server.concert_reservation.api_backup.concert.application.ConcertQueryUseCase;
+import com.server.concert_reservation.api_backup.concert.application.dto.ConcertSeatInfo;
+import com.server.concert_reservation.api_backup.concert.application.dto.ReservationCommand;
+import com.server.concert_reservation.api_backup.token.application.TokenCommandUseCase;
+import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
+import com.server.concert_reservation.domain.concert.model.ConcertSeat;
+import com.server.concert_reservation.domain.concert.model.Reservation;
+import com.server.concert_reservation.domain.concert.repository.ConcertReader;
+import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
+import com.server.concert_reservation.domain.queue_token.model.Token;
+import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
+import com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus;
+import com.server.concert_reservation.interfaces.api.concert.dto.ConcertHttpRequest;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,8 +31,6 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -151,7 +149,7 @@ class ConcertControllerTest {
     @Test
     @DisplayName("헤더에 토큰이 없으면 예외를 발생시킨다. - 좌석 예약 요청 API")
     void reservationSeatsMissingTokenThrowsExceptionTest() throws Exception {
-        ConcertHttp.ConcertReservationRequest request = new ConcertHttp.ConcertReservationRequest(1L, 1L, List.of(1L,2L), LocalDateTime.now());
+        ConcertHttpRequest.ConcertReservationRequest request = new ConcertHttpRequest.ConcertReservationRequest(1L, 1L, List.of(1L, 2L), LocalDateTime.now());
 
         mockMvc.perform(post("/api/v1/concert/reservation")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -164,7 +162,7 @@ class ConcertControllerTest {
     @Test
     @DisplayName("만료시간이 지난 토큰으로 요청하면 예외를 발생시킨다. - 좌석 예약 요청 API")
     void reservationSeatsExpiredTokenThrowsExceptionTest() throws Exception {
-        ConcertHttp.ConcertReservationRequest request = new ConcertHttp.ConcertReservationRequest(1L, 1L, List.of(1L,2L), LocalDateTime.now());
+        ConcertHttpRequest.ConcertReservationRequest request = new ConcertHttpRequest.ConcertReservationRequest(1L, 1L, List.of(1L, 2L), LocalDateTime.now());
 
         Token expiredToken = Token.builder()
                 .token("expired-token")
@@ -184,7 +182,7 @@ class ConcertControllerTest {
     @Test
     @DisplayName("유효한 토큰으로 요청하면 성공한다. - 좌석 예약 요청 API")
     void reservationSeatsValidTokenSuccess() throws Exception {
-        ConcertHttp.ConcertReservationRequest request = new ConcertHttp.ConcertReservationRequest(1L, 1L, List.of(1L), LocalDateTime.now());
+        ConcertHttpRequest.ConcertReservationRequest request = new ConcertHttpRequest.ConcertReservationRequest(1L, 1L, List.of(1L), LocalDateTime.now());
 
         Token expiredToken = Token.builder()
                 .token("expired-token")
