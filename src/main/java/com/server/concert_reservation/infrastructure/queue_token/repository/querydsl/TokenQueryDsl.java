@@ -1,6 +1,6 @@
 package com.server.concert_reservation.infrastructure.queue_token.repository.querydsl;
 
-import com.server.concert_reservation.infrastructure.queue_token.entity.TokenEntity;
+import com.server.concert_reservation.infrastructure.queue_token.entity.QueueTokenEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface TokenQueryDsl {
 
-    Optional<TokenEntity> getLatestActivatedToken();
+    Optional<QueueTokenEntity> getLatestActivatedToken();
 
-    List<TokenEntity> findWaitingToken(int activationCount);
+    List<QueueTokenEntity> findWaitingToken(int activationCount);
 
-    List<TokenEntity> findWaitingTokenToBeExpired(LocalDateTime expiredAt);
+    List<QueueTokenEntity> findWaitingTokenToBeExpired(LocalDateTime expiredAt);
 }

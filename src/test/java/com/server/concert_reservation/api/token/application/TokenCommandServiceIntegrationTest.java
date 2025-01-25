@@ -2,7 +2,7 @@ package com.server.concert_reservation.api.token.application;
 
 import com.server.concert_reservation.api_backup.token.application.TokenCommandUseCase;
 import com.server.concert_reservation.api_backup.token.application.dto.TokenCommand;
-import com.server.concert_reservation.domain.queue_token.model.Token;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
 import com.server.concert_reservation.domain.user.model.User;
 import com.server.concert_reservation.domain.user.repository.UserWriter;
 import com.server.concert_reservation.support.DatabaseCleanUp;
@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.WAITING;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class TokenCommandServiceIntegrationTest {
@@ -41,8 +43,8 @@ class TokenCommandServiceIntegrationTest {
         TokenCommand tokenCommand = new TokenCommand(saveUser.getId(), "test-token");
 
         // when
-        Token waitingToken1 = tokenCommandUseCase.createToken(tokenCommand);
-        Token waitingToken2 = tokenCommandUseCase.createToken(tokenCommand);
+        QueueToken waitingToken1 = tokenCommandUseCase.createToken(tokenCommand);
+        QueueToken waitingToken2 = tokenCommandUseCase.createToken(tokenCommand);
 
 
         // then

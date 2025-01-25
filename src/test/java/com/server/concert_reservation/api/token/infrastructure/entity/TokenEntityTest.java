@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api.token.infrastructure.entity;
 
-import com.server.concert_reservation.domain.queue_token.model.Token;
-import com.server.concert_reservation.infrastructure.queue_token.entity.TokenEntity;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.infrastructure.queue_token.entity.QueueTokenEntity;
 import com.server.concert_reservation.support.api.common.uuid.UUIDManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,8 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.WAITING;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.WAITING;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class TokenEntityTest {
@@ -24,7 +24,7 @@ class TokenEntityTest {
     @Test
     void tokenEntityCovertToTokenDomainTest() {
         //given
-        TokenEntity tokenEntity = TokenEntity.builder()
+        QueueTokenEntity tokenEntity = QueueTokenEntity.builder()
                 .id(1L)
                 .userId(1L)
                 .token(uuidManager.generateUuid())
@@ -33,7 +33,7 @@ class TokenEntityTest {
                 .build();
 
         //when
-        Token token = tokenEntity.toDomain();
+        QueueToken token = tokenEntity.toDomain();
 
         //then
         assertEquals(tokenEntity.getId(), token.getId());

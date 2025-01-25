@@ -1,10 +1,10 @@
 package com.server.concert_reservation.api.token.application;
 
 import com.server.concert_reservation.api_backup.token.application.TokenQueryService;
-import com.server.concert_reservation.domain.queue_token.model.Token;
 import com.server.concert_reservation.api_backup.token.application.dto.TokenInfo;
-import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
-import com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
+import com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,30 +16,29 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.ACTIVE;
-import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.WAITING;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.ACTIVE;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.WAITING;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 public class TokenQueryServiceUnitTest {
 
     @Mock
-    private TokenReader tokenReader;
+    private QueueTokenReader tokenReader;
     @InjectMocks
     private TokenQueryService tokenQueryService;
 
     @DisplayName("대기 상태가 아닌 토큰의 대기번호는 0이다.")
     @ParameterizedTest
-    @EnumSource(value = TokenStatus.class, names = {"ACTIVE", "EXPIRED"})
-    void notWaitingStatusTokenWaitingNumberIsZero(TokenStatus status) {
+    @EnumSource(value = QueueTokenStatus.class, names = {"ACTIVE", "EXPIRED"})
+    void notWaitingStatusTokenWaitingNumberIsZero(QueueTokenStatus status) {
         // given
         String token = "token-uuid";
         Long userId = 1L;
-        Token waitingToken = Token.builder()
+        QueueToken waitingToken = QueueToken.builder()
                 .userId(userId)
                 .token(token)
                 .status(status)
@@ -64,7 +63,7 @@ public class TokenQueryServiceUnitTest {
         // given
         String token = "token-uuid";
         Long userId = 1L;
-        Token waitingToken = Token.builder()
+        QueueToken waitingToken = QueueToken.builder()
                 .id(100L)
                 .userId(userId)
                 .token(token)
@@ -91,13 +90,13 @@ public class TokenQueryServiceUnitTest {
         // given
         String token = "token-uuid";
         Long userId = 1L;
-        Token waitingToken = Token.builder()
+        QueueToken waitingToken = QueueToken.builder()
                 .id(200L)
                 .token(token)
                 .status(WAITING)
                 .build();
 
-        Token latestActivatedQueue = waitingToken.builder()
+        QueueToken latestActivatedQueue = waitingToken.builder()
                 .id(150L)
                 .token("latest-activated-token")
                 .status(ACTIVE)

@@ -1,8 +1,8 @@
 package com.server.concert_reservation.domain.queue_token.model;
 
 import com.server.concert_reservation.domain.queue_token.errorcode.TokenErrorCode;
-import com.server.concert_reservation.infrastructure.queue_token.entity.TokenEntity;
-import com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus;
+import com.server.concert_reservation.infrastructure.queue_token.entity.QueueTokenEntity;
+import com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,32 +11,34 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.*;
+
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Token {
+public class QueueToken {
 
     private Long id;
     private Long userId;
     private String token;
-    private TokenStatus status;
+    private QueueTokenStatus status;
     private LocalDateTime activatedAt;
     private LocalDateTime expiredAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static Token of(Long id,
-                           Long userId,
-                           String token,
-                           TokenStatus status,
-                           LocalDateTime activatedAt,
-                           LocalDateTime expiredAt,
-                           LocalDateTime createdAt,
-                           LocalDateTime updatedAt) {
-        return new Token(id, userId, token, status, activatedAt, expiredAt, createdAt, updatedAt);
+    public static QueueToken of(Long id,
+                                Long userId,
+                                String token,
+                                QueueTokenStatus status,
+                                LocalDateTime activatedAt,
+                                LocalDateTime expiredAt,
+                                LocalDateTime createdAt,
+                                LocalDateTime updatedAt) {
+        return new QueueToken(id, userId, token, status, activatedAt, expiredAt, createdAt, updatedAt);
     }
 
-    public Token(Long userId, String token) {
+    public QueueToken(Long userId, String token) {
         this.userId = userId;
         this.token = token;
         this.status = WAITING;
@@ -75,8 +77,8 @@ public class Token {
 
     }
 
-    public TokenEntity toEntity(Token token) {
-        return TokenEntity.builder()
+    public QueueTokenEntity toEntity(QueueToken token) {
+        return QueueTokenEntity.builder()
                 .id(token.getId())
                 .userId(token.getUserId())
                 .token(token.getToken())

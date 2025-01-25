@@ -1,8 +1,8 @@
 package com.server.concert_reservation.api_backup.token.application;
 
-import com.server.concert_reservation.domain.queue_token.model.Token;
 import com.server.concert_reservation.api_backup.token.application.dto.TokenInfo;
-import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TokenQueryService implements TokenQueryUseCase {
 
-    private final TokenReader tokenReader;
+    private final QueueTokenReader tokenReader;
 
     @Override
     public TokenInfo getWaitingToken(String token, Long userId) {
@@ -34,7 +34,7 @@ public class TokenQueryService implements TokenQueryUseCase {
      * 가장 오래된 대기상태 토큰 목록 조회
      */
     @Override
-    public List<Token> getWaitingToken(int activeCount) {
+    public List<QueueToken> getWaitingToken(int activeCount) {
         return tokenReader.getWaitingToken(activeCount);
     }
 
@@ -42,7 +42,7 @@ public class TokenQueryService implements TokenQueryUseCase {
      * 만료 처리 예정 대기열 토큰 목록 조회
      */
     @Override
-    public List<Token> getWaitingTokensToBeExpired(int minutes) {
+    public List<QueueToken> getWaitingTokensToBeExpired(int minutes) {
         return tokenReader.getWaitingTokensToBeExpired(minutes);
     }
 }

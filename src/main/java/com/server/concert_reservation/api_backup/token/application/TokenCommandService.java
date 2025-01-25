@@ -1,9 +1,9 @@
 package com.server.concert_reservation.api_backup.token.application;
 
 import com.server.concert_reservation.api_backup.token.application.dto.TokenCommand;
-import com.server.concert_reservation.domain.queue_token.model.Token;
-import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
-import com.server.concert_reservation.domain.queue_token.repository.TokenWriter;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenWriter;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenCommandService implements TokenCommandUseCase {
 
-    private final TokenReader tokenReader;
-    private final TokenWriter tokenWriter;
+    private final QueueTokenReader tokenReader;
+    private final QueueTokenWriter tokenWriter;
     private final TimeManager timeManager;
 
     @Override
-    public Token createToken(TokenCommand command) {
-        return tokenWriter.save(new Token(command.userId(), command.token()));
+    public QueueToken createToken(TokenCommand command) {
+        return tokenWriter.save(new QueueToken(command.userId(), command.token()));
     }
 
     /**

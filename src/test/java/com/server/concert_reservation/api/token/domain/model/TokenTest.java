@@ -1,8 +1,8 @@
 package com.server.concert_reservation.api.token.domain.model;
 
-import com.server.concert_reservation.domain.queue_token.model.Token;
-import com.server.concert_reservation.infrastructure.queue_token.entity.TokenEntity;
-import com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.infrastructure.queue_token.entity.QueueTokenEntity;
+import com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.uuid.UUIDManager;
 import org.junit.jupiter.api.DisplayName;
@@ -13,10 +13,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.ACTIVE;
-import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.EXPIRED;
+import static com.server.concert_reservation.domain.queue_token.errorcode.TokenErrorCode.ALREADY_ACTIVATED;
+import static com.server.concert_reservation.domain.queue_token.errorcode.TokenErrorCode.TOKEN_EXPIRED;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.ACTIVE;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.EXPIRED;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 class TokenTest {
@@ -28,7 +31,7 @@ class TokenTest {
     @DisplayName("Token 활성화 테스트")
     void activateTokenTest() {
         // given
-        Token token = new Token(1L, uuidGenerator.generateUuid());
+        QueueToken token = new QueueToken(1L, uuidGenerator.generateUuid());
         LocalDateTime activatedAt = LocalDateTime.now();
 
         // when
@@ -43,7 +46,7 @@ class TokenTest {
     @DisplayName("Token 만료 테스트")
     void expireTokenTest() {
         // given
-        Token token = new Token(1L, uuidGenerator.generateUuid());
+        QueueToken token = new QueueToken(1L, uuidGenerator.generateUuid());
         LocalDateTime expiredAt = LocalDateTime.now();
 
         // when
@@ -58,7 +61,7 @@ class TokenTest {
     @DisplayName("Token 유효성 검사 테스트 - 이미 활성화된 경우")
     void validateTokenAlreadyActivatedTest() {
         // given
-        Token token = new Token(1L, uuidGenerator.generateUuid());
+        QueueToken token = new QueueToken(1L, uuidGenerator.generateUuid());
         token.activate(LocalDateTime.now());
 
         // when & then
@@ -72,7 +75,7 @@ class TokenTest {
     void validateTokenExpiredTest() {
         // given
         LocalDateTime now = LocalDateTime.now();
-        Token token = new Token(1L, uuidGenerator.generateUuid());
+        QueueToken token = new QueueToken(1L, uuidGenerator.generateUuid());
         token.expire(now);
 
         // when & then
@@ -85,10 +88,10 @@ class TokenTest {
     @DisplayName("TokenEntity 변환 테스트")
     void toEntityTest() {
         // given
-        Token token = createToken(1L, 1L, uuidGenerator.generateUuid(), TokenStatus.WAITING, LocalDateTime.now(), LocalDateTime.now().plusDays(1), LocalDateTime.now(), LocalDateTime.now());
+        QueueToken token = createToken(1L, 1L, uuidGenerator.generateUuid(), QueueTokenStatus.WAITING, LocalDateTime.now(), LocalDateTime.now().plusDays(1), LocalDateTime.now(), LocalDateTime.now());
 
         // when
-        TokenEntity tokenEntity = token.toEntity(token);
+        QueueTokenEntity tokenEntity = token.toEntity(token);
 
         // then
         assertNotNull(tokenEntity);
@@ -100,8 +103,8 @@ class TokenTest {
         assertEquals(token.getExpiredAt(), tokenEntity.getExpiredAt());
     }
 
-    private Token createToken(Long id, Long userId, String token, TokenStatus status, LocalDateTime activatedAt, LocalDateTime expiredAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        return Token.of(id, userId, token, status, activatedAt, expiredAt, createdAt, updatedAt);
+    private QueueToken createToken(Long id, Long userId, String token, QueueTokenStatus status, LocalDateTime activatedAt, LocalDateTime expiredAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return QueueToken.of(id, userId, token, status, activatedAt, expiredAt, createdAt, updatedAt);
     }
 
 

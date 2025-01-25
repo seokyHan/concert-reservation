@@ -1,15 +1,15 @@
 package com.server.concert_reservation.api.payment.application;
 
+import com.server.concert_reservation.api_backup.payment.application.PaymentUseCase;
+import com.server.concert_reservation.api_backup.payment.application.dto.PaymentCommand;
+import com.server.concert_reservation.api_backup.payment.application.dto.PaymentInfo;
 import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
-import com.server.concert_reservation.api_backup.payment.application.PaymentUseCase;
-import com.server.concert_reservation.api_backup.payment.application.dto.PaymentInfo;
-import com.server.concert_reservation.api_backup.payment.application.dto.PaymentCommand;
-import com.server.concert_reservation.domain.queue_token.model.Token;
-import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
-import com.server.concert_reservation.domain.queue_token.repository.TokenWriter;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenWriter;
 import com.server.concert_reservation.domain.user.model.User;
 import com.server.concert_reservation.domain.user.model.Wallet;
 import com.server.concert_reservation.domain.user.repository.UserReader;
@@ -25,11 +25,11 @@ import java.util.List;
 
 import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.SOLD;
 import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.TEMPORARY_RESERVED;
-import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.ACTIVE;
-import static com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus.EXPIRED;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.ACTIVE;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.EXPIRED;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class PaymentServiceIntegrationTest {
@@ -45,9 +45,9 @@ class PaymentServiceIntegrationTest {
     @Autowired
     private ConcertReader concertReader;
     @Autowired
-    private TokenReader tokenReader;
+    private QueueTokenReader tokenReader;
     @Autowired
-    private TokenWriter tokenWriter;
+    private QueueTokenWriter tokenWriter;
     @Autowired
     private DatabaseCleanUp databaseCleanUp;
 
@@ -89,7 +89,7 @@ class PaymentServiceIntegrationTest {
         Reservation saveReservationReservation = concertWriter.saveReservation(reservation);
 
 
-        Token waitingToken = Token.builder()
+        QueueToken waitingToken = QueueToken.builder()
                 .token("test-token")
                 .status(ACTIVE)
                 .build();
@@ -125,7 +125,7 @@ class PaymentServiceIntegrationTest {
         );
 
         // 대기열 만료
-        Token updatedWaitingToken = tokenReader.getByToken("test-token");
+        QueueToken updatedWaitingToken = tokenReader.getByToken("test-token");
         assertEquals(updatedWaitingToken.getStatus(), EXPIRED);
     }
 

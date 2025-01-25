@@ -1,11 +1,11 @@
 package com.server.concert_reservation.api_backup.token.application;
 
 import com.server.concert_reservation.api_backup.token.application.dto.TokenCommand;
-import com.server.concert_reservation.domain.queue_token.model.Token;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
 
 public interface TokenCommandUseCase {
 
-    Token createToken(TokenCommand command);
+    QueueToken createToken(TokenCommand command);
 
     void checkActivatedToken(String token);
 

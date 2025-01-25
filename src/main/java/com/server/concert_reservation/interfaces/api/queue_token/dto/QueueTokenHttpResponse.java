@@ -1,25 +1,22 @@
 package com.server.concert_reservation.interfaces.api.queue_token.dto;
 
 import com.server.concert_reservation.api_backup.token.application.dto.TokenInfo;
-import com.server.concert_reservation.domain.queue_token.model.Token;
-import com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus;
 
 import java.time.LocalDateTime;
 
-public class QueueTokenHttp {
-
-    public record QueueTokenRequest(Long userId, String token) {
-    }
+public class QueueTokenHttpResponse {
 
     public record QueueTokenResponse(Long id,
                                      Long userId,
                                      String token,
-                                     TokenStatus status,
+                                     QueueTokenStatus status,
                                      LocalDateTime activatedAt,
                                      LocalDateTime expiredAt,
                                      LocalDateTime createdAt,
                                      LocalDateTime updatedAt) {
-        public static QueueTokenResponse of(Token token) {
+        public static QueueTokenResponse of(QueueToken token) {
             return new QueueTokenResponse(token.getId(),
                     token.getUserId(),
                     token.getToken(),

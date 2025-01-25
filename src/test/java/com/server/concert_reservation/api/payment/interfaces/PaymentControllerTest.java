@@ -9,8 +9,8 @@ import com.server.concert_reservation.api_backup.token.application.TokenCommandU
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.payment.model.Payment;
 import com.server.concert_reservation.domain.payment.repository.PaymentWriter;
-import com.server.concert_reservation.domain.queue_token.model.Token;
-import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
 import com.server.concert_reservation.interfaces.api.payment.dto.PaymentHttpRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class PaymentControllerTest {
     @Autowired
     private ObjectMapper mapper;
     @MockitoBean
-    private TokenReader tokenReader;
+    private QueueTokenReader tokenReader;
     @MockitoBean
     private ConcertQueryUseCase concertQueryUseCase;
     @MockitoBean
@@ -66,7 +66,7 @@ class PaymentControllerTest {
     void paymentExpiredTokenThrowsExceptionTest() throws Exception {
         PaymentHttpRequest.PaymentRequest request = new PaymentHttpRequest.PaymentRequest(1L, 1L, "expired-token");
 
-        Token expiredToken = Token.builder()
+        QueueToken expiredToken = QueueToken.builder()
                 .token("expired-token")
                 .activatedAt(LocalDateTime.now().minusMinutes(20))
                 .build();
@@ -103,7 +103,7 @@ class PaymentControllerTest {
                 .build();
         when(paymentWriter.save(payment)).thenReturn(payment);
 
-        Token expiredToken = Token.builder()
+        QueueToken expiredToken = QueueToken.builder()
                 .token("expired-token")
                 .activatedAt(LocalDateTime.now())
                 .build();

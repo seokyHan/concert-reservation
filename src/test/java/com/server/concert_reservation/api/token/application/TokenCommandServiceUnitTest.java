@@ -2,9 +2,9 @@ package com.server.concert_reservation.api.token.application;
 
 import com.server.concert_reservation.api_backup.token.application.TokenCommandService;
 import com.server.concert_reservation.api_backup.token.application.dto.TokenCommand;
-import com.server.concert_reservation.domain.queue_token.model.Token;
-import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
-import com.server.concert_reservation.domain.queue_token.repository.TokenWriter;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenWriter;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import org.junit.jupiter.api.DisplayName;
@@ -14,22 +14,24 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
 import java.time.LocalDateTime;
 
+import static com.server.concert_reservation.domain.queue_token.errorcode.TokenErrorCode.*;
+import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TokenCommandServiceUnitTest {
 
     @Mock
-    private TokenReader tokenReader;
+    private QueueTokenReader tokenReader;
     @Mock
-    private TokenWriter tokenWriter;
+    private QueueTokenWriter tokenWriter;
     @Mock
     private TimeManager timeManager;
     @InjectMocks
@@ -42,20 +44,20 @@ class TokenCommandServiceUnitTest {
         Long userId = 1L;
         String token = "token-uuid";
 
-        Token expectedWaitingToken = new Token(userId, token);
-        when(tokenWriter.save(any(Token.class))).thenReturn(expectedWaitingToken);
+        QueueToken expectedWaitingToken = new QueueToken(userId, token);
+        when(tokenWriter.save(any(QueueToken.class))).thenReturn(expectedWaitingToken);
 
         TokenCommand command = new TokenCommand(userId, token);
 
         // when
-        Token waitingToken = tokenService.createToken(command);
+        QueueToken waitingToken = tokenService.createToken(command);
 
         // then
         assertAll(
                 () -> assertEquals(userId, waitingToken.getUserId()),
                 () -> assertEquals(token, waitingToken.getToken()),
                 () -> assertEquals(WAITING, waitingToken.getStatus()),
-                () -> then(tokenWriter).should(times(1)).save(any(Token.class))
+                () -> then(tokenWriter).should(times(1)).save(any(QueueToken.class))
         );
     }
 
@@ -67,7 +69,7 @@ class TokenCommandServiceUnitTest {
         final String token = "token-uuid";
         Long userId = 200L;
 
-        Token waitingToken = Token.builder()
+        QueueToken waitingToken = QueueToken.builder()
                 .id(userId)
                 .token(token)
                 .status(ACTIVE)
@@ -88,7 +90,7 @@ class TokenCommandServiceUnitTest {
         String token = "token-uuid";
         Long userId = 200L;
 
-        Token waitingToken = Token.builder()
+        QueueToken waitingToken = QueueToken.builder()
                 .id(userId)
                 .token(token)
                 .status(EXPIRED)
@@ -110,7 +112,7 @@ class TokenCommandServiceUnitTest {
         String token = "token-uuid";
         Long userId = 200L;
 
-        Token waitingToken = Token.builder()
+        QueueToken waitingToken = QueueToken.builder()
                 .id(userId)
                 .token(token)
                 .status(WAITING)
@@ -132,7 +134,7 @@ class TokenCommandServiceUnitTest {
         Long userId = 1L;
         LocalDateTime now = LocalDateTime.now();
 
-        Token waitingToken = Token.builder()
+        QueueToken waitingToken = QueueToken.builder()
                 .id(userId)
                 .token(token)
                 .status(WAITING)
@@ -156,7 +158,7 @@ class TokenCommandServiceUnitTest {
     @Test
     void alreadyActivateTokenThrowsException() {
         // given
-        Token waitingToken = Token.builder()
+        QueueToken waitingToken = QueueToken.builder()
                 .id(1L)
                 .token("test-token")
                 .status(ACTIVE)
@@ -172,7 +174,7 @@ class TokenCommandServiceUnitTest {
     @Test
     void expiredTokenWhenActivatedThrowsException() {
         // given
-        Token waitingToken = Token.builder()
+        QueueToken waitingToken = QueueToken.builder()
                 .id(1L)
                 .token("test-token")
                 .status(EXPIRED)
@@ -193,7 +195,7 @@ class TokenCommandServiceUnitTest {
         LocalDateTime now = LocalDateTime.now();
 
         // Mock 대기열 생성
-        Token waitingToken = Token.builder()
+        QueueToken waitingToken = QueueToken.builder()
                 .id(1L)
                 .token(token)
                 .status(ACTIVE)

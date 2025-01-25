@@ -3,7 +3,8 @@ package com.server.concert_reservation.interfaces.api.queue_token;
 import com.server.concert_reservation.api_backup.token.application.TokenCommandUseCase;
 import com.server.concert_reservation.api_backup.token.application.TokenQueryUseCase;
 import com.server.concert_reservation.api_backup.token.application.dto.TokenCommand;
-import com.server.concert_reservation.interfaces.api.queue_token.dto.QueueTokenHttp;
+import com.server.concert_reservation.interfaces.api.queue_token.dto.QueueTokenHttpRequest;
+import com.server.concert_reservation.interfaces.api.queue_token.dto.QueueTokenHttpResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,7 +20,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @Tag(name = "Token", description = "Response Token API")
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-public class TokenController {
+public class QueueTokenController {
 
     private final TokenCommandUseCase tokenCommandUseCase;
     private final TokenQueryUseCase tokenQueryUseCase;
@@ -29,10 +30,10 @@ public class TokenController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "대기열 토큰 발급 성공.", content = @Content(mediaType = "application/json")),
     })
-    public ResponseEntity<QueueTokenHttp.QueueTokenResponse> createToken(@RequestBody QueueTokenHttp.QueueTokenRequest request) {
+    public ResponseEntity<QueueTokenHttpResponse.QueueTokenResponse> createToken(@RequestBody QueueTokenHttpRequest.QueueTokenRequest request) {
         return ResponseEntity
                 .status(CREATED)
-                .body(QueueTokenHttp.QueueTokenResponse.of(tokenCommandUseCase.createToken(TokenCommand.of(request))));
+                .body(QueueTokenHttpResponse.QueueTokenResponse.of(tokenCommandUseCase.createToken(TokenCommand.of(request))));
     }
 
     @GetMapping("/token")
@@ -40,10 +41,10 @@ public class TokenController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "대기열 토큰 상태 조회 성공.", content = @Content(mediaType = "application/json")),
     })
-    public ResponseEntity<QueueTokenHttp.QueueTokenResponse> getTokenStatus(
+    public ResponseEntity<QueueTokenHttpResponse.QueueTokenResponse> getTokenStatus(
             @RequestHeader("X-Waiting-Token") String token,
             @RequestHeader("USER-ID") Long userId
     ) {
-        return ResponseEntity.ok(QueueTokenHttp.QueueTokenResponse.of(tokenQueryUseCase.getWaitingToken(token, userId)));
+        return ResponseEntity.ok(QueueTokenHttpResponse.QueueTokenResponse.of(tokenQueryUseCase.getWaitingToken(token, userId)));
     }
 }

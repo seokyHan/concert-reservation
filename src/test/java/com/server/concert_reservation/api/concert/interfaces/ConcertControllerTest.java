@@ -10,9 +10,9 @@ import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
-import com.server.concert_reservation.domain.queue_token.model.Token;
-import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
-import com.server.concert_reservation.infrastructure.queue_token.entity.types.TokenStatus;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
+import com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus;
 import com.server.concert_reservation.interfaces.api.concert.dto.ConcertHttpRequest;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,7 +51,7 @@ class ConcertControllerTest {
     @MockitoBean
     private ConcertWriter concertWriter;
     @MockitoBean
-    private TokenReader tokenReader;
+    private QueueTokenReader tokenReader;
     @MockitoBean
     private TimeManager timeManager;
 
@@ -71,7 +71,7 @@ class ConcertControllerTest {
     @Test
     @DisplayName("만료시간이 지난 토큰으로 요청하면 예외를 발생시킨다. - 예약 가능한 콘서트 날짜 조회 API")
     void getAvailableSchedulesExpiredTokenThrowsExceptionTest() throws Exception {
-        Token expiredToken = Token.builder()
+        QueueToken expiredToken = QueueToken.builder()
                 .token("expired-token")
                 .activatedAt(LocalDateTime.now().minusMinutes(20))
                 .build();
@@ -87,9 +87,9 @@ class ConcertControllerTest {
     @Test
     @DisplayName("유효한 토큰으로 요청하면 성공한다. - 예약 가능한 콘서트 날짜 조회 API")
     void getAvailableSchedulesValidTokenSuccess() throws Exception {
-        Token expiredToken = Token.builder()
+        QueueToken expiredToken = QueueToken.builder()
                 .token("expired-token")
-                .status(TokenStatus.EXPIRED)
+                .status(QueueTokenStatus.EXPIRED)
                 .activatedAt(LocalDateTime.now())
                 .build();
         when(tokenReader.getByToken("expired-token")).thenReturn(expiredToken);
@@ -113,7 +113,7 @@ class ConcertControllerTest {
     @Test
     @DisplayName("만료시간이 지난 토큰으로 요청하면 예외를 발생시킨다. - 예약 가능한 좌석 조회 API")
     void getAvailableSeatsExpiredTokenThrowsExceptionTest() throws Exception {
-        Token expiredToken = Token.builder()
+        QueueToken expiredToken = QueueToken.builder()
                 .token("expired-token")
                 .activatedAt(LocalDateTime.now().minusMinutes(20))
                 .build();
@@ -129,9 +129,9 @@ class ConcertControllerTest {
     @Test
     @DisplayName("유효한 토큰으로 요청하면 성공한다. - 예약 가능한 좌석 조회 API")
     void getAvailableSeatsValidTokenSuccess() throws Exception {
-        Token expiredToken = Token.builder()
+        QueueToken expiredToken = QueueToken.builder()
                 .token("expired-token")
-                .status(TokenStatus.EXPIRED)
+                .status(QueueTokenStatus.EXPIRED)
                 .activatedAt(LocalDateTime.now())
                 .build();
         when(tokenReader.getByToken("expired-token")).thenReturn(expiredToken);
@@ -164,7 +164,7 @@ class ConcertControllerTest {
     void reservationSeatsExpiredTokenThrowsExceptionTest() throws Exception {
         ConcertHttpRequest.ConcertReservationRequest request = new ConcertHttpRequest.ConcertReservationRequest(1L, 1L, List.of(1L, 2L), LocalDateTime.now());
 
-        Token expiredToken = Token.builder()
+        QueueToken expiredToken = QueueToken.builder()
                 .token("expired-token")
                 .activatedAt(LocalDateTime.now().minusMinutes(20))
                 .build();
@@ -184,9 +184,9 @@ class ConcertControllerTest {
     void reservationSeatsValidTokenSuccess() throws Exception {
         ConcertHttpRequest.ConcertReservationRequest request = new ConcertHttpRequest.ConcertReservationRequest(1L, 1L, List.of(1L), LocalDateTime.now());
 
-        Token expiredToken = Token.builder()
+        QueueToken expiredToken = QueueToken.builder()
                 .token("expired-token")
-                .status(TokenStatus.EXPIRED)
+                .status(QueueTokenStatus.EXPIRED)
                 .activatedAt(LocalDateTime.now())
                 .build();
         when(tokenReader.getByToken("expired-token")).thenReturn(expiredToken);

@@ -1,7 +1,7 @@
 package com.server.concert_reservation.support.api.interceptor;
 
 import com.server.concert_reservation.api_backup.token.application.TokenCommandUseCase;
-import com.server.concert_reservation.domain.queue_token.repository.TokenReader;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ import static com.server.concert_reservation.domain.queue_token.errorcode.TokenE
 public class TokenInterceptor implements HandlerInterceptor {
 
     private final TokenCommandUseCase tokenCommandUseCase;
-    private final TokenReader tokenReader;
+    private final QueueTokenReader tokenReader;
     private final TimeManager timeManager;
 
     @Override

@@ -1,16 +1,16 @@
 package com.server.concert_reservation.infrastructure.queue_token.repository;
 
-import com.server.concert_reservation.infrastructure.queue_token.entity.TokenEntity;
+import com.server.concert_reservation.infrastructure.queue_token.entity.QueueTokenEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 
-public interface TokenJpaRepository extends JpaRepository<TokenEntity, Long> {
+public interface TokenJpaRepository extends JpaRepository<QueueTokenEntity, Long> {
 
-    Optional<TokenEntity> findByUserIdAndToken(Long userId, String token);
+    Optional<QueueTokenEntity> findByUserIdAndToken(Long userId, String token);
 
-    Optional<TokenEntity> findByToken(String token);
+    Optional<QueueTokenEntity> findByToken(String token);
 
 
 }

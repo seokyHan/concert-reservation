@@ -1,9 +1,9 @@
 package com.server.concert_reservation.api.token.application;
 
 import com.server.concert_reservation.api_backup.token.application.TokenQueryUseCase;
-import com.server.concert_reservation.domain.queue_token.model.Token;
 import com.server.concert_reservation.api_backup.token.application.dto.TokenInfo;
-import com.server.concert_reservation.domain.queue_token.repository.TokenWriter;
+import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.domain.queue_token.repository.QueueTokenWriter;
 import com.server.concert_reservation.support.DatabaseCleanUp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TokenQueryServiceIntegrationTest {
 
     @Autowired
-    private TokenWriter tokenWriter;
+    private QueueTokenWriter tokenWriter;
     @Autowired
     private TokenQueryUseCase tokenQueryUseCase;
     @Autowired
@@ -34,19 +34,19 @@ public class TokenQueryServiceIntegrationTest {
     void getWaitingTokenWhenStatusWaiting() {
         // given
 
-        Token waitingToken1 = Token.builder()
+        QueueToken waitingToken1 = QueueToken.builder()
                 .token("token-test1")
                 .userId(1L)
                 .status(EXPIRED)
                 .build();
 
-        Token waitingToken2 = Token.builder()
+        QueueToken waitingToken2 = QueueToken.builder()
                 .token("token-test2")
                 .userId(1L)
                 .status(ACTIVE)
                 .build();
 
-        Token waitingToken3 = Token.builder()
+        QueueToken waitingToken3 = QueueToken.builder()
                 .token("token-test3")
                 .userId(1L)
                 .status(WAITING)
@@ -74,19 +74,19 @@ public class TokenQueryServiceIntegrationTest {
     void getWaitingTokenWhenNotExistActive() {
         // given
 
-        Token waitingToken1 = Token.builder()
+        QueueToken waitingToken1 = QueueToken.builder()
                 .token("token-test1")
                 .userId(1L)
                 .status(WAITING)
                 .build();
 
-        Token waitingToken2 = Token.builder()
+        QueueToken waitingToken2 = QueueToken.builder()
                 .token("token-test2")
                 .userId(1L)
                 .status(WAITING)
                 .build();
 
-        Token waitingToken3 = Token.builder()
+        QueueToken waitingToken3 = QueueToken.builder()
                 .token("token-test3")
                 .userId(1L)
                 .status(WAITING)
