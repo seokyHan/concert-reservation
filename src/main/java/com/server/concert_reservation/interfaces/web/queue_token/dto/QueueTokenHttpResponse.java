@@ -1,4 +1,4 @@
-package com.server.concert_reservation.interfaces.api.queue_token.dto;
+package com.server.concert_reservation.interfaces.web.queue_token.dto;
 
 import com.server.concert_reservation.api_backup.token.application.dto.TokenInfo;
 import com.server.concert_reservation.domain.queue_token.model.QueueToken;

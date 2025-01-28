@@ -1,4 +1,4 @@
-package com.server.concert_reservation.interfaces.api.user.dto;
+package com.server.concert_reservation.interfaces.web.user.dto;
 
 public class UserHttpRequest {
 

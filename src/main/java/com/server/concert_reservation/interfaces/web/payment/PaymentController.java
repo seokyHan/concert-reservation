@@ -1,9 +1,9 @@
-package com.server.concert_reservation.interfaces.api.payment;
+package com.server.concert_reservation.interfaces.web.payment;
 
 import com.server.concert_reservation.api_backup.payment.application.PaymentUseCase;
 import com.server.concert_reservation.api_backup.payment.application.dto.PaymentCommand;
-import com.server.concert_reservation.interfaces.api.payment.dto.PaymentHttpRequest;
-import com.server.concert_reservation.interfaces.api.payment.dto.PaymentHttpResponse;
+import com.server.concert_reservation.interfaces.web.payment.dto.PaymentHttpRequest;
+import com.server.concert_reservation.interfaces.web.payment.dto.PaymentHttpResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

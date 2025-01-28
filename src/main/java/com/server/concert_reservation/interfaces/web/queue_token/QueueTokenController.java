@@ -1,10 +1,10 @@
-package com.server.concert_reservation.interfaces.api.queue_token;
+package com.server.concert_reservation.interfaces.web.queue_token;
 
 import com.server.concert_reservation.api_backup.token.application.TokenCommandUseCase;
 import com.server.concert_reservation.api_backup.token.application.TokenQueryUseCase;
 import com.server.concert_reservation.api_backup.token.application.dto.TokenCommand;
-import com.server.concert_reservation.interfaces.api.queue_token.dto.QueueTokenHttpRequest;
-import com.server.concert_reservation.interfaces.api.queue_token.dto.QueueTokenHttpResponse;
+import com.server.concert_reservation.interfaces.web.queue_token.dto.QueueTokenHttpRequest;
+import com.server.concert_reservation.interfaces.web.queue_token.dto.QueueTokenHttpResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

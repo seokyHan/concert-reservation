@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api_backup.user.application.dto;
 
-import com.server.concert_reservation.interfaces.api.user.dto.UserHttpRequest;
+import com.server.concert_reservation.interfaces.web.user.dto.UserHttpRequest;
 
 public record UserCommand(Long userId, int point) {
 

@@ -1,4 +1,4 @@
-package com.server.concert_reservation.interfaces.api.payment.dto;
+package com.server.concert_reservation.interfaces.web.payment.dto;
 
 import com.server.concert_reservation.api_backup.payment.application.dto.PaymentInfo;
 

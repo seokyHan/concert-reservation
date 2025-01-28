@@ -1,6 +1,6 @@
 package com.server.concert_reservation.api_backup.payment.application.dto;
 
-import com.server.concert_reservation.interfaces.api.payment.dto.PaymentHttpRequest;
+import com.server.concert_reservation.interfaces.web.payment.dto.PaymentHttpRequest;
 
 
 public record PaymentCommand(Long userId, Long reservationId, String token) {

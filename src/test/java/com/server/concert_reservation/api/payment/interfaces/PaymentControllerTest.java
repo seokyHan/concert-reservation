@@ -11,7 +11,7 @@ import com.server.concert_reservation.domain.payment.model.Payment;
 import com.server.concert_reservation.domain.payment.repository.PaymentWriter;
 import com.server.concert_reservation.domain.queue_token.model.QueueToken;
 import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
-import com.server.concert_reservation.interfaces.api.payment.dto.PaymentHttpRequest;
+import com.server.concert_reservation.interfaces.web.payment.dto.PaymentHttpRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

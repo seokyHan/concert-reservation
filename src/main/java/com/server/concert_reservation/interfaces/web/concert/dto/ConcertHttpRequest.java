@@ -1,4 +1,4 @@
-package com.server.concert_reservation.interfaces.api.concert.dto;
+package com.server.concert_reservation.interfaces.web.concert.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;

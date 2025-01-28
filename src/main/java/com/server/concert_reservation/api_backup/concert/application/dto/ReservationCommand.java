@@ -1,7 +1,7 @@
 package com.server.concert_reservation.api_backup.concert.application.dto;
 
 
-import com.server.concert_reservation.interfaces.api.concert.dto.ConcertHttpRequest;
+import com.server.concert_reservation.interfaces.web.concert.dto.ConcertHttpRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.server.concert_reservation.interfaces.api.queue_token.dto;
+package com.server.concert_reservation.interfaces.web.queue_token.dto;
 
 public class QueueTokenHttpRequest {
 

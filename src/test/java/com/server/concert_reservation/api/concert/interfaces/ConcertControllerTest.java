@@ -13,7 +13,7 @@ import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
 import com.server.concert_reservation.domain.queue_token.model.QueueToken;
 import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
 import com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus;
-import com.server.concert_reservation.interfaces.api.concert.dto.ConcertHttpRequest;
+import com.server.concert_reservation.interfaces.web.concert.dto.ConcertHttpRequest;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
