@@ -1,7 +1,8 @@
-package com.server.concert_reservation.api_backup.concert.application;
+package com.server.concert_reservation.domain.concert.service;
 
-import com.server.concert_reservation.api_backup.concert.application.dto.ConcertScheduleInfo;
-import com.server.concert_reservation.api_backup.concert.application.dto.ConcertSeatInfo;
+import com.server.concert_reservation.domain.concert.dto.ConcertScheduleInfo;
+import com.server.concert_reservation.domain.concert.dto.ConcertSeatInfo;
+import com.server.concert_reservation.domain.concert.dto.ReservationInfo;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class ConcertQueryService implements ConcertQueryUseCase {
+public class ConcertQueryService {
 
     private final ConcertReader concertReader;
 
@@ -23,8 +24,7 @@ public class ConcertQueryService implements ConcertQueryUseCase {
     /**
      * 예약 가능 콘서트 스케줄 조회
      */
-    @Override
-    public List<ConcertScheduleInfo> getAvailableConcertSchedules(Long concertId, LocalDateTime dateTime) {
+    public List<ConcertScheduleInfo> findAvailableConcertSchedules(Long concertId, LocalDateTime dateTime) {
         val concertSchedules = concertReader.getConcertScheduleByConcertIdAndDate(concertId, dateTime);
 
         return concertSchedules.isEmpty() ?
@@ -37,8 +37,7 @@ public class ConcertQueryService implements ConcertQueryUseCase {
     /**
      * 예약 가능 콘서트 좌석 조회
      */
-    @Override
-    public ConcertSeatInfo getAvailableConcertSeats(Long concertScheduleId) {
+    public ConcertSeatInfo findAvailableConcertSeats(Long concertScheduleId) {
         val concertSchedule = concertReader.getConcertScheduleById(concertScheduleId);
         val availableSeatList = concertReader.getConcertSeatByScheduleId(concertScheduleId)
                 .stream()
@@ -48,13 +47,15 @@ public class ConcertQueryService implements ConcertQueryUseCase {
         return ConcertSeatInfo.of(concertSchedule, availableSeatList);
     }
 
-    @Override
-    public Reservation getReservation(Long reservationId) {
+    public Reservation findReservation(Long reservationId) {
         return concertReader.getReservationById(reservationId);
     }
 
-    @Override
-    public List<Reservation> getTemporaryReservationByExpired(int minute) {
-        return concertReader.getTemporaryReservationsExpired(minute);
+    public List<ReservationInfo> findTemporaryReservationByExpired(int minute) {
+        val reservations = concertReader.getTemporaryReservationsExpired(minute);
+
+        return reservations.stream()
+                .map(ReservationInfo::from)
+                .collect(Collectors.toList());
     }
 }

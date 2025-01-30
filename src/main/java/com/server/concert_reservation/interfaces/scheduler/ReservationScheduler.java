@@ -1,7 +1,6 @@
 package com.server.concert_reservation.interfaces.scheduler;
 
-import com.server.concert_reservation.api_backup.concert.application.ConcertCommandUseCase;
-import com.server.concert_reservation.api_backup.concert.application.ConcertQueryUseCase;
+import com.server.concert_reservation.application.concert.ConcertFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -13,18 +12,17 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ReservationScheduler {
 
-    private final ConcertCommandUseCase reservationUseCase;
-    private final ConcertQueryUseCase getConcertUseCase;
+    private final ConcertFacade concertFacade;
 
     @Scheduled(fixedDelayString = "60000")
     public void expireTemporaryReservations() {
         log.info("임시예약 만료 스케줄러 실행");
-        val concertReservations = getConcertUseCase.getTemporaryReservationByExpired(5);
+        val concertReservations = concertFacade.getTemporaryReservationByExpired(5);
         concertReservations.forEach(concertReservation -> {
             try {
-                reservationUseCase.cancelTemporaryReservation(concertReservation.getId());
+                concertFacade.cancelReserveSeats(concertReservation.id());
             } catch (Exception e) {
-                log.warn("임시예약 만료 중 오류 발생 (ID: {}): {}", concertReservation.getId(), e.getMessage());
+                log.warn("임시예약 만료 중 오류 발생 (ID: {}): {}", concertReservation.id(), e.getMessage());
             }
         });
     }

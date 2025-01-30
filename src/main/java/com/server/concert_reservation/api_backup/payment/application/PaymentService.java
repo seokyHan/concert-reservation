@@ -1,7 +1,5 @@
 package com.server.concert_reservation.api_backup.payment.application;
 
-import com.server.concert_reservation.api_backup.concert.application.ConcertCommandUseCase;
-import com.server.concert_reservation.api_backup.concert.application.ConcertQueryUseCase;
 import com.server.concert_reservation.api_backup.payment.application.dto.PaymentCommand;
 import com.server.concert_reservation.api_backup.payment.application.dto.PaymentInfo;
 import com.server.concert_reservation.domain.payment.model.Payment;

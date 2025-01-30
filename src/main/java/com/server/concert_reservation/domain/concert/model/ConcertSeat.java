@@ -11,6 +11,8 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.*;
+
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

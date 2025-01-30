@@ -1,7 +1,6 @@
-package com.server.concert_reservation.api_backup.concert.application;
+package com.server.concert_reservation.domain.concert.service;
 
-import com.server.concert_reservation.api_backup.concert.application.dto.ReservationCommand;
-import com.server.concert_reservation.api_backup.concert.application.dto.ReservationInfo;
+import com.server.concert_reservation.domain.concert.dto.ReservationInfo;
 import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
@@ -10,50 +9,42 @@ import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class ConcertCommandService implements ConcertCommandUseCase {
+public class ConcertCommandService {
 
     private final ConcertReader concertReader;
     private final ConcertWriter concertWriter;
     private final TimeManager timeManager;
 
     /**
-     * 임시 예약
+     * 좌석 임시 예약
      */
-    @Override
-    @Transactional
-    public ReservationInfo temporaryReserveConcert(ReservationCommand command) {
-        concertReader.getConcertScheduleById(command.concertScheduleId())
-                .isAvailableReservePeriod(command.dateTime());
+    public ReservationInfo reserveSeats(Long userId, List<Long> seatIds) {
+        val concertSeats = seatIds.stream()
+                .map(concertReader::getConcertSeatById)
+                .collect(Collectors.toList());
+        concertSeats.forEach(ConcertSeat::temporaryReserve);
+        concertWriter.saveAll(concertSeats);
 
-        val concertSeatList = command.seatIds().stream()
-                .map(seatId -> {
-                    ConcertSeat seat = concertReader.getConcertSeatById(seatId);
-                    seat.temporaryReserve();
-                    return seat;
-                })
-                .collect(Collectors.collectingAndThen(Collectors.toList(), concertWriter::saveAll));
-
-
-        val totalPrice = concertSeatList.stream()
+        val totalPrice = concertSeats.stream()
                 .mapToInt(ConcertSeat::getPrice)
                 .sum();
 
-        val reservation = concertWriter.saveReservation(Reservation.createReservation(command, totalPrice, timeManager.now()));
-
-        return ReservationInfo.of(reservation, concertSeatList);
+        return concertWriter.saveReservation(
+                Reservation.createReservation(userId, seatIds, totalPrice, timeManager.now())
+        );
 
     }
 
     /**
-     * 예약 확정(결제 완료된 시점 - 결제 통합테스트)
+     * 예약 확정(결제 완료된 시점)
      */
-    @Override
     public void completeReservation(Long reservationId) {
         val reservation = concertReader.getReservationById(reservationId);
         reservation.complete();
@@ -64,7 +55,9 @@ public class ConcertCommandService implements ConcertCommandUseCase {
         concertWriter.saveAll(concertSeatList);
     }
 
-    @Transactional
+    /**
+     * 좌석 임시 예약 취소(스케쥴러)
+     */
     public void cancelTemporaryReservation(Long reservationId) {
         val reservation = concertReader.getReservationById(reservationId);
         reservation.cancelTemporaryReservation();
@@ -74,5 +67,10 @@ public class ConcertCommandService implements ConcertCommandUseCase {
 
         concertWriter.saveReservation(reservation);
         concertWriter.saveAll(concertSeatList);
+    }
+
+    public void checkConcertSchedule(Long concertScheduleId, LocalDateTime dateTime) {
+        val concertSchedule = concertReader.getConcertScheduleById(concertScheduleId);
+        concertSchedule.isAvailableReservePeriod(dateTime);
     }
 }

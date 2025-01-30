@@ -1,8 +1,7 @@
 package com.server.concert_reservation.interfaces.web.concert;
 
-import com.server.concert_reservation.api_backup.concert.application.ConcertCommandUseCase;
-import com.server.concert_reservation.api_backup.concert.application.ConcertQueryUseCase;
-import com.server.concert_reservation.api_backup.concert.application.dto.ReservationCommand;
+import com.server.concert_reservation.application.concert.ConcertFacade;
+import com.server.concert_reservation.application.concert.dto.ReservationCommand;
 import com.server.concert_reservation.interfaces.web.concert.dto.ConcertHttpRequest;
 import com.server.concert_reservation.interfaces.web.concert.dto.ConcertHttpResponse;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
@@ -24,8 +23,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/api/v1/concert")
 public class ConcertController {
 
-    private final ConcertQueryUseCase concertQueryUseCase;
-    private final ConcertCommandUseCase reservationUseCase;
+    private final ConcertFacade concertFacade;
     private final TimeManager timeManager;
 
     @GetMapping("/{concertId}/available-schedules")
@@ -35,7 +33,7 @@ public class ConcertController {
     })
     @Parameter(name = "concertId", description = "콘서트 Id")
     public ResponseEntity<ConcertHttpResponse.ConcertScheduleResponse> getAvailableSchedules(@PathVariable Long concertId) {
-        return ResponseEntity.ok(ConcertHttpResponse.ConcertScheduleResponse.of(concertQueryUseCase.getAvailableConcertSchedules(concertId, timeManager.now())));
+        return ResponseEntity.ok(ConcertHttpResponse.ConcertScheduleResponse.of(concertFacade.getAvailableConcertSchedules(concertId, timeManager.now())));
     }
 
     @GetMapping("/{concertScheduleId}/available-seats")
@@ -46,7 +44,7 @@ public class ConcertController {
     @Parameter(name = "concertScheduleId", description = "콘서트 스케쥴 Id")
     public ResponseEntity<ConcertHttpResponse.ConcertSeatsResponse> getAvailableSeats(@PathVariable Long concertScheduleId) {
 
-        return ResponseEntity.ok(ConcertHttpResponse.ConcertSeatsResponse.of(concertQueryUseCase.getAvailableConcertSeats(concertScheduleId)));
+        return ResponseEntity.ok(ConcertHttpResponse.ConcertSeatsResponse.of(concertFacade.getAvailableConcertSeats(concertScheduleId)));
     }
 
     @PostMapping("/reservation")
@@ -57,6 +55,6 @@ public class ConcertController {
     public ResponseEntity<ConcertHttpResponse.ReservationResponse> reservationSeats(@RequestBody ConcertHttpRequest.ConcertReservationRequest request) {
         return ResponseEntity
                 .status(CREATED)
-                .body(ConcertHttpResponse.ReservationResponse.of(reservationUseCase.temporaryReserveConcert(ReservationCommand.of(request))));
+                .body(ConcertHttpResponse.ReservationResponse.of(concertFacade.reserveSeats(ReservationCommand.of(request))));
     }
 }

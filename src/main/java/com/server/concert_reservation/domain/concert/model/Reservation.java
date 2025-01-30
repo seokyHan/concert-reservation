@@ -1,6 +1,5 @@
 package com.server.concert_reservation.domain.concert.model;
 
-import com.server.concert_reservation.api_backup.concert.application.dto.ReservationCommand;
 import com.server.concert_reservation.domain.concert.errorcode.ConcertErrorCode;
 import com.server.concert_reservation.infrastructure.concert.entity.ReservationEntity;
 import com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus;
@@ -27,22 +26,10 @@ public class Reservation {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static Reservation of(Long id,
-                                 Long userId,
-                                 List<Long> seatIds,
-                                 ReservationStatus status,
-                                 int totalPrice,
-                                 LocalDateTime reservationAt,
-                                 LocalDateTime createdAt,
-                                 LocalDateTime updatedAt) {
-
-        return new Reservation(id, userId, seatIds, status, totalPrice, reservationAt, createdAt, updatedAt);
-    }
-
-    public static Reservation createReservation(ReservationCommand command, int totalPrice, LocalDateTime now) {
+    public static Reservation createReservation(Long userId, List<Long> seatIds, int totalPrice, LocalDateTime now) {
         return Reservation.builder()
-                .userId(command.userId())
-                .seatIds(command.seatIds())
+                .userId(userId)
+                .seatIds(seatIds)
                 .status(ReservationStatus.RESERVING)
                 .totalPrice(totalPrice)
                 .reservationAt(now)
