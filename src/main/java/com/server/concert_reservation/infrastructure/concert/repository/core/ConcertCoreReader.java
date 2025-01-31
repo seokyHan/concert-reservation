@@ -1,5 +1,6 @@
 package com.server.concert_reservation.infrastructure.concert.repository.core;
 
+import com.server.concert_reservation.domain.concert.errorcode.ConcertErrorCode;
 import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
 import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
@@ -11,7 +12,6 @@ import com.server.concert_reservation.infrastructure.concert.repository.ConcertS
 import com.server.concert_reservation.infrastructure.concert.repository.ConcertSeatJpaRepository;
 import com.server.concert_reservation.infrastructure.concert.repository.ReservationJpaRepository;
 import com.server.concert_reservation.infrastructure.concert.repository.querydsl.ConcertScheduleQueryDsl;
-import com.server.concert_reservation.domain.concert.errorcode.ConcertErrorCode;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +40,14 @@ public class ConcertCoreReader implements ConcertReader {
 
     @Override
     public List<ConcertSchedule> getConcertScheduleByConcertIdAndDate(Long concertId, LocalDateTime dateTime) {
-        return concertScheduleQueryDsl.findGetAvailableConcertSchedule(concertId, dateTime)
-                .stream()
-                .map(ConcertScheduleEntity::toDomain)
-                .collect(Collectors.toList());
+        val concertSchedules = concertScheduleQueryDsl.findGetAvailableConcertSchedule(concertId, dateTime);
+
+        return concertSchedules.isEmpty() ?
+                List.of() :
+                concertSchedules
+                        .stream()
+                        .map(ConcertScheduleEntity::toDomain)
+                        .collect(Collectors.toList());
     }
 
     @Override

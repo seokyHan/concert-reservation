@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ConcertFacade {
+public class ConcertUseCase {
 
     private final ConcertCommandService concertCommandService;
     private final ConcertQueryService concertQueryService;
@@ -28,34 +28,25 @@ public class ConcertFacade {
     @Transactional
     public ReservationResult reserveSeats(ReservationCommand command) {
         val user = userQueryService.getUser(command.userId());
-        concertCommandService.checkConcertSchedule(command.concertScheduleId(), command.dateTime());
-        val reservation = concertCommandService.reserveSeats(user.id(), command.seatIds());
+        val concertSchedule = concertQueryService.findConcertSchedule(command.concertScheduleId());
+        val concertSeat = concertCommandService.reserveSeats(command.seatIds());
+        val reservation = concertCommandService.createReservation(user.id(), concertSchedule.id(), concertSeat);
 
-        return ReservationResult.of(reservation);
+        return ReservationResult.from(reservation);
     }
-
-    @Transactional
-    public void cancelReserveSeats(Long reservationId) {
-        concertCommandService.cancelTemporaryReservation(reservationId);
-    }
-
 
     public List<ConcertScheduleResult> getAvailableConcertSchedules(Long concertId, LocalDateTime dateTime) {
         val concertSchedules = concertQueryService.findAvailableConcertSchedules(concertId, dateTime);
         return concertSchedules.stream()
-                .map(ConcertScheduleResult::of)
+                .map(ConcertScheduleResult::from)
                 .collect(Collectors.toList());
     }
 
     public ConcertSeatResult getAvailableConcertSeats(Long concertScheduleId) {
-        val concertSeat = concertQueryService.findAvailableConcertSeats(concertScheduleId);
-        return ConcertSeatResult.of(concertSeat);
+        val concertSchedule = concertQueryService.findConcertSchedule(concertScheduleId);
+        val concertSeat = concertQueryService.findAvailableConcertSeats(concertSchedule.id());
+
+        return ConcertSeatResult.of(concertSchedule, concertSeat);
     }
 
-    public List<ReservationResult> getTemporaryReservationByExpired(int minute) {
-        val reservations = concertQueryService.findTemporaryReservationByExpired(minute);
-        return reservations.stream()
-                .map(ReservationResult::of)
-                .collect(Collectors.toList());
-    }
 }

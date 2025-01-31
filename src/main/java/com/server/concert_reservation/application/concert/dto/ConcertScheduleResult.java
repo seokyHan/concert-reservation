@@ -12,7 +12,7 @@ public record ConcertScheduleResult(Long id,
                                     LocalDateTime createdAt,
                                     LocalDateTime updatedAt) {
 
-    public static ConcertScheduleResult of(ConcertScheduleInfo concertScheduleInfo) {
+    public static ConcertScheduleResult from(ConcertScheduleInfo concertScheduleInfo) {
         return new ConcertScheduleResult(concertScheduleInfo.id(),
                 concertScheduleInfo.concertId(),
                 concertScheduleInfo.remainTicket(),

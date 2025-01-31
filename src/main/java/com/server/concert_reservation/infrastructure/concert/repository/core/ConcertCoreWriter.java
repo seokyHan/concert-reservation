@@ -13,7 +13,6 @@ import com.server.concert_reservation.infrastructure.concert.repository.ConcertJ
 import com.server.concert_reservation.infrastructure.concert.repository.ConcertScheduleJpaRepository;
 import com.server.concert_reservation.infrastructure.concert.repository.ConcertSeatJpaRepository;
 import com.server.concert_reservation.infrastructure.concert.repository.ReservationJpaRepository;
-import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;
@@ -28,7 +27,6 @@ public class ConcertCoreWriter implements ConcertWriter {
     private final ConcertSeatJpaRepository concertSeatJpaRepository;
     private final ConcertScheduleJpaRepository concertScheduleJpaRepository;
     private final ReservationJpaRepository reservationJpaRepository;
-    private final TimeManager timeManager;
 
     @Override
     public List<ConcertSeat> saveAll(List<ConcertSeat> concertSeats) {

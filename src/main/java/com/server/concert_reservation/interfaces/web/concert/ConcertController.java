@@ -1,6 +1,6 @@
 package com.server.concert_reservation.interfaces.web.concert;
 
-import com.server.concert_reservation.application.concert.ConcertFacade;
+import com.server.concert_reservation.application.concert.ConcertUseCase;
 import com.server.concert_reservation.application.concert.dto.ReservationCommand;
 import com.server.concert_reservation.interfaces.web.concert.dto.ConcertHttpRequest;
 import com.server.concert_reservation.interfaces.web.concert.dto.ConcertHttpResponse;
@@ -23,7 +23,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/api/v1/concert")
 public class ConcertController {
 
-    private final ConcertFacade concertFacade;
+    private final ConcertUseCase concertFacade;
     private final TimeManager timeManager;
 
     @GetMapping("/{concertId}/available-schedules")

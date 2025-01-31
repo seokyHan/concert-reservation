@@ -1,7 +1,7 @@
 package com.server.concert_reservation.infrastructure.concert.entity;
 
+import com.server.concert_reservation.infrastructure.auditing.BaseTimeEntity;
 import com.server.concert_reservation.domain.concert.model.Concert;
-import com.server.concert_reservation.support.domain.auditing.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
