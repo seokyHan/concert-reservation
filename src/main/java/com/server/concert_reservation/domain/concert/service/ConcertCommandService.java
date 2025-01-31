@@ -1,16 +1,17 @@
 package com.server.concert_reservation.domain.concert.service;
 
+import com.server.concert_reservation.domain.concert.dto.ConcertSeatInfo;
 import com.server.concert_reservation.domain.concert.dto.ReservationInfo;
 import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
+import com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,29 +23,39 @@ public class ConcertCommandService {
     private final ConcertWriter concertWriter;
     private final TimeManager timeManager;
 
-    /**
-     * 좌석 임시 예약
-     */
-    public ReservationInfo reserveSeats(Long userId, List<Long> seatIds) {
+
+    public List<ConcertSeatInfo> reserveSeats(List<Long> seatIds) {
         val concertSeats = seatIds.stream()
                 .map(concertReader::getConcertSeatById)
                 .collect(Collectors.toList());
         concertSeats.forEach(ConcertSeat::temporaryReserve);
-        concertWriter.saveAll(concertSeats);
 
-        val totalPrice = concertSeats.stream()
-                .mapToInt(ConcertSeat::getPrice)
-                .sum();
-
-        return concertWriter.saveReservation(
-                Reservation.createReservation(userId, seatIds, totalPrice, timeManager.now())
-        );
-
+        return concertWriter.saveAll(concertSeats).stream()
+                .map(ConcertSeatInfo::from)
+                .collect(Collectors.toList());
     }
 
-    /**
-     * 예약 확정(결제 완료된 시점)
-     */
+    public ReservationInfo createReservation(Long userId, Long concertScheduleId, List<ConcertSeatInfo> concertSeatInfos) {
+        val totalPrice = concertSeatInfos.stream()
+                .mapToInt(ConcertSeatInfo::price)
+                .sum();
+
+        val concertSeatIds = concertSeatInfos.stream()
+                .map(ConcertSeatInfo::id)
+                .collect(Collectors.toList());
+
+        val reservation = Reservation.builder()
+                .userId(userId)
+                .concertScheduleId(concertScheduleId)
+                .seatIds(concertSeatIds)
+                .status(ReservationStatus.RESERVING)
+                .totalPrice(totalPrice)
+                .reservationAt(timeManager.now())
+                .build();
+
+        return ReservationInfo.from(concertWriter.saveReservation(reservation));
+    }
+
     public void completeReservation(Long reservationId) {
         val reservation = concertReader.getReservationById(reservationId);
         reservation.complete();
@@ -55,9 +66,6 @@ public class ConcertCommandService {
         concertWriter.saveAll(concertSeatList);
     }
 
-    /**
-     * 좌석 임시 예약 취소(스케쥴러)
-     */
     public void cancelTemporaryReservation(Long reservationId) {
         val reservation = concertReader.getReservationById(reservationId);
         reservation.cancelTemporaryReservation();
@@ -69,8 +77,4 @@ public class ConcertCommandService {
         concertWriter.saveAll(concertSeatList);
     }
 
-    public void checkConcertSchedule(Long concertScheduleId, LocalDateTime dateTime) {
-        val concertSchedule = concertReader.getConcertScheduleById(concertScheduleId);
-        concertSchedule.isAvailableReservePeriod(dateTime);
-    }
 }
