@@ -1,6 +1,5 @@
 package com.server.concert_reservation.domain.payment.model;
 
-import com.server.concert_reservation.api_backup.payment.application.dto.PaymentCommand;
 import com.server.concert_reservation.infrastructure.payment.entity.PaymentEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,10 +29,10 @@ public class Payment {
         return new Payment(id, userId, reservationId, amount, createdAt, updatedAt);
     }
 
-    public static Payment create(PaymentCommand command, int totalPrice) {
+    public static Payment create(Long userId, Long reservationId, int totalPrice) {
         return Payment.builder()
-                .userId(command.userId())
-                .reservationId(command.reservationId())
+                .userId(userId)
+                .reservationId(reservationId)
                 .amount(totalPrice)
                 .build();
     }

@@ -1,6 +1,6 @@
 package com.server.concert_reservation.interfaces.web.payment.dto;
 
-import com.server.concert_reservation.api_backup.payment.application.dto.PaymentInfo;
+import com.server.concert_reservation.application.payment.dto.PaymentResult;
 
 import java.time.LocalDateTime;
 
@@ -13,13 +13,13 @@ public class PaymentHttpResponse {
                                   LocalDateTime createdAt,
                                   LocalDateTime updatedAt
     ) {
-        public static PaymentResponse of(PaymentInfo paymentInfo) {
-            return new PaymentResponse(paymentInfo.id(),
-                    paymentInfo.userId(),
-                    paymentInfo.reservationId(),
-                    paymentInfo.amount(),
-                    paymentInfo.createdAt(),
-                    paymentInfo.updatedAt());
+        public static PaymentResponse of(PaymentResult payment) {
+            return new PaymentResponse(payment.id(),
+                    payment.userId(),
+                    payment.reservationId(),
+                    payment.amount(),
+                    payment.createdAt(),
+                    payment.updatedAt());
         }
     }
 }

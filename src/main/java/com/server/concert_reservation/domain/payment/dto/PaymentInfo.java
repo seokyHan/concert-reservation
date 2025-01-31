@@ -1,4 +1,4 @@
-package com.server.concert_reservation.api_backup.payment.application.dto;
+package com.server.concert_reservation.domain.payment.dto;
 
 import com.server.concert_reservation.domain.payment.model.Payment;
 
@@ -11,7 +11,7 @@ public record PaymentInfo(Long id,
                           LocalDateTime createdAt,
                           LocalDateTime updatedAt) {
 
-    public static PaymentInfo of(Payment payment) {
+    public static PaymentInfo from(Payment payment) {
         return new PaymentInfo(payment.getId(),
                 payment.getUserId(),
                 payment.getReservationId(),
