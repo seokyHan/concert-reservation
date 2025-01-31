@@ -1,4 +1,4 @@
-package com.server.concert_reservation.support.domain.auditing;
+package com.server.concert_reservation.infrastructure.auditing;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
