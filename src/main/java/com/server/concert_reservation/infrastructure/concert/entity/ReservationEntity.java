@@ -1,10 +1,10 @@
 package com.server.concert_reservation.infrastructure.concert.entity;
 
 
+import com.server.concert_reservation.infrastructure.auditing.BaseTimeEntity;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.infrastructure.concert.entity.converter.ListConverter;
 import com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus;
-import com.server.concert_reservation.support.domain.auditing.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -27,6 +27,9 @@ public class ReservationEntity extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "concert_schedule_id")
+    private Long concertScheduleId;
+
     @Column(name = "seat_ids")
     @Convert(converter = ListConverter.class)
     private List<Long> seatIds;
@@ -42,9 +45,10 @@ public class ReservationEntity extends BaseTimeEntity {
     private LocalDateTime reservationAt;
 
     @Builder
-    public ReservationEntity(Long id, Long userId, List<Long> seatIds, ReservationStatus status, int totalPrice, LocalDateTime reservationAt) {
+    public ReservationEntity(Long id, Long userId, Long concertScheduleId, List<Long> seatIds, ReservationStatus status, int totalPrice, LocalDateTime reservationAt) {
         this.id = id;
         this.userId = userId;
+        this.concertScheduleId = concertScheduleId;
         this.seatIds = seatIds;
         this.status = status;
         this.totalPrice = totalPrice;
@@ -52,6 +56,6 @@ public class ReservationEntity extends BaseTimeEntity {
     }
 
     public Reservation toDomain() {
-        return Reservation.of(id, userId, seatIds, status, totalPrice, reservationAt, createdAt, updatedAt);
+        return Reservation.of(id, userId, concertScheduleId, seatIds, status, totalPrice, reservationAt, createdAt, updatedAt);
     }
 }

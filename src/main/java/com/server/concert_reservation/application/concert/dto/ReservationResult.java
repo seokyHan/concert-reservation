@@ -14,7 +14,7 @@ public record ReservationResult(Long id,
                                 LocalDateTime createdAt,
                                 LocalDateTime updatedAt) {
 
-    public static ReservationResult of(ReservationInfo reservation) {
+    public static ReservationResult from(ReservationInfo reservation) {
         return new ReservationResult(reservation.id(),
                 reservation.userId(),
                 reservation.seatIds(),

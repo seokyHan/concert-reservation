@@ -19,6 +19,7 @@ public class Reservation {
 
     private Long id;
     private Long userId;
+    private Long concertScheduleId;
     private List<Long> seatIds;
     private ReservationStatus status;
     private int totalPrice;
@@ -26,20 +27,24 @@ public class Reservation {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static Reservation createReservation(Long userId, List<Long> seatIds, int totalPrice, LocalDateTime now) {
-        return Reservation.builder()
-                .userId(userId)
-                .seatIds(seatIds)
-                .status(ReservationStatus.RESERVING)
-                .totalPrice(totalPrice)
-                .reservationAt(now)
-                .build();
+    public static Reservation of(Long id,
+                                 Long userId,
+                                 Long concertScheduleId,
+                                 List<Long> seatIds,
+                                 ReservationStatus status,
+                                 int totalPrice,
+                                 LocalDateTime reservationAt,
+                                 LocalDateTime createdAt,
+                                 LocalDateTime updatedAt) {
+
+        return new Reservation(id, userId, concertScheduleId, seatIds, status, totalPrice, reservationAt, createdAt, updatedAt);
     }
 
     public ReservationEntity toEntity(Reservation reservation) {
         return ReservationEntity.builder()
                 .id(reservation.getId())
                 .userId(reservation.getUserId())
+                .concertScheduleId(reservation.getConcertScheduleId())
                 .seatIds(reservation.getSeatIds())
                 .status(reservation.getStatus())
                 .totalPrice(reservation.getTotalPrice())
