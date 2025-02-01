@@ -1,6 +1,6 @@
 package com.server.concert_reservation.domain.queue_token.model;
 
-import com.server.concert_reservation.domain.queue_token.errorcode.TokenErrorCode;
+import com.server.concert_reservation.domain.queue_token.errorcode.QueueTokenErrorCode;
 import com.server.concert_reservation.infrastructure.queue_token.entity.QueueTokenEntity;
 import com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
@@ -38,23 +38,17 @@ public class QueueToken {
         return new QueueToken(id, userId, token, status, activatedAt, expiredAt, createdAt, updatedAt);
     }
 
-    public QueueToken(Long userId, String token) {
-        this.userId = userId;
-        this.token = token;
-        this.status = WAITING;
-    }
-
     public boolean isWaiting() {
         return this.status == WAITING;
     }
 
     public void activate(LocalDateTime activatedAt) {
         if (this.status == ACTIVE) {
-            throw new CustomException(TokenErrorCode.ALREADY_ACTIVATED);
+            throw new CustomException(QueueTokenErrorCode.ALREADY_ACTIVATED);
         }
 
         if (this.status == EXPIRED) {
-            throw new CustomException(TokenErrorCode.TOKEN_EXPIRED);
+            throw new CustomException(QueueTokenErrorCode.TOKEN_EXPIRED);
         }
 
         this.status = ACTIVE;
@@ -68,11 +62,11 @@ public class QueueToken {
 
     public void validateToken() {
         if (this.status == EXPIRED) {
-            throw new CustomException(TokenErrorCode.TOKEN_EXPIRED);
+            throw new CustomException(QueueTokenErrorCode.TOKEN_EXPIRED);
         }
 
         if (this.status != ACTIVE) {
-            throw new CustomException(TokenErrorCode.TOKEN_NOT_ACTIVATED);
+            throw new CustomException(QueueTokenErrorCode.TOKEN_NOT_ACTIVATED);
         }
 
     }

@@ -1,7 +1,6 @@
 package com.server.concert_reservation.interfaces.web.queue_token.dto;
 
-import com.server.concert_reservation.api_backup.token.application.dto.TokenInfo;
-import com.server.concert_reservation.domain.queue_token.model.QueueToken;
+import com.server.concert_reservation.application.queue_token.dto.QueueTokenResult;
 import com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus;
 
 import java.time.LocalDateTime;
@@ -15,27 +14,20 @@ public class QueueTokenHttpResponse {
                                      LocalDateTime activatedAt,
                                      LocalDateTime expiredAt,
                                      LocalDateTime createdAt,
-                                     LocalDateTime updatedAt) {
-        public static QueueTokenResponse of(QueueToken token) {
-            return new QueueTokenResponse(token.getId(),
-                    token.getUserId(),
-                    token.getToken(),
-                    token.getStatus(),
-                    token.getActivatedAt(),
-                    token.getExpiredAt(),
-                    token.getCreatedAt(),
-                    token.getUpdatedAt());
-        }
-
-        public static QueueTokenResponse of(TokenInfo tokenInfo) {
-            return new QueueTokenResponse(tokenInfo.id(),
-                    tokenInfo.userId(),
-                    tokenInfo.token(),
-                    tokenInfo.status(),
-                    tokenInfo.activatedAt(),
-                    tokenInfo.expiredAt(),
-                    tokenInfo.createdAt(),
-                    tokenInfo.updatedAt());
+                                     LocalDateTime updatedAt,
+                                     Long waitingNumber
+    ) {
+        public static QueueTokenResponse of(QueueTokenResult queueToken) {
+            return new QueueTokenResponse(queueToken.id(),
+                    queueToken.userId(),
+                    queueToken.token(),
+                    queueToken.status(),
+                    queueToken.activatedAt(),
+                    queueToken.expiredAt(),
+                    queueToken.createdAt(),
+                    queueToken.updatedAt(),
+                    queueToken.waitingNumber()
+            );
         }
     }
 }

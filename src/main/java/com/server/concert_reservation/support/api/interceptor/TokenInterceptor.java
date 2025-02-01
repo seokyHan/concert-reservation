@@ -1,7 +1,7 @@
 package com.server.concert_reservation.support.api.interceptor;
 
-import com.server.concert_reservation.api_backup.token.application.TokenCommandUseCase;
-import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
+import com.server.concert_reservation.domain.queue_token.service.QueueTokenCommandService;
+import com.server.concert_reservation.domain.queue_token.service.QueueTokenQueryService;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,15 +14,15 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.domain.queue_token.errorcode.TokenErrorCode.TOKEN_EXPIRED;
-import static com.server.concert_reservation.domain.queue_token.errorcode.TokenErrorCode.TOKEN_NOT_FOUND;
+import static com.server.concert_reservation.domain.queue_token.errorcode.QueueTokenErrorCode.TOKEN_EXPIRED;
+import static com.server.concert_reservation.domain.queue_token.errorcode.QueueTokenErrorCode.TOKEN_NOT_FOUND;
 
 @Component
 @RequiredArgsConstructor
 public class TokenInterceptor implements HandlerInterceptor {
 
-    private final TokenCommandUseCase tokenCommandUseCase;
-    private final QueueTokenReader tokenReader;
+    private final QueueTokenQueryService queueTokenQueryService;
+    private final QueueTokenCommandService queueTokenCommandService;
     private final TimeManager timeManager;
 
     @Override
@@ -34,13 +34,13 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
         // 토큰 만료 스케쥴러와 타이밍이 어긋날 수 있기 때문에 토큰 만료 여부 검증
-        val token = tokenReader.getByToken(requestToken);
-        if (isActivatedAtExceed(token.getActivatedAt())) {
-            tokenCommandUseCase.expireToken(requestToken);
+        val token = queueTokenQueryService.findQueueToken(requestToken);
+        if (isActivatedAtExceed(token.activatedAt())) {
+            queueTokenCommandService.expireToken(requestToken);
             throw new CustomException(TOKEN_EXPIRED);
         }
 
-        tokenCommandUseCase.checkActivatedToken(requestToken);
+        queueTokenCommandService.checkActivatedToken(requestToken);
 
         return true;
     }

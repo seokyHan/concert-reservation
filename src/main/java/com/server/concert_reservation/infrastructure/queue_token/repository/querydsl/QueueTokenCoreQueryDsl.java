@@ -16,12 +16,12 @@ import static com.server.concert_reservation.infrastructure.queue_token.entity.t
 
 @Repository
 @RequiredArgsConstructor
-public class TokenCoreQueryDsl implements TokenQueryDsl {
+public class QueueTokenCoreQueryDsl implements QueueTokenQueryDsl {
 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Optional<QueueTokenEntity> getLatestActivatedToken() {
+    public Optional<QueueTokenEntity> findLatestActivatedToken() {
         val token = QTokenEntity.tokenEntity;
         val result = jpaQueryFactory.selectFrom(token)
                 .where(token.status.eq(ACTIVE))

@@ -10,7 +10,7 @@ import static org.springframework.boot.logging.LogLevel.WARN;
 
 @Getter
 @RequiredArgsConstructor
-public enum TokenErrorCode implements ErrorType {
+public enum QueueTokenErrorCode implements ErrorType {
     ALREADY_ACTIVATED(HttpStatus.CONFLICT, "이미 활성화된 대기열 토큰 입니다.", WARN),
     CAN_NOT_ACTIVE_TOKEN_EXPIRED(HttpStatus.CONFLICT, "만료된 대기열 토큰은 활성화할 수 없습니다.", WARN),
     TOKEN_NOT_ACTIVATED(HttpStatus.UNAUTHORIZED, "대기열 토큰이 활성 상태가 아닙니다.", WARN),

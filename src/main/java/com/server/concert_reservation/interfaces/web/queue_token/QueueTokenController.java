@@ -1,8 +1,7 @@
 package com.server.concert_reservation.interfaces.web.queue_token;
 
-import com.server.concert_reservation.api_backup.token.application.TokenCommandUseCase;
-import com.server.concert_reservation.api_backup.token.application.TokenQueryUseCase;
-import com.server.concert_reservation.api_backup.token.application.dto.TokenCommand;
+import com.server.concert_reservation.application.queue_token.QueueTokenUseCase;
+import com.server.concert_reservation.application.queue_token.dto.QueueTokenCommand;
 import com.server.concert_reservation.interfaces.web.queue_token.dto.QueueTokenHttpRequest;
 import com.server.concert_reservation.interfaces.web.queue_token.dto.QueueTokenHttpResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,8 +21,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/api/v1")
 public class QueueTokenController {
 
-    private final TokenCommandUseCase tokenCommandUseCase;
-    private final TokenQueryUseCase tokenQueryUseCase;
+    private final QueueTokenUseCase queueTokenUseCase;
 
     @PostMapping("/token/create")
     @Operation(summary = "대기열 토큰 발급", description = "대기열 토큰 발급 API")
@@ -33,7 +31,7 @@ public class QueueTokenController {
     public ResponseEntity<QueueTokenHttpResponse.QueueTokenResponse> createToken(@RequestBody QueueTokenHttpRequest.QueueTokenRequest request) {
         return ResponseEntity
                 .status(CREATED)
-                .body(QueueTokenHttpResponse.QueueTokenResponse.of(tokenCommandUseCase.createToken(TokenCommand.of(request))));
+                .body(QueueTokenHttpResponse.QueueTokenResponse.of(queueTokenUseCase.issueToken(QueueTokenCommand.of(request))));
     }
 
     @GetMapping("/token")
@@ -45,6 +43,6 @@ public class QueueTokenController {
             @RequestHeader("X-Waiting-Token") String token,
             @RequestHeader("USER-ID") Long userId
     ) {
-        return ResponseEntity.ok(QueueTokenHttpResponse.QueueTokenResponse.of(tokenQueryUseCase.getWaitingToken(token, userId)));
+        return ResponseEntity.ok(QueueTokenHttpResponse.QueueTokenResponse.of(queueTokenUseCase.getWaitingToken(token, userId)));
     }
 }

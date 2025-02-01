@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface TokenQueryDsl {
+public interface QueueTokenQueryDsl {
 
-    Optional<QueueTokenEntity> getLatestActivatedToken();
+    Optional<QueueTokenEntity> findLatestActivatedToken();
 
     List<QueueTokenEntity> findWaitingToken(int activationCount);
 

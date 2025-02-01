@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 
-public interface TokenJpaRepository extends JpaRepository<QueueTokenEntity, Long> {
+public interface QueueTokenJpaRepository extends JpaRepository<QueueTokenEntity, Long> {
 
     Optional<QueueTokenEntity> findByUserIdAndToken(Long userId, String token);
 

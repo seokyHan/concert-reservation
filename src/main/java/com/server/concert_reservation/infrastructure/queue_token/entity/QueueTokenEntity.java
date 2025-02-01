@@ -1,8 +1,8 @@
 package com.server.concert_reservation.infrastructure.queue_token.entity;
 
+import com.server.concert_reservation.infrastructure.auditing.BaseTimeEntity;
 import com.server.concert_reservation.domain.queue_token.model.QueueToken;
 import com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus;
-import com.server.concert_reservation.support.domain.auditing.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
