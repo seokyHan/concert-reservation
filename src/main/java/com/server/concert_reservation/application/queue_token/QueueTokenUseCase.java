@@ -1,10 +1,10 @@
 package com.server.concert_reservation.application.queue_token;
 
-import com.server.concert_reservation.api_backup.user.application.UserQueryService;
 import com.server.concert_reservation.application.queue_token.dto.QueueTokenCommand;
 import com.server.concert_reservation.application.queue_token.dto.QueueTokenResult;
 import com.server.concert_reservation.domain.queue_token.service.QueueTokenCommandService;
 import com.server.concert_reservation.domain.queue_token.service.QueueTokenQueryService;
+import com.server.concert_reservation.domain.user.UserQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class QueueTokenUseCase {
 
     @Transactional
     public QueueTokenResult issueToken(QueueTokenCommand command) {
-        val user = userQueryService.getUser(command.userId());
+        val user = userQueryService.findUser(command.userId());
         val issuedToken = queueTokenCommandService.createToken(user.id());
         val waitingIssuedToken = queueTokenQueryService.findWaitingToken(issuedToken.token(), issuedToken.userId());
 
@@ -29,7 +29,7 @@ public class QueueTokenUseCase {
     }
 
     public QueueTokenResult getWaitingToken(String token, Long userId) {
-        val user = userQueryService.getUser(userId);
+        val user = userQueryService.findUser(userId);
         val queueToken = queueTokenQueryService.findQueueToken(token);
         val waitingToken = queueTokenQueryService.findWaitingToken(queueToken.token(), user.id());
 
