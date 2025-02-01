@@ -1,6 +1,6 @@
 package com.server.concert_reservation.interfaces.web.user.dto;
 
-import com.server.concert_reservation.api_backup.user.application.dto.WalletInfo;
+import com.server.concert_reservation.application.user.dto.WalletResult;
 
 import java.time.LocalDateTime;
 
@@ -12,8 +12,8 @@ public class UserHttpResponse {
                                      LocalDateTime createAt,
                                      LocalDateTime updatedAt
     ) {
-        public static UserWalletResponse of(WalletInfo walletInfo) {
-            return new UserWalletResponse(walletInfo.id(), walletInfo.userId(), walletInfo.amount(), walletInfo.createAt(), walletInfo.updatedAt());
+        public static UserWalletResponse of(WalletResult walletResult) {
+            return new UserWalletResponse(walletResult.id(), walletResult.userId(), walletResult.amount(), walletResult.createAt(), walletResult.updatedAt());
         }
     }
 }

@@ -1,8 +1,7 @@
 package com.server.concert_reservation.interfaces.web.user;
 
-import com.server.concert_reservation.api_backup.user.application.UserCommandService;
-import com.server.concert_reservation.api_backup.user.application.UserQueryService;
-import com.server.concert_reservation.api_backup.user.application.dto.UserCommand;
+import com.server.concert_reservation.application.user.UserUseCase;
+import com.server.concert_reservation.application.user.dto.UserCommand;
 import com.server.concert_reservation.interfaces.web.user.dto.UserHttpRequest;
 import com.server.concert_reservation.interfaces.web.user.dto.UserHttpResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,8 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class UserController {
 
-    private final UserQueryService userQueryService;
-    private final UserCommandService userCommandService;
+    private final UserUseCase userUseCase;
 
     @GetMapping("/users/{userId}/wallet")
     @Operation(summary = "잔액 조회", description = "잔액 조회 API")
@@ -31,7 +29,7 @@ public class UserController {
     })
     @Parameter(name = "userId", description = "유저 Id")
     public ResponseEntity<UserHttpResponse.UserWalletResponse> getUserWallet(@PathVariable Long userId) {
-        return ResponseEntity.ok(UserHttpResponse.UserWalletResponse.of(userQueryService.getWallet(userId)));
+        return ResponseEntity.ok(UserHttpResponse.UserWalletResponse.of(userUseCase.getWallet(userId)));
     }
 
     @PatchMapping("/users/charge/point")
@@ -40,7 +38,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "요청 성공.", content = @Content(mediaType = "application/json")),
     })
     public ResponseEntity<UserHttpResponse.UserWalletResponse> chargePoint(@RequestBody UserHttpRequest.UserWalletRequest request) {
-        return ResponseEntity.ok(UserHttpResponse.UserWalletResponse.of(userCommandService.chargePoint(UserCommand.of(request))));
+        return ResponseEntity.ok(UserHttpResponse.UserWalletResponse.of(userUseCase.chargePoint(UserCommand.of(request))));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.server.concert_reservation.api_backup.user.application.dto;
+package com.server.concert_reservation.application.user.dto;
 
 import com.server.concert_reservation.interfaces.web.user.dto.UserHttpRequest;
 
