@@ -10,6 +10,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.RedissonMultiLock;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
@@ -23,10 +25,10 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 @RequiredArgsConstructor
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class DistributedLockAspect {
     private static final String LOCK_PREFIX = "LOCK";
     private final RedissonClient redissonClient;
-    private final AopForTransaction aopForTransaction;
 
     @Around("@annotation(com.server.concert_reservation.support.api.common.aop.annotation.DistributedLock)")
     public Object applyLock(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -52,7 +54,7 @@ public class DistributedLockAspect {
             }
 
             log.info("Lock acquired successfully: {}", lockKeys);
-            return aopForTransaction.proceed(joinPoint);
+            return joinPoint.proceed();
         } catch (InterruptedException e) {
             throw new RuntimeException("interrupted during lock acquisition", e);
         } finally {
