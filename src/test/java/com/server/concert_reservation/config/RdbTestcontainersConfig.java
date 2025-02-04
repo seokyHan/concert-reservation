@@ -7,8 +7,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
 
 @Configuration
-public
-class RdbTestcontainersConfig {
+public class RdbTestcontainersConfig {
 
     @Container
     static MySQLContainer<?> MYSQL_CONTAINER;
