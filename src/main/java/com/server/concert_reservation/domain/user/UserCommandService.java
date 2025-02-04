@@ -15,7 +15,7 @@ public class UserCommandService {
     private final UserReader userReader;
 
     public WalletInfo usePoint(Long userId, int point) {
-        val wallet = userReader.getWalletByUserIdWithLock(userId);
+        val wallet = userReader.getWalletByUserId(userId);
         wallet.useAmount(point);
 
         return WalletInfo.from(userWriter.saveUserPoint(wallet.toEntity(wallet)));

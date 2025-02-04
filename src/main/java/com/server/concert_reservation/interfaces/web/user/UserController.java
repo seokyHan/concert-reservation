@@ -38,7 +38,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "요청 성공.", content = @Content(mediaType = "application/json")),
     })
     public ResponseEntity<UserHttpResponse.UserWalletResponse> chargePoint(@RequestBody UserHttpRequest.UserWalletRequest request) {
-        return ResponseEntity.ok(UserHttpResponse.UserWalletResponse.of(userUseCase.chargePoint(UserCommand.of(request))));
+        return ResponseEntity.ok(UserHttpResponse.UserWalletResponse.of(userUseCase.chargePoint(UserCommand.from(request))));
     }
 
 }

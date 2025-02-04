@@ -8,6 +8,7 @@ import java.util.List;
 
 public record ReservationInfo(Long id,
                               Long userId,
+                              Long concertScheduleId,
                               List<Long> seatIds,
                               int totalPrice,
                               ReservationStatus status,
@@ -18,6 +19,7 @@ public record ReservationInfo(Long id,
     public static ReservationInfo from(Reservation reservation) {
         return new ReservationInfo(reservation.getId(),
                 reservation.getUserId(),
+                reservation.getConcertScheduleId(),
                 reservation.getSeatIds(),
                 reservation.getTotalPrice(),
                 reservation.getStatus(),

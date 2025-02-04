@@ -67,6 +67,10 @@ public class ConcertSeat {
     }
 
     public void cancel() {
+        if (this.status == SOLD) {
+            throw new CustomException(ConcertErrorCode.ALREADY_SOLD_SEAT);
+        }
+
         this.status = AVAILABLE;
     }
 

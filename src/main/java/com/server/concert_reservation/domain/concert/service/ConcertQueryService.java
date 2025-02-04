@@ -21,9 +21,10 @@ public class ConcertQueryService {
 
 
     public List<ConcertScheduleInfo> findAvailableConcertSchedules(Long concertId, LocalDateTime dateTime) {
-        val concertSchedules = concertReader.getConcertScheduleByConcertIdAndDate(concertId, dateTime);
+        val concertSchedules = concertReader.getConcertScheduleByConcertId(concertId);
 
         return concertSchedules.stream()
+                .filter(schedule -> schedule.isAvailableReservePeriod(dateTime))
                 .map(ConcertScheduleInfo::from)
                 .collect(Collectors.toList());
     }

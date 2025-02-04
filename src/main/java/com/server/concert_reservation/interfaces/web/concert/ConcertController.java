@@ -23,7 +23,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/api/v1/concert")
 public class ConcertController {
 
-    private final ConcertUseCase concertFacade;
+    private final ConcertUseCase concertUseCase;
     private final TimeManager timeManager;
 
     @GetMapping("/{concertId}/available-schedules")
@@ -33,7 +33,7 @@ public class ConcertController {
     })
     @Parameter(name = "concertId", description = "콘서트 Id")
     public ResponseEntity<ConcertHttpResponse.ConcertScheduleResponse> getAvailableSchedules(@PathVariable Long concertId) {
-        return ResponseEntity.ok(ConcertHttpResponse.ConcertScheduleResponse.of(concertFacade.getAvailableConcertSchedules(concertId, timeManager.now())));
+        return ResponseEntity.ok(ConcertHttpResponse.ConcertScheduleResponse.of(concertUseCase.getAvailableConcertSchedules(concertId, timeManager.now())));
     }
 
     @GetMapping("/{concertScheduleId}/available-seats")
@@ -44,7 +44,7 @@ public class ConcertController {
     @Parameter(name = "concertScheduleId", description = "콘서트 스케쥴 Id")
     public ResponseEntity<ConcertHttpResponse.ConcertSeatsResponse> getAvailableSeats(@PathVariable Long concertScheduleId) {
 
-        return ResponseEntity.ok(ConcertHttpResponse.ConcertSeatsResponse.of(concertFacade.getAvailableConcertSeats(concertScheduleId)));
+        return ResponseEntity.ok(ConcertHttpResponse.ConcertSeatsResponse.of(concertUseCase.getAvailableConcertSeats(concertScheduleId)));
     }
 
     @PostMapping("/reservation")
@@ -55,6 +55,6 @@ public class ConcertController {
     public ResponseEntity<ConcertHttpResponse.ReservationResponse> reservationSeats(@RequestBody ConcertHttpRequest.ConcertReservationRequest request) {
         return ResponseEntity
                 .status(CREATED)
-                .body(ConcertHttpResponse.ReservationResponse.of(concertFacade.reserveSeats(ReservationCommand.of(request))));
+                .body(ConcertHttpResponse.ReservationResponse.of(concertUseCase.reserveSeats(ReservationCommand.of(request))));
     }
 }

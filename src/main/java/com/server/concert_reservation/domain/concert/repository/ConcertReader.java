@@ -4,13 +4,12 @@ import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
 import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ConcertReader {
     ConcertSchedule getConcertScheduleById(Long concertScheduleId);
 
-    List<ConcertSchedule> getConcertScheduleByConcertIdAndDate(Long concertId, LocalDateTime dateTime);
+    List<ConcertSchedule> getConcertScheduleByConcertId(Long concertId);
 
     ConcertSeat getConcertSeatById(Long concertSeatId);
 

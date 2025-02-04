@@ -1,7 +1,5 @@
 package com.server.concert_reservation.domain.concert.model;
 
-import com.server.concert_reservation.domain.concert.errorcode.ConcertErrorCode;
-import com.server.concert_reservation.support.api.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,10 +26,8 @@ public class ConcertSchedule {
         return new ConcertSchedule(id, concertId, remainTicket, reservationStartAt, reservationEndAt, createdAt, updatedAt);
     }
 
-    public void isAvailableReservePeriod(LocalDateTime dateTime) {
-        if (dateTime.isBefore(reservationStartAt) || dateTime.isAfter(reservationEndAt)) {
-            throw new CustomException(ConcertErrorCode.CAN_NOT_RESERVE_DATE);
-        }
+    public boolean isAvailableReservePeriod(LocalDateTime dateTime) {
+        return dateTime.isAfter(reservationStartAt) && dateTime.isBefore(reservationEndAt);
     }
 
 }

@@ -11,14 +11,12 @@ import com.server.concert_reservation.infrastructure.concert.entity.ReservationE
 import com.server.concert_reservation.infrastructure.concert.repository.ConcertScheduleJpaRepository;
 import com.server.concert_reservation.infrastructure.concert.repository.ConcertSeatJpaRepository;
 import com.server.concert_reservation.infrastructure.concert.repository.ReservationJpaRepository;
-import com.server.concert_reservation.infrastructure.concert.repository.querydsl.ConcertScheduleQueryDsl;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +27,6 @@ public class ConcertCoreReader implements ConcertReader {
     private final ConcertScheduleJpaRepository concertScheduleJpaRepository;
     private final ConcertSeatJpaRepository concertSeatJpaRepository;
     private final ReservationJpaRepository reservationJpaRepository;
-    private final ConcertScheduleQueryDsl concertScheduleQueryDsl;
 
     @Override
     public ConcertSchedule getConcertScheduleById(Long concertScheduleId) {
@@ -39,15 +36,13 @@ public class ConcertCoreReader implements ConcertReader {
     }
 
     @Override
-    public List<ConcertSchedule> getConcertScheduleByConcertIdAndDate(Long concertId, LocalDateTime dateTime) {
-        val concertSchedules = concertScheduleQueryDsl.findGetAvailableConcertSchedule(concertId, dateTime);
+    public List<ConcertSchedule> getConcertScheduleByConcertId(Long concertId) {
+        val concertSchedules = concertScheduleJpaRepository.findByConcertId(concertId);
 
-        return concertSchedules.isEmpty() ?
-                List.of() :
-                concertSchedules
-                        .stream()
-                        .map(ConcertScheduleEntity::toDomain)
-                        .collect(Collectors.toList());
+        return concertSchedules
+                .stream()
+                .map(ConcertScheduleEntity::toDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
