@@ -12,6 +12,7 @@ import com.server.concert_reservation.support.api.common.aop.annotation.Distribu
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class PaymentUseCase {
     private final QueueTokenCommandService tokenCommandService;
 
     @DistributedLock(prefix = "reservation", key = "#command.reservationId", waitTime = 1000)
+    @Transactional
     public PaymentResult payment(PaymentCommand command) {
         val user = userQueryService.findUser(command.userId());
         val reservation = concertQueryService.findTemporaryReservation(command.reservationId());
