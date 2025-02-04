@@ -20,7 +20,7 @@ public class QueueTokenSchedulerUseCase {
     private final QueueTokenQueryService queueTokenQueryService;
 
     public List<QueueTokenResult> getWaitingToken(int activeCount) {
-        val queueToken = queueTokenQueryService.findWaitingToken(activeCount);
+        val queueToken = queueTokenQueryService.findWaitingTokenByActiveCount(activeCount);
 
         return queueToken.stream()
                 .map(QueueTokenResult::from)

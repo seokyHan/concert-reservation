@@ -1,7 +1,6 @@
 package com.server.concert_reservation.infrastructure.queue_token.repository.querydsl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.server.concert_reservation.api_backup.token.infrastructure.entity.QTokenEntity;
 import com.server.concert_reservation.infrastructure.queue_token.entity.QueueTokenEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -11,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static com.server.concert_reservation.infrastructure.queue_token.entity.QQueueTokenEntity.queueTokenEntity;
 import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.ACTIVE;
 import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.WAITING;
 
@@ -22,10 +22,9 @@ public class QueueTokenCoreQueryDsl implements QueueTokenQueryDsl {
 
     @Override
     public Optional<QueueTokenEntity> findLatestActivatedToken() {
-        val token = QTokenEntity.tokenEntity;
-        val result = jpaQueryFactory.selectFrom(token)
-                .where(token.status.eq(ACTIVE))
-                .orderBy(token.id.desc())
+        val result = jpaQueryFactory.selectFrom(queueTokenEntity)
+                .where(queueTokenEntity.status.eq(ACTIVE))
+                .orderBy(queueTokenEntity.id.desc())
                 .fetchFirst();
 
         return Optional.ofNullable(result);
@@ -33,20 +32,18 @@ public class QueueTokenCoreQueryDsl implements QueueTokenQueryDsl {
 
     @Override
     public List<QueueTokenEntity> findWaitingToken(int activationCount) {
-        val token = QTokenEntity.tokenEntity;
-        return jpaQueryFactory.selectFrom(token)
-                .where(token.status.eq(WAITING))
-                .orderBy(token.id.asc())
+        return jpaQueryFactory.selectFrom(queueTokenEntity)
+                .where(queueTokenEntity.status.eq(WAITING))
+                .orderBy(queueTokenEntity.id.asc())
                 .limit(activationCount)
                 .fetch();
     }
 
     @Override
     public List<QueueTokenEntity> findWaitingTokenToBeExpired(LocalDateTime expiredAt) {
-        val token = QTokenEntity.tokenEntity;
-        return jpaQueryFactory.selectFrom(token)
-                .where(token.status.eq(ACTIVE)
-                        .and(token.activatedAt.loe(expiredAt)))
+        return jpaQueryFactory.selectFrom(queueTokenEntity)
+                .where(queueTokenEntity.status.eq(ACTIVE)
+                        .and(queueTokenEntity.activatedAt.loe(expiredAt)))
                 .fetch();
     }
 }

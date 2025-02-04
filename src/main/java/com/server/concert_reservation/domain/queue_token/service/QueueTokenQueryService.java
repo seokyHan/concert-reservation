@@ -28,7 +28,7 @@ public class QueueTokenQueryService {
         return QueueTokenInfo.of(waitingToken, waitingOrder);
     }
 
-    public List<QueueTokenInfo> findWaitingToken(int activeCount) {
+    public List<QueueTokenInfo> findWaitingTokenByActiveCount(int activeCount) {
         val queueToken = queueTokenReader.getWaitingToken(activeCount);
 
         return queueToken.stream()
