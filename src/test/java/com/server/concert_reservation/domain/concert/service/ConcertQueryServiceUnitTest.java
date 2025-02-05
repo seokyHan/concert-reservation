@@ -62,7 +62,6 @@ class ConcertQueryServiceUnitTest {
         LocalDateTime dateTime = LocalDateTime.now();
         ConcertSchedule concertSchedule = Instancio.of(ConcertSchedule.class)
                 .set(field(ConcertSchedule::getReservationStartAt), dateTime.minusDays(1L))
-                .set(field(ConcertSchedule::getReservationEndAt), dateTime.plusDays(1L))
                 .create();
         when(concertReader.getConcertScheduleByConcertId(concertScheduleId)).thenReturn(List.of(concertSchedule));
 
@@ -111,7 +110,6 @@ class ConcertQueryServiceUnitTest {
         assertEquals(concertSchedule.getConcertId(), concertScheduleInfo.concertId());
         assertEquals(concertSchedule.getRemainTicket(), concertScheduleInfo.remainTicket());
         assertEquals(concertSchedule.getReservationStartAt(), concertScheduleInfo.reservationStartAt());
-        assertEquals(concertSchedule.getReservationEndAt(), concertScheduleInfo.reservationEndAt());
     }
 
     @DisplayName("임시 예약이 만료된 예약 목록을 조회한다.")

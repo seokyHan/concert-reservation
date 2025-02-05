@@ -18,7 +18,6 @@ class ConcertScheduleTest {
         LocalDateTime now = LocalDateTime.now();
         ConcertSchedule concertSchedule = Instancio.of(ConcertSchedule.class)
                 .set(field(ConcertSchedule::getReservationStartAt), now.minusDays(1L))
-                .set(field(ConcertSchedule::getReservationEndAt), now.plusDays(1L))
                 .create();
 
         //when //then

@@ -71,7 +71,6 @@ public class ReservationConcurrencyTest {
                 .concertId(savedConcert.getId())
                 .remainTicket(10)
                 .reservationStartAt(now.minusDays(1))
-                .reservationEndAt(now.plusDays(1))
                 .build();
         concertWriter.save(concertSchedule);
 

@@ -23,7 +23,6 @@ class ConcertScheduleEntityTest {
         assertEquals(concertScheduleEntity.getConcertId(), concertSchedule.getConcertId());
         assertEquals(concertScheduleEntity.getRemainTicket(), concertSchedule.getRemainTicket());
         assertEquals(concertScheduleEntity.getReservationStartAt(), concertSchedule.getReservationStartAt());
-        assertEquals(concertScheduleEntity.getReservationEndAt(), concertSchedule.getReservationEndAt());
 
     }
 

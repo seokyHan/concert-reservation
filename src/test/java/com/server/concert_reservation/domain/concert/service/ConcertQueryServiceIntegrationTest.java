@@ -57,23 +57,23 @@ class ConcertQueryServiceIntegrationTest {
         Concert concert = Instancio.of(Concert.class)
                 .ignore(field(Concert::getId))
                 .create();
-        concertWriter.save(concert);
+        Concert savedConcert = concertWriter.save(concert);
 
         ConcertSchedule concertSchedule = Instancio.of(ConcertSchedule.class)
                 .ignore(field(ConcertSchedule::getId))
-                .set(field(ConcertSchedule::getConcertId), concert.getId())
+                .set(field(ConcertSchedule::getConcertId), savedConcert.getId())
                 .set(field(ConcertSchedule::getReservationStartAt), now.minusDays(1L))
-                .set(field(ConcertSchedule::getReservationEndAt), now.plusDays(1L))
+                .set(field(ConcertSchedule::getRemainTicket), 10)
                 .create();
         concertWriter.save(concertSchedule);
 
         // when
-        List<ConcertScheduleInfo> availableConcertSchedule = concertQueryService.findAvailableConcertSchedules(concert.getId(), now);
+        List<ConcertScheduleInfo> availableConcertSchedule = concertQueryService.findAvailableConcertSchedules(savedConcert.getId(), now);
 
         // then
         assertAll(
                 () -> assertEquals(1, availableConcertSchedule.size()),
-                () -> assertEquals(concert.getId(), availableConcertSchedule.get(0).concertId())
+                () -> assertEquals(savedConcert.getId(), availableConcertSchedule.get(0).concertId())
         );
     }
 
@@ -118,7 +118,7 @@ class ConcertQueryServiceIntegrationTest {
         Concert concert = Instancio.of(Concert.class)
                 .ignore(field(Concert::getId))
                 .create();
-        concertWriter.save(concert);
+        Concert savedConcert = concertWriter.save(concert);
 
         ConcertSchedule concertSchedule = Instancio.of(ConcertSchedule.class)
                 .ignore(field(ConcertSchedule::getId))
@@ -128,7 +128,7 @@ class ConcertQueryServiceIntegrationTest {
         concertWriter.save(concertSchedule);
 
         // when
-        List<ConcertScheduleInfo> availableConcertSchedule = concertQueryService.findAvailableConcertSchedules(concert.getId(), now);
+        List<ConcertScheduleInfo> availableConcertSchedule = concertQueryService.findAvailableConcertSchedules(savedConcert.getId(), now);
 
         // then
         assertAll(
@@ -154,8 +154,7 @@ class ConcertQueryServiceIntegrationTest {
                 () -> assertEquals(savedConcertSchedule.getId(), concertScheduleInfo.id()),
                 () -> assertEquals(savedConcertSchedule.getConcertId(), concertScheduleInfo.concertId()),
                 () -> assertEquals(savedConcertSchedule.getRemainTicket(), concertScheduleInfo.remainTicket()),
-                () -> assertEquals(savedConcertSchedule.getReservationStartAt(), concertScheduleInfo.reservationStartAt()),
-                () -> assertEquals(savedConcertSchedule.getReservationEndAt(), concertScheduleInfo.reservationEndAt())
+                () -> assertEquals(savedConcertSchedule.getReservationStartAt(), concertScheduleInfo.reservationStartAt())
         );
     }
 
