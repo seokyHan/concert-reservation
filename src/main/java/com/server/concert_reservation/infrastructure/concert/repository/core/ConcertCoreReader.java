@@ -11,6 +11,7 @@ import com.server.concert_reservation.infrastructure.concert.entity.ReservationE
 import com.server.concert_reservation.infrastructure.concert.repository.ConcertScheduleJpaRepository;
 import com.server.concert_reservation.infrastructure.concert.repository.ConcertSeatJpaRepository;
 import com.server.concert_reservation.infrastructure.concert.repository.ReservationJpaRepository;
+import com.server.concert_reservation.infrastructure.concert.repository.querydsl.ConcertScheduleQueryDsl;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class ConcertCoreReader implements ConcertReader {
     private final ConcertScheduleJpaRepository concertScheduleJpaRepository;
     private final ConcertSeatJpaRepository concertSeatJpaRepository;
     private final ReservationJpaRepository reservationJpaRepository;
+    private final ConcertScheduleQueryDsl concertScheduleQueryDsl;
 
     @Override
     public ConcertSchedule getConcertScheduleById(Long concertScheduleId) {
@@ -34,10 +36,10 @@ public class ConcertCoreReader implements ConcertReader {
                 .orElseThrow(() -> new CustomException(ConcertErrorCode.CONCERT_SCHEDULE_NOT_FOUND))
                 .toDomain();
     }
-
+    
     @Override
     public List<ConcertSchedule> getConcertScheduleByConcertId(Long concertId) {
-        val concertSchedules = concertScheduleJpaRepository.findByConcertId(concertId);
+        val concertSchedules = concertScheduleQueryDsl.findGetAvailableConcertSchedule(concertId, timeManager.now());
 
         return concertSchedules
                 .stream()

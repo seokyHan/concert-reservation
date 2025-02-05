@@ -19,7 +19,7 @@ public class ConcertQueryService {
 
     private final ConcertReader concertReader;
 
-
+    
     public List<ConcertScheduleInfo> findAvailableConcertSchedules(Long concertId, LocalDateTime dateTime) {
         val concertSchedules = concertReader.getConcertScheduleByConcertId(concertId);
 
