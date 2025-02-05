@@ -1,8 +1,8 @@
 package com.server.concert_reservation.infrastructure.concert.entity;
 
 
-import com.server.concert_reservation.infrastructure.auditing.BaseTimeEntity;
 import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
+import com.server.concert_reservation.infrastructure.auditing.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -31,16 +31,12 @@ public class ConcertScheduleEntity extends BaseTimeEntity {
     @Column(name = "reservation_start_at")
     private LocalDateTime reservationStartAt;
 
-    @Column(name = "reservation_end_at")
-    private LocalDateTime reservationEndAt;
-
     @Builder
-    public ConcertScheduleEntity(Long id, Long concertId, int remainTicket, LocalDateTime reservationStartAt, LocalDateTime reservationEndAt) {
+    public ConcertScheduleEntity(Long id, Long concertId, int remainTicket, LocalDateTime reservationStartAt) {
         this.id = id;
         this.concertId = concertId;
         this.remainTicket = remainTicket;
         this.reservationStartAt = reservationStartAt;
-        this.reservationEndAt = reservationEndAt;
     }
 
     public ConcertScheduleEntity(ConcertSchedule concertSchedule) {
@@ -48,10 +44,9 @@ public class ConcertScheduleEntity extends BaseTimeEntity {
         this.concertId = concertSchedule.getConcertId();
         this.remainTicket = concertSchedule.getRemainTicket();
         this.reservationStartAt = concertSchedule.getReservationStartAt();
-        this.reservationEndAt = concertSchedule.getReservationEndAt();
     }
 
     public ConcertSchedule toDomain() {
-        return ConcertSchedule.of(id, concertId, remainTicket, reservationStartAt, reservationEndAt, createdAt, updatedAt);
+        return ConcertSchedule.of(id, concertId, remainTicket, reservationStartAt, createdAt, updatedAt);
     }
 }

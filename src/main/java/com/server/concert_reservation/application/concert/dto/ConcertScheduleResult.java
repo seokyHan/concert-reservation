@@ -8,7 +8,6 @@ public record ConcertScheduleResult(Long id,
                                     Long concertId,
                                     int remainTicket,
                                     LocalDateTime reservationStartAt,
-                                    LocalDateTime reservationEndAt,
                                     LocalDateTime createdAt,
                                     LocalDateTime updatedAt) {
 
@@ -17,7 +16,6 @@ public record ConcertScheduleResult(Long id,
                 concertScheduleInfo.concertId(),
                 concertScheduleInfo.remainTicket(),
                 concertScheduleInfo.reservationStartAt(),
-                concertScheduleInfo.reservationEndAt(),
                 concertScheduleInfo.createdAt(),
                 concertScheduleInfo.updatedAt());
     }

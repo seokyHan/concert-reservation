@@ -15,19 +15,18 @@ public class ConcertSchedule {
     private Long concertId;
     private int remainTicket;
     private LocalDateTime reservationStartAt;
-    private LocalDateTime reservationEndAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public static ConcertSchedule of(Long id, Long concertId, int remainTicket,
-                                     LocalDateTime reservationStartAt, LocalDateTime reservationEndAt,
+                                     LocalDateTime reservationStartAt,
                                      LocalDateTime createdAt, LocalDateTime updatedAt
     ) {
-        return new ConcertSchedule(id, concertId, remainTicket, reservationStartAt, reservationEndAt, createdAt, updatedAt);
+        return new ConcertSchedule(id, concertId, remainTicket, reservationStartAt, createdAt, updatedAt);
     }
 
     public boolean isAvailableReservePeriod(LocalDateTime dateTime) {
-        return dateTime.isAfter(reservationStartAt) && dateTime.isBefore(reservationEndAt);
+        return dateTime.isAfter(reservationStartAt);
     }
 
 }
