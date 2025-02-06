@@ -1,9 +1,8 @@
 package com.server.concert_reservation.interfaces.scheduler;
 
-import com.server.concert_reservation.application.queue_token.QueueTokenSchedulerUseCase;
+import com.server.concert_reservation.application.waitingqueue.WaitingQueueUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,35 +12,19 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TokenScheduler {
 
-    private final QueueTokenSchedulerUseCase queueTokenSchedulerUseCase;
+    private final WaitingQueueUseCase waitingQueueUseCase;
 
-    @Scheduled(fixedDelayString = "60000")
+    @Scheduled(cron = "0 * * * * *")
     public void activeWaitingToken() {
         log.info("대기열 토큰 활성화 스케줄러 실행");
-        val waitingTokens = queueTokenSchedulerUseCase.getWaitingToken(100);
-        waitingTokens.forEach(waitingToken -> {
-            try {
-                queueTokenSchedulerUseCase.activateToken(waitingToken.token());
-            } catch (Exception e) {
-                log.warn("대기열 토큰 활성화 스케쥴러 실행 중 오류 발생 [Token: {}]: {}", waitingToken.token(), e.getMessage());
-            }
-        });
+        waitingQueueUseCase.activateWaitingQueues(10, 10);
     }
 
 
-    @Scheduled(fixedDelayString = "60000")
+    @Scheduled(cron = "0 * * * * *")
     public void expireWaitingToken() {
-        log.info("대기열 토큰 만료 스케줄러 실행");
-        // 대기열 토큰 활성화 시간(activeAt) 10분
-        // activeAt이 10분이 지났을 경우 만료 처리 후 expireAt에 업데이트
-        val waitingTokens = queueTokenSchedulerUseCase.getWaitingTokenToBeExpired(10);
-        waitingTokens.forEach(waitingToken -> {
-            try {
-                queueTokenSchedulerUseCase.expireToken(waitingToken.token());
-            } catch (Exception e) {
-                log.warn("대기열 토큰 만료 스케쥴러 실행 중 오류 발생 [Token: {}]: {}", waitingToken.token(), e.getMessage());
-            }
-        });
+        log.info("만료 토큰 삭제 스케줄러 실행");
+        waitingQueueUseCase.removeActivateQueue();
     }
 
 }

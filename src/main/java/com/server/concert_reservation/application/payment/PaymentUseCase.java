@@ -5,9 +5,9 @@ import com.server.concert_reservation.application.payment.dto.PaymentResult;
 import com.server.concert_reservation.domain.concert.service.ConcertCommandService;
 import com.server.concert_reservation.domain.concert.service.ConcertQueryService;
 import com.server.concert_reservation.domain.payment.service.PaymentService;
-import com.server.concert_reservation.domain.queue_token.service.QueueTokenCommandService;
 import com.server.concert_reservation.domain.user.UserCommandService;
 import com.server.concert_reservation.domain.user.UserQueryService;
+import com.server.concert_reservation.domain.waitingqueue.service.WaitingQueueCommandService;
 import com.server.concert_reservation.support.api.common.aop.annotation.DistributedLock;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -24,7 +24,7 @@ public class PaymentUseCase {
 
     private final UserQueryService userQueryService;
     private final UserCommandService userCommandService;
-    private final QueueTokenCommandService tokenCommandService;
+    private final WaitingQueueCommandService tokenCommandService;
 
     @DistributedLock(prefix = "reservation", key = "#command.reservationId", waitTime = 1000)
     @Transactional
@@ -35,7 +35,7 @@ public class PaymentUseCase {
         val payment = paymentService.paymentReservation(wallet.userId(), command.reservationId(), reservation.totalPrice());
 
         concertCommandService.completeReservation(reservation.id());
-        tokenCommandService.expireToken(command.token());
+        tokenCommandService.removeActiveQueueByUuid(command.token());
 
         return PaymentResult.from(payment);
     }

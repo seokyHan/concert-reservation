@@ -20,6 +20,9 @@ spring:
     properties:
       hibernate.timezone.default_storage: NORMALIZE_UTC
       hibernate.jdbc.time_zone: UTC
+queue:
+  waiting-key: waiting-queues:waiting
+  active-key: waiting-queues:active
 
   springdoc:
     packages-to-scan: com.server.concert_reservation
