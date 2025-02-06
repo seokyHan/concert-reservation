@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -40,6 +41,8 @@ class ConcertQueryServiceIntegrationTest {
     private ConcertQueryService concertQueryService;
     @Autowired
     private ConcertWriter concertWriter;
+    @Autowired
+    private RedisCacheManager cacheManager;
 
     @Autowired
     private DatabaseCleanUp databaseCleanUp;
@@ -47,6 +50,13 @@ class ConcertQueryServiceIntegrationTest {
     @BeforeEach
     void dataBaseCleansing() {
         databaseCleanUp.execute();
+    }
+
+    @BeforeEach
+    void clearCache() {
+        cacheManager.getCache("availableConcertSchedule").clear();
+        cacheManager.getCache("availableConcertSeats").clear();
+        cacheManager.getCache("concertSchedule").clear();
     }
 
     @DisplayName("예약 가능한 콘서트 스케쥴 조회")
@@ -83,29 +93,31 @@ class ConcertQueryServiceIntegrationTest {
         // given
         ConcertSchedule concertSchedule = Instancio.of(ConcertSchedule.class)
                 .ignore(field(ConcertSchedule::getId))
+                .set(field(ConcertSchedule::getRemainTicket), 10)
+                .set(field(ConcertSchedule::getReservationStartAt), LocalDateTime.now().minusMinutes(10))
                 .create();
-        concertWriter.save(concertSchedule);
+        ConcertSchedule savedConcertSchedule = concertWriter.save(concertSchedule);
 
         ConcertSeat concertSeat1 = Instancio.of(ConcertSeat.class)
                 .ignore(field(ConcertSeat::getId))
-                .set(field(ConcertSeat::getConcertScheduleId), concertSchedule.getId())
+                .set(field(ConcertSeat::getConcertScheduleId), savedConcertSchedule.getId())
                 .set(field(ConcertSeat::getStatus), AVAILABLE)
                 .create();
         ConcertSeat concertSeat2 = Instancio.of(ConcertSeat.class)
                 .ignore(field(ConcertSeat::getId))
-                .set(field(ConcertSeat::getConcertScheduleId), concertSchedule.getId())
+                .set(field(ConcertSeat::getConcertScheduleId), savedConcertSchedule.getId())
                 .set(field(ConcertSeat::getStatus), TEMPORARY_RESERVED)
                 .create();
         concertWriter.saveAll(List.of(concertSeat1, concertSeat2));
 
 
         // when
-        List<ConcertSeatInfo> result = concertQueryService.findAvailableConcertSeats(concertSchedule.getId());
+        List<ConcertSeatInfo> result = concertQueryService.findAvailableConcertSeats(savedConcertSchedule.getId());
 
         // then
         assertAll(
                 () -> assertEquals(1, result.size()),
-                () -> assertEquals(concertSchedule.getId(), result.get(0).concertScheduleId()),
+                () -> assertEquals(savedConcertSchedule.getId(), result.get(0).concertScheduleId()),
                 () -> assertEquals(AVAILABLE, result.get(0).status())
         );
     }
@@ -122,18 +134,17 @@ class ConcertQueryServiceIntegrationTest {
 
         ConcertSchedule concertSchedule = Instancio.of(ConcertSchedule.class)
                 .ignore(field(ConcertSchedule::getId))
-                .set(field(ConcertSchedule::getConcertId), concert.getId())
+                .set(field(ConcertSchedule::getConcertId), savedConcert.getId())
                 .set(field(ConcertSchedule::getReservationStartAt), now.plusDays(1L))
                 .create();
         concertWriter.save(concertSchedule);
 
         // when
-        List<ConcertScheduleInfo> availableConcertSchedule = concertQueryService.findAvailableConcertSchedules(savedConcert.getId(), now);
+        List<ConcertScheduleInfo> availableConcertSchedule = concertQueryService.findAvailableConcertSchedules(savedConcert.getId(), now.plusDays(2L));
 
         // then
-        assertAll(
-                () -> assertEquals(0, availableConcertSchedule.size())
-        );
+        assertEquals(0, availableConcertSchedule.size());
+
     }
 
     @DisplayName("콘서트 스케쥴 id로 콘서트 스케쥴을 조회한다.")

@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.cache.RedisCacheManager;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class ReservationConcurrencyTest {
     private ConcertWriter concertWriter;
     @Autowired
     private DatabaseCleanUp databaseCleanUp;
+    @Autowired
+    private RedisCacheManager cacheManager;
 
     @BeforeEach
     @Order(1)
@@ -54,6 +57,14 @@ public class ReservationConcurrencyTest {
 
     @BeforeEach
     @Order(2)
+    void clearCache() {
+        cacheManager.getCache("availableConcertSchedule").clear();
+        cacheManager.getCache("availableConcertSeats").clear();
+        cacheManager.getCache("concertSchedule").clear();
+    }
+
+    @BeforeEach
+    @Order(3)
     void setUp() {
         LocalDateTime now = LocalDateTime.now();
         User user = User.builder()
@@ -143,7 +154,7 @@ public class ReservationConcurrencyTest {
         IntStream.range(0, threadCount).forEach(i -> executorService.submit(() -> {
             long taskStartTime = System.nanoTime(); // 작업 시작 시간
             try {
-                ReservationCommand command = new ReservationCommand((long) i + 1, 1L, List.of(1L, 2L), LocalDateTime.now());
+                ReservationCommand command = new ReservationCommand(1L, 1L, List.of(1L, 2L), LocalDateTime.now());
                 concertUseCase.reserveSeats(command);
                 successCount.incrementAndGet();
             } catch (Exception e) {
