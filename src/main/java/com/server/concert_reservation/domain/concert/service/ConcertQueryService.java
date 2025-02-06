@@ -7,6 +7,7 @@ import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ public class ConcertQueryService {
 
     private final ConcertReader concertReader;
 
-    
+    @Cacheable(value = "availableConcertSchedule", key = "#concertId")
     public List<ConcertScheduleInfo> findAvailableConcertSchedules(Long concertId, LocalDateTime dateTime) {
         val concertSchedules = concertReader.getConcertScheduleByConcertId(concertId);
 
@@ -29,6 +30,7 @@ public class ConcertQueryService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "availableConcertSeats", key = "#concertScheduleId")
     public List<ConcertSeatInfo> findAvailableConcertSeats(Long concertScheduleId) {
         val availableSeatList = concertReader.getConcertSeatByScheduleId(concertScheduleId)
                 .stream()

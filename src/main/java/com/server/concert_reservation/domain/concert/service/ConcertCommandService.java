@@ -23,7 +23,6 @@ public class ConcertCommandService {
     private final ConcertWriter concertWriter;
     private final TimeManager timeManager;
 
-
     public List<ConcertSeatInfo> reserveSeats(List<Long> seatIds) {
         val concertSeats = seatIds.stream()
                 .map(concertReader::getConcertSeatById)

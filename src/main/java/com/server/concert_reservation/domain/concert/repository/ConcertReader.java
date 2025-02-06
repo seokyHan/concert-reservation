@@ -9,7 +9,6 @@ import java.util.List;
 public interface ConcertReader {
     ConcertSchedule getConcertScheduleById(Long concertScheduleId);
 
-    //    @Cacheable
     List<ConcertSchedule> getConcertScheduleByConcertId(Long concertId);
 
     ConcertSeat getConcertSeatById(Long concertSeatId);

@@ -9,6 +9,7 @@ import com.server.concert_reservation.domain.concert.service.ConcertQueryService
 import com.server.concert_reservation.domain.user.UserQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class ConcertUseCase {
     private final ConcertQueryService concertQueryService;
     private final UserQueryService userQueryService;
 
+    @CachePut(value = "availableConcertSeats", key = "#command.concertScheduleId")
     @Transactional
     public ReservationResult reserveSeats(ReservationCommand command) {
         val user = userQueryService.findUser(command.userId());
