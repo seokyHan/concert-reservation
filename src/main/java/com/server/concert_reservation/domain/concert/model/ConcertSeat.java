@@ -1,8 +1,8 @@
 package com.server.concert_reservation.domain.concert.model;
 
 import com.server.concert_reservation.domain.concert.errorcode.ConcertErrorCode;
-import com.server.concert_reservation.infrastructure.concert.entity.ConcertSeatEntity;
-import com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus;
+import com.server.concert_reservation.infrastructure.db.concert.entity.ConcertSeatEntity;
+import com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.*;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus.*;
 
 @Getter
 @Builder

@@ -1,6 +1,6 @@
 package com.server.concert_reservation.domain.concert.model;
 
-import com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus;
+import com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.AVAILABLE;
-import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.SOLD;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus.AVAILABLE;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus.SOLD;
 import static org.instancio.Select.field;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

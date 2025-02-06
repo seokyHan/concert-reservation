@@ -4,7 +4,7 @@ import com.server.concert_reservation.domain.concert.dto.ConcertScheduleInfo;
 import com.server.concert_reservation.domain.concert.dto.ConcertSeatInfo;
 import com.server.concert_reservation.domain.concert.dto.ReservationInfo;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
-import com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus;
+import com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.cache.annotation.Cacheable;

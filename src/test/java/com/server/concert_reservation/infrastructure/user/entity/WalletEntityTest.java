@@ -2,6 +2,7 @@ package com.server.concert_reservation.infrastructure.user.entity;
 
 
 import com.server.concert_reservation.domain.user.model.Wallet;
+import com.server.concert_reservation.infrastructure.db.user.entity.WalletEntity;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

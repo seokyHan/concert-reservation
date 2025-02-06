@@ -6,9 +6,6 @@ import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
-import com.server.concert_reservation.domain.queue_token.model.QueueToken;
-import com.server.concert_reservation.domain.queue_token.repository.QueueTokenReader;
-import com.server.concert_reservation.domain.queue_token.repository.QueueTokenWriter;
 import com.server.concert_reservation.domain.user.model.User;
 import com.server.concert_reservation.domain.user.model.Wallet;
 import com.server.concert_reservation.domain.user.repository.UserReader;
@@ -30,12 +27,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-import static com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus.RESERVED;
-import static com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus.RESERVING;
-import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.SOLD;
-import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.TEMPORARY_RESERVED;
-import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.ACTIVE;
-import static com.server.concert_reservation.infrastructure.queue_token.entity.types.QueueTokenStatus.EXPIRED;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus.RESERVED;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus.RESERVING;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus.SOLD;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus.TEMPORARY_RESERVED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,10 +48,6 @@ public class PaymentConcurrentTest {
     private ConcertWriter concertWriter;
     @Autowired
     private ConcertReader concertReader;
-    @Autowired
-    private QueueTokenReader queueTokenReader;
-    @Autowired
-    private QueueTokenWriter queueTokenWriter;
     @Autowired
     private DatabaseCleanUp databaseCleanUp;
 
@@ -95,12 +86,6 @@ public class PaymentConcurrentTest {
                 .status(RESERVING)
                 .build();
         Reservation saveReservationReservation = concertWriter.saveReservation(reservation);
-
-        QueueToken waitingToken = QueueToken.builder()
-                .token("test-token")
-                .status(ACTIVE)
-                .build();
-        queueTokenWriter.save(waitingToken);
 
         PaymentCommand command = new PaymentCommand(saveUser.getId(), saveReservationReservation.getId(), "test-token");
 
@@ -155,10 +140,6 @@ public class PaymentConcurrentTest {
                 () -> assertThat(updatedConcertSeats.get(0).getStatus()).isEqualTo(SOLD),
                 () -> assertThat(updatedConcertSeats.get(1).getStatus()).isEqualTo(SOLD)
         );
-
-        // 대기열 만료
-        QueueToken updatedWaitingToken = queueTokenReader.getByToken("test-token");
-        assertEquals(updatedWaitingToken.getStatus(), EXPIRED);
 
         long totalDuration = endTime - startTime;
         logger.info("전체 테스트 수행 시간 (ms): {}", totalDuration / 1_000_000);

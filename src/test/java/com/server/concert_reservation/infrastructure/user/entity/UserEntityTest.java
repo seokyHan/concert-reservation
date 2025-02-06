@@ -1,6 +1,7 @@
 package com.server.concert_reservation.infrastructure.user.entity;
 
 import com.server.concert_reservation.domain.user.model.User;
+import com.server.concert_reservation.infrastructure.db.user.entity.UserEntity;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

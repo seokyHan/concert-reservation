@@ -6,7 +6,6 @@ import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
-import com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus;
 import com.server.concert_reservation.support.DatabaseCleanUp;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.instancio.Instancio;
@@ -20,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.server.concert_reservation.domain.concert.errorcode.ConcertErrorCode.*;
-import static com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus.*;
-import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.*;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus.*;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.instancio.Select.field;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -102,7 +101,7 @@ class ConcertCommandServiceIntegrationTest {
                 () -> assertEquals(reservationInfo.userId(), userId),
                 () -> assertEquals(reservationInfo.seatIds().get(0), seatIds.get(0).id()),
                 () -> assertEquals(reservationInfo.concertScheduleId(), concertScheduleId),
-                () -> assertEquals(reservationInfo.status(), ReservationStatus.RESERVING)
+                () -> assertEquals(reservationInfo.status(), RESERVING)
         );
 
     }

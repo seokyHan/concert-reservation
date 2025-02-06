@@ -20,10 +20,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.server.concert_reservation.domain.concert.errorcode.ConcertErrorCode.IS_NOT_TEMPORARY_RESERVATION;
-import static com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus.RESERVED;
-import static com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus.RESERVING;
-import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.AVAILABLE;
-import static com.server.concert_reservation.infrastructure.concert.entity.types.SeatStatus.TEMPORARY_RESERVED;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus.RESERVED;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus.RESERVING;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus.AVAILABLE;
+import static com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus.TEMPORARY_RESERVED;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.instancio.Select.field;
 import static org.junit.Assert.assertEquals;

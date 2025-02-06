@@ -1,7 +1,7 @@
 package com.server.concert_reservation.domain.concert.dto;
 
 import com.server.concert_reservation.domain.concert.model.Reservation;
-import com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus;
+import com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;

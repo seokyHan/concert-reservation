@@ -6,7 +6,7 @@ import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
-import com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus;
+import com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;

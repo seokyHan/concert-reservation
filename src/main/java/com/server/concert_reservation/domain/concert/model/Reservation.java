@@ -1,8 +1,8 @@
 package com.server.concert_reservation.domain.concert.model;
 
 import com.server.concert_reservation.domain.concert.errorcode.ConcertErrorCode;
-import com.server.concert_reservation.infrastructure.concert.entity.ReservationEntity;
-import com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus;
+import com.server.concert_reservation.infrastructure.db.concert.entity.ReservationEntity;
+import com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

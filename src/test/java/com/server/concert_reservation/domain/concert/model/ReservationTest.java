@@ -1,6 +1,6 @@
 package com.server.concert_reservation.domain.concert.model;
 
-import com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus;
+import com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;

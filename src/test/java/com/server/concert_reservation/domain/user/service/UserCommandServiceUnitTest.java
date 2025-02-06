@@ -5,7 +5,7 @@ import com.server.concert_reservation.domain.user.dto.WalletInfo;
 import com.server.concert_reservation.domain.user.model.Wallet;
 import com.server.concert_reservation.domain.user.repository.UserReader;
 import com.server.concert_reservation.domain.user.repository.UserWriter;
-import com.server.concert_reservation.infrastructure.user.entity.WalletEntity;
+import com.server.concert_reservation.infrastructure.db.user.entity.WalletEntity;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;

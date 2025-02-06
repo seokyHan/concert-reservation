@@ -1,6 +1,6 @@
 package com.server.concert_reservation.domain.payment.model;
 
-import com.server.concert_reservation.infrastructure.payment.entity.PaymentEntity;
+import com.server.concert_reservation.infrastructure.db.payment.entity.PaymentEntity;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -3,7 +3,7 @@ package com.server.concert_reservation.interfaces.web.concert.dto;
 import com.server.concert_reservation.application.concert.dto.ConcertScheduleResult;
 import com.server.concert_reservation.application.concert.dto.ConcertSeatResult;
 import com.server.concert_reservation.application.concert.dto.ReservationResult;
-import com.server.concert_reservation.infrastructure.concert.entity.types.ReservationStatus;
+import com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
