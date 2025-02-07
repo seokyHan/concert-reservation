@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,63 +31,67 @@ public class WaitingQueueWriterIntegrationTest {
     }
 
     @Test
-    @DisplayName("대기열 토큰을 생성한다.")
-    void shouldAddWaitingQueue() {
+    @DisplayName("대기열에 UUID를 추가할 수 있다.")
+    void testAddWaitingQueue() {
         // given
         String uuid = UUID.randomUUID().toString();
+        Long score = System.currentTimeMillis();
 
         // when
-        String result = waitingQueueWriter.saveWaitingQueue(uuid);
+        boolean result = waitingQueueWriter.addWaitingQueue(uuid, score);
 
         // then
-        assertThat(result).isEqualTo(uuid);
-    }
-
-    @DisplayName("대기열 토큰을 활성화 한다.")
-    @Test
-    void shouldActivateWaitingQueues() {
-        // given
-        String uuid = UUID.randomUUID().toString();
-        redisTemplate.opsForZSet().add(waitingQueueKey, uuid, 1);
-
-        // when
-        waitingQueueWriter.activateWaitingQueues(10, 10, TimeUnit.MINUTES);
-        Long waitingQueueSize = redisTemplate.opsForZSet().size(waitingQueueKey);
-        Double score = redisTemplate.opsForZSet().score(activeQueueKey, uuid);
-
-        // then
-        assertThat(waitingQueueSize).isZero();
-        assertThat(score).isNotNull();
+        assertThat(result).isTrue();
+        assertThat(redisTemplate.opsForZSet().rank(waitingQueueKey, uuid)).isNotNull();
     }
 
     @Test
-    @DisplayName("입력받은 토큰으로 활성화 토큰을 삭제한다.")
-    void shouldDeleteActiveTokenByUuid() {
+    @DisplayName("대기열의 UUID를 활성열로 이동할 수 있다.")
+    void testMoveToActiveQueue() {
         // given
         String uuid = UUID.randomUUID().toString();
-        redisTemplate.opsForZSet().add(activeQueueKey, uuid, 1);
+        Long score = System.currentTimeMillis();
+        Long expirationTimestamp = score + 60000;
+        redisTemplate.opsForZSet().add(waitingQueueKey, uuid, score);
 
         // when
-        waitingQueueWriter.deleteActiveTokenByUuid(uuid);
-        Long result = redisTemplate.opsForZSet().size(activeQueueKey);
+        waitingQueueWriter.moveToActiveQueue(uuid, expirationTimestamp);
 
         // then
-        assertThat(result).isZero();
+        assertThat(redisTemplate.opsForZSet().rank(waitingQueueKey, uuid)).isNull();
+        assertThat(redisTemplate.opsForZSet().rank(activeQueueKey, uuid)).isNotNull();
     }
 
-    @DisplayName("활성화 토큰을 삭제한다.")
     @Test
-    void shouldDeleteActiveToken() {
+    @DisplayName("활성열에서 특정 UUID를 제거할 수 있다.")
+    void testRemoveActiveTokenByUuid() {
         // given
         String uuid = UUID.randomUUID().toString();
-        redisTemplate.opsForZSet().add(waitingQueueKey, uuid, 1);
+        Long expirationTimestamp = System.currentTimeMillis() + 60000;
+        redisTemplate.opsForZSet().add(activeQueueKey, uuid, expirationTimestamp);
 
         // when
-        waitingQueueWriter.activateWaitingQueues(1, 1, TimeUnit.MILLISECONDS);
-        Long result = redisTemplate.opsForZSet().size(waitingQueueKey);
-        
-        // then
-        assertThat(result).isZero();
+        waitingQueueWriter.removeActiveTokenByUuid(uuid);
 
+        // then
+        assertThat(redisTemplate.opsForZSet().rank(activeQueueKey, uuid)).isNull();
+    }
+
+    @Test
+    @DisplayName("활성열에서 만료된 토큰을 제거할 수 있다.")
+    void testRemoveExpiredTokens() {
+        // given
+        String uuid1 = UUID.randomUUID().toString();
+        String uuid2 = UUID.randomUUID().toString();
+        Long now = System.currentTimeMillis();
+        redisTemplate.opsForZSet().add(activeQueueKey, uuid1, now - 10000); // 만료됨
+        redisTemplate.opsForZSet().add(activeQueueKey, uuid2, now + 10000); // 유효함
+
+        // when
+        waitingQueueWriter.removeExpiredTokens(now);
+
+        // then
+        assertThat(redisTemplate.opsForZSet().rank(activeQueueKey, uuid1)).isNull();
+        assertThat(redisTemplate.opsForZSet().rank(activeQueueKey, uuid2)).isNotNull();
     }
 }

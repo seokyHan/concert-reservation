@@ -1,6 +1,5 @@
 package com.server.concert_reservation.infrastructure.waitingqueue;
 
-import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueInfo;
 import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,13 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class WaitingQueueReaderIntegrationTest {
@@ -35,49 +31,79 @@ public class WaitingQueueReaderIntegrationTest {
         redisTemplate.keys("*").forEach(redisTemplate::delete);
     }
 
-    @DisplayName("대기열의 순번을 조회한다.")
     @Test
-    void shouldGetWaitingQueuePosition() {
+    @DisplayName("대기열에 UUID를 추가하면 순위를 정상적으로 조회할 수 있다.")
+    void shouldFindRankInWaitingQueueTest() {
         // given
         String uuid = UUID.randomUUID().toString();
-        redisTemplate.opsForZSet()
-                .add(waitingQueueKey, uuid, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        redisTemplate.opsForZSet().add(waitingQueueKey, uuid, System.currentTimeMillis());
 
         // when
-        Long result = waitingQueueReader.findWaitingQueuePosition(uuid);
+        Long rank = waitingQueueReader.findRankInWaitingQueue(uuid);
 
         // then
-        assertThat(result).isOne();
+        assertThat(rank).isNotNull().isEqualTo(0L);
     }
 
-    @DisplayName("활성화 토큰을 조회 한다.")
     @Test
-    void shouldGetActiveToken() {
+    @DisplayName("활성열에 UUID를 추가하면 순위를 정상적으로 조회할 수 있다.")
+    void shouldFindRankInActiveQueueTest() {
         // given
         String uuid = UUID.randomUUID().toString();
-        redisTemplate.opsForZSet().add(activeQueueKey, uuid, 1);
+        redisTemplate.opsForZSet().add(activeQueueKey, uuid, System.currentTimeMillis());
 
         // when
-        WaitingQueueInfo result = waitingQueueReader.findActiveToken(uuid);
+        Long rank = waitingQueueReader.findRankInActiveQueue(uuid);
 
         // then
-        assertThat(result.uuid()).isEqualTo(uuid);
+        assertThat(rank).isNotNull().isEqualTo(0L);
     }
 
-    @DisplayName("활성화 된 토큰 목록을 조회한다.")
+    @DisplayName("활성열에서 특정 UUID의 점수를 조회할 수 있다.")
     @Test
-    void shouldGetActiveTokens() {
+    void shouldFindScoreInActiveQueueTest() {
+        // given
+        String uuid = UUID.randomUUID().toString();
+        double score = System.currentTimeMillis();
+        redisTemplate.opsForZSet().add(activeQueueKey, uuid, score);
+
+        // when
+        Double retrievedScore = waitingQueueReader.findScoreInActiveQueue(uuid);
+
+        // then
+        assertThat(retrievedScore).isNotNull().isEqualTo(score);
+    }
+
+    @DisplayName("대기열에서 지정된 개수만큼 UUID를 조회할 수 있다.")
+    @Test
+    void shouldGetWaitingQueueTest() {
         // given
         String uuid1 = UUID.randomUUID().toString();
         String uuid2 = UUID.randomUUID().toString();
-
-        redisTemplate.opsForZSet().add(activeQueueKey, uuid1, 1);
-        redisTemplate.opsForZSet().add(activeQueueKey, uuid2, 2);
+        redisTemplate.opsForZSet().add(waitingQueueKey, uuid1, System.currentTimeMillis());
+        redisTemplate.opsForZSet().add(waitingQueueKey, uuid2, System.currentTimeMillis() + 1);
 
         // when
-        List<WaitingQueueInfo> result = waitingQueueReader.findAllActiveTokens();
+        Set<Object> waitingQueue = waitingQueueReader.getWaitingQueue(1);
 
         // then
-        assertEquals(2, result.size());
+        assertThat(waitingQueue).isNotNull().hasSize(1);
+    }
+
+    @DisplayName("활성열에 있는 모든 UUID를 조회할 수 있다.")
+    @Test
+    void shouldGetIndAllActiveTokensTest() {
+        // given
+        String uuid1 = UUID.randomUUID().toString();
+        String uuid2 = UUID.randomUUID().toString();
+        redisTemplate.opsForZSet().add(activeQueueKey, uuid1, System.currentTimeMillis());
+        redisTemplate.opsForZSet().add(activeQueueKey, uuid2, System.currentTimeMillis() + 1);
+
+        // when
+        Set<Object> activeTokens = waitingQueueReader.findAllActiveTokens();
+
+        // then
+        assertThat(activeTokens).isNotNull().hasSize(2);
+        assertThat(activeTokens).contains(uuid1, uuid2);
     }
 }
