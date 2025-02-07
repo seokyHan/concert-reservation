@@ -5,7 +5,6 @@ import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueWithPo
 import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueReader;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
-import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,15 +13,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
-import static com.server.concert_reservation.domain.waitingqueue.errorcode.WaitingQueueErrorCode.WAITING_QUEUE_EXPIRED;
+import static com.server.concert_reservation.domain.waitingqueue.errorcode.WaitingQueueErrorCode.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.instancio.Select.field;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,62 +31,97 @@ public class WaitingQueueQueryServiceUnitTest {
     @InjectMocks
     private WaitingQueueQueryService waitingQueueQueryService;
 
-    @DisplayName("요청 받은 uuid로 대기열 토큰의 순번을 조회한다")
+    @DisplayName("UUID가 대기열(Waiting Queue)에 있을 경우 1부터 시작하는 순위를 반환한다.")
     @Test
-    void requestUuidGetWaitingQueuePosition() {
+    void getWaitingQueuePosition_WhenUuidInWaitingQueue_ShouldReturnRank() {
         // given
         String uuid = UUID.randomUUID().toString();
-        Long position = 1L;
-        when(waitingQueueReader.findWaitingQueuePosition(uuid)).thenReturn(position);
+        Long rank = 5L;
+        when(waitingQueueReader.findRankInWaitingQueue(uuid)).thenReturn(rank);
 
         // when
-        WaitingQueueWithPositionInfo waitingQueueWithPositionInfo = waitingQueueQueryService.getWaitingQueuePosition(uuid);
+        WaitingQueueWithPositionInfo result = waitingQueueQueryService.getWaitingQueuePosition(uuid);
 
         // then
-        assertAll(
-                () -> assertEquals(waitingQueueWithPositionInfo.position(), position),
-                () -> assertEquals(waitingQueueWithPositionInfo.uuid(), uuid),
-                () -> then(waitingQueueReader).should(times(1)).findWaitingQueuePosition(uuid)
-        );
+        assertEquals(rank + 1, result.position());
     }
 
-    @DisplayName("만료시간 보다 현재 시간이 앞서 있는 경우 예외가 발생한다.")
+    @DisplayName("UUID가 활성열(Active Queue)에 있을 경우 0을 반환한다.")
     @Test
-    void shouldThrowExceptionWhenCurrentTimeIsBeforeExpirationTime() {
-        //given
+    void getWaitingQueuePosition_WhenUuidInActiveQueue_ShouldReturnZero() {
+        // given
         String uuid = UUID.randomUUID().toString();
-        WaitingQueueInfo waitingQueueInfo = Instancio.of(WaitingQueueInfo.class)
-                .set(field(WaitingQueueInfo::expiredAt), LocalDateTime.now().minusMinutes(1L))
-                .create();
-        when(timeManager.now()).thenReturn(LocalDateTime.now());
-        when(waitingQueueReader.findActiveToken(uuid)).thenReturn(waitingQueueInfo);
+        when(waitingQueueReader.findRankInWaitingQueue(uuid)).thenReturn(null);
+        when(waitingQueueReader.findRankInActiveQueue(uuid)).thenReturn(3L);
 
-        //when & then
+        // when
+        WaitingQueueWithPositionInfo result = waitingQueueQueryService.getWaitingQueuePosition(uuid);
+
+        // then
+        assertEquals(result.position(), 0L);
+    }
+
+    @DisplayName("UUID가 어느 큐에도 없을 경우 WAITING_QUEUE_NOT_FOUND 예외를 던진다.")
+    @Test
+    void getWaitingQueuePosition_WhenUuidNotInAnyQueue_ShouldThrowException() {
+        // given
+        String uuid = UUID.randomUUID().toString();
+        when(waitingQueueReader.findRankInWaitingQueue(uuid)).thenReturn(null);
+        when(waitingQueueReader.findRankInActiveQueue(uuid)).thenReturn(null);
+
+        // when & then
+        assertThatThrownBy(() -> waitingQueueQueryService.getWaitingQueuePosition(uuid))
+                .isInstanceOf(CustomException.class)
+                .hasMessage(WAITING_QUEUE_NOT_FOUND.getMessage());
+    }
+
+    @DisplayName("UUID가 활성열(Active Queue)에 있고, 유효한 경우 WaitingQueueInfo를 반환한다.")
+    @Test
+    void validateWaitingQueueProcessing_WhenUuidIsValid_ShouldReturnInfo() {
+        // given
+        String uuid = UUID.randomUUID().toString();
+        Double score = (double) (System.currentTimeMillis() / 1000 + 300);
+        LocalDateTime expiredAt = LocalDateTime.ofEpochSecond(score.longValue(), 0, ZoneOffset.UTC);
+
+        when(waitingQueueReader.findScoreInActiveQueue(uuid)).thenReturn(score);
+        when(timeManager.now()).thenReturn(expiredAt.minusSeconds(100));
+
+        // when
+        WaitingQueueInfo result = waitingQueueQueryService.validateWaitingQueueProcessing(uuid);
+
+        // then
+        assertEquals(result.uuid(), uuid);
+        assertEquals(result.expiredAt(), expiredAt);
+    }
+
+    @DisplayName("UUID가 활성열(Active Queue)에 없을 경우 ACTIVE_QUEUE_NOT_FOUND 예외를 던진다.")
+    @Test
+    void validateWaitingQueueProcessing_WhenUuidNotInActiveQueue_ShouldThrowException() {
+        // given
+        String uuid = UUID.randomUUID().toString();
+        when(waitingQueueReader.findScoreInActiveQueue(uuid)).thenReturn(null);
+
+        // when & then
+        assertThatThrownBy(() -> waitingQueueQueryService.validateWaitingQueueProcessing(uuid))
+                .isInstanceOf(CustomException.class)
+                .hasMessage(ACTIVE_QUEUE_NOT_FOUND.getMessage());
+    }
+
+    @DisplayName("UUID가 활성열(Active Queue)에 있지만, 만료된 경우 WAITING_QUEUE_EXPIRED 예외를 던진다.")
+    @Test
+    void validateWaitingQueueProcessing_WhenUuidIsExpired_ShouldThrowException() {
+        // given
+        String uuid = UUID.randomUUID().toString();
+        Double score = (double) (System.currentTimeMillis() / 1000 - 300);
+        LocalDateTime expiredAt = LocalDateTime.ofEpochSecond(score.longValue(), 0, ZoneOffset.UTC);
+
+        when(waitingQueueReader.findScoreInActiveQueue(uuid)).thenReturn(score);
+        when(timeManager.now()).thenReturn(expiredAt.plusSeconds(100));
+
+        // when & then
         assertThatThrownBy(() -> waitingQueueQueryService.validateWaitingQueueProcessing(uuid))
                 .isInstanceOf(CustomException.class)
                 .hasMessage(WAITING_QUEUE_EXPIRED.getMessage());
-    }
-
-
-    @DisplayName("현재 활성화 중인 대기열 토큰을 조회한다.")
-    @Test
-    void getPresentActiveWaitingQueue() {
-        // given
-        String uuid = UUID.randomUUID().toString();
-        WaitingQueueInfo waitingQueueInfo = Instancio.of(WaitingQueueInfo.class)
-                .set(field(WaitingQueueInfo::expiredAt), LocalDateTime.now().plusMinutes(1L))
-                .create();
-        when(waitingQueueReader.findActiveToken(uuid)).thenReturn(waitingQueueInfo);
-
-        // when
-        WaitingQueueInfo queueTokenInfo = waitingQueueReader.findActiveToken(uuid);
-
-        // then
-        assertAll(
-                () -> assertEquals(queueTokenInfo.uuid(), waitingQueueInfo.uuid()),
-                () -> assertEquals(queueTokenInfo.expiredAt(), waitingQueueInfo.expiredAt()),
-                () -> then(waitingQueueReader).should(times(1)).findActiveToken(uuid)
-        );
     }
 
 

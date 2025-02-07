@@ -1,15 +1,13 @@
 package com.server.concert_reservation.domain.waitingqueue.repository;
 
-import java.util.concurrent.TimeUnit;
-
 public interface WaitingQueueWriter {
 
-    String saveWaitingQueue(String uuid);
+    boolean addWaitingQueue(String uuid, Long score);
 
-    void activateWaitingQueues(int availableSlots, long timeout, TimeUnit unit);
+    void moveToActiveQueue(String uuid, Long expirationTimestamp);
 
-    void deleteActiveTokenByUuid(String uuid);
+    void removeActiveTokenByUuid(String uuid);
 
-    void deleteActiveToken();
+    void removeExpiredTokens(Long currentTimestamp);
 
 }

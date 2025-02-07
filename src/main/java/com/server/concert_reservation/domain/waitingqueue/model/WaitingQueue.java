@@ -1,4 +1,4 @@
-package com.server.concert_reservation.infrastructure.redis.waitingqueue;
+package com.server.concert_reservation.domain.waitingqueue.model;
 
 import lombok.Builder;
 import lombok.Getter;

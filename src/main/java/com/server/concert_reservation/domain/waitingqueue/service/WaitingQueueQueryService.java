@@ -2,6 +2,7 @@ package com.server.concert_reservation.domain.waitingqueue.service;
 
 import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueInfo;
 import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueWithPositionInfo;
+import com.server.concert_reservation.domain.waitingqueue.model.WaitingQueue;
 import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueReader;
 import com.server.concert_reservation.support.api.common.exception.CustomException;
 import com.server.concert_reservation.support.api.common.time.TimeManager;
@@ -9,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
-import static com.server.concert_reservation.domain.waitingqueue.errorcode.WaitingQueueErrorCode.WAITING_QUEUE_EXPIRED;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
+import static com.server.concert_reservation.domain.waitingqueue.errorcode.WaitingQueueErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -19,17 +23,38 @@ public class WaitingQueueQueryService {
     private final TimeManager timeManager;
 
     public WaitingQueueWithPositionInfo getWaitingQueuePosition(String uuid) {
-        val position = waitingQueueReader.findWaitingQueuePosition(uuid);
+        val waitingQueueRank = waitingQueueReader.findRankInWaitingQueue(uuid);
+        if (waitingQueueRank != null) {
+            return WaitingQueueWithPositionInfo.of(uuid, waitingQueueRank + 1);
+        }
 
-        return WaitingQueueWithPositionInfo.of(uuid, position);
+        val activeQueueRank = waitingQueueReader.findRankInActiveQueue(uuid);
+        if (activeQueueRank != null) {
+            return WaitingQueueWithPositionInfo.of(uuid, 0L);
+        }
+
+        throw new CustomException(WAITING_QUEUE_NOT_FOUND);
     }
 
     public WaitingQueueInfo validateWaitingQueueProcessing(String uuid) {
-        val waitingQueue = waitingQueueReader.findActiveToken(uuid);
-        if (timeManager.now().isAfter(waitingQueue.expiredAt())) {
+        val score = waitingQueueReader.findScoreInActiveQueue(uuid);
+        if (score == null) {
+            throw new CustomException(ACTIVE_QUEUE_NOT_FOUND);
+        }
+
+        val expiredAt = LocalDateTime.ofEpochSecond(score.longValue(), 0, ZoneOffset.UTC);
+        if (timeManager.now().isAfter(expiredAt)) {
             throw new CustomException(WAITING_QUEUE_EXPIRED);
         }
-        return waitingQueue;
+
+        return WaitingQueueInfo.of(createWaitingQueueBuilder(uuid, expiredAt));
+    }
+
+    private WaitingQueue createWaitingQueueBuilder(String uuid, LocalDateTime expiredAt) {
+        return WaitingQueue.builder()
+                .uuid(uuid)
+                .expiredAt(expiredAt)
+                .build();
     }
 
 

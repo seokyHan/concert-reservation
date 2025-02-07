@@ -37,6 +37,6 @@ public class WaitingQueueUseCase {
 
     @Transactional
     public void removeActivateQueue() {
-        waitingQueueCommandService.removeActiveQueue();
+        waitingQueueCommandService.removeExpiredActiveTokens();
     }
 }

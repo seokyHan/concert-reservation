@@ -12,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -38,10 +40,10 @@ public class WaitingQueueQueryServiceIntegrationTest {
 
     @DisplayName("요청 받은 uuid로 대기열 토큰의 순번을 조회 한다. ")
     @Test
-    void shouldGetWaitingTokenWhenStatusWaiting() {
+    void shouldGetWaitingTokenWithPositionWhenStatusWaiting() {
         // given
         String uuid = UUID.randomUUID().toString();
-        waitingQueueWriter.saveWaitingQueue(uuid);
+        waitingQueueWriter.addWaitingQueue(uuid, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
 
         // when
         WaitingQueueWithPositionInfo result = waitingQueueQueryService.getWaitingQueuePosition(uuid);
@@ -56,8 +58,10 @@ public class WaitingQueueQueryServiceIntegrationTest {
     void shouldGetWaitingTokenWhenStatusActive() {
         // given
         String uuid = UUID.randomUUID().toString();
-        waitingQueueWriter.saveWaitingQueue(uuid);
-        waitingQueueWriter.activateWaitingQueues(1, 2, TimeUnit.MINUTES);
+        Long toEpochSecond = LocalDateTime.now().plus(10, TimeUnit.MINUTES.toChronoUnit())
+                .toEpochSecond(ZoneOffset.UTC);
+        waitingQueueWriter.addWaitingQueue(uuid, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        waitingQueueWriter.moveToActiveQueue(uuid, toEpochSecond);
 
         // when
         WaitingQueueWithPositionInfo result = waitingQueueQueryService.getWaitingQueuePosition(uuid);
@@ -85,8 +89,10 @@ public class WaitingQueueQueryServiceIntegrationTest {
     void shouldSuccessfullyValidateWaitingQueueProcessing() {
         // given
         String uuid = UUID.randomUUID().toString();
-        waitingQueueWriter.saveWaitingQueue(uuid);
-        waitingQueueWriter.activateWaitingQueues(1, 12, TimeUnit.MINUTES);
+        Long toEpochSecond = LocalDateTime.now().plus(10, TimeUnit.MINUTES.toChronoUnit())
+                .toEpochSecond(ZoneOffset.UTC);
+        waitingQueueWriter.addWaitingQueue(uuid, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        waitingQueueWriter.moveToActiveQueue(uuid, toEpochSecond);
 
         // when & then
         WaitingQueueInfo waitingQueueInfo = waitingQueueQueryService.validateWaitingQueueProcessing(uuid);
@@ -100,8 +106,10 @@ public class WaitingQueueQueryServiceIntegrationTest {
     void shouldThrowExceptionWhenValidateWaitingQueueProcessingWithExpiredToken() {
         // given
         String uuid = UUID.randomUUID().toString();
-        waitingQueueWriter.saveWaitingQueue(uuid);
-        waitingQueueWriter.activateWaitingQueues(1, 12, TimeUnit.MILLISECONDS);
+        Long toEpochSecond = LocalDateTime.now().plus(1, TimeUnit.MILLISECONDS.toChronoUnit())
+                .toEpochSecond(ZoneOffset.UTC);
+        waitingQueueWriter.addWaitingQueue(uuid, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        waitingQueueWriter.moveToActiveQueue(uuid, toEpochSecond);
 
         // when && then
         assertThatThrownBy(() -> waitingQueueQueryService.validateWaitingQueueProcessing(uuid))

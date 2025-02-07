@@ -1,15 +1,17 @@
 package com.server.concert_reservation.domain.waitingqueue.repository;
 
 
-import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueInfo;
-
-import java.util.List;
+import java.util.Set;
 
 public interface WaitingQueueReader {
 
-    Long findWaitingQueuePosition(String uuid);
+    Long findRankInWaitingQueue(String uuid);
 
-    WaitingQueueInfo findActiveToken(String uuid);
+    Long findRankInActiveQueue(String uuid);
 
-    List<WaitingQueueInfo> findAllActiveTokens();
+    Double findScoreInActiveQueue(String uuid);
+
+    Set<Object> getWaitingQueue(int count);
+
+    Set<Object> findAllActiveTokens();
 }

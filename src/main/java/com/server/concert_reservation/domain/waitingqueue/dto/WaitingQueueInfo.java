@@ -1,6 +1,6 @@
 package com.server.concert_reservation.domain.waitingqueue.dto;
 
-import com.server.concert_reservation.infrastructure.redis.waitingqueue.WaitingQueue;
+import com.server.concert_reservation.domain.waitingqueue.model.WaitingQueue;
 
 import java.time.LocalDateTime;
 

@@ -1,6 +1,5 @@
 package com.server.concert_reservation.domain.waitingqueue.service;
 
-import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueInfo;
 import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueReader;
 import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueWriter;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,15 +52,15 @@ class WaitingQueueCommandServiceIntegrationTest {
         // given
         String uuid1 = UUID.randomUUID().toString();
         String uuid2 = UUID.randomUUID().toString();
-        waitingQueueWriter.saveWaitingQueue(uuid1);
-        waitingQueueWriter.saveWaitingQueue(uuid2);
+        waitingQueueWriter.addWaitingQueue(uuid1, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        waitingQueueWriter.addWaitingQueue(uuid2, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
 
         // when
         waitingQueueCommandService.activateWaitingQueue(2, 10);
 
         // then
-        List<WaitingQueueInfo> activeTokens = waitingQueueReader.findAllActiveTokens();
+        Set<Object> activeTokens = waitingQueueReader.findAllActiveTokens();
         assertThat(activeTokens).hasSize(2);
     }
-    
+
 }
