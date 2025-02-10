@@ -4,7 +4,7 @@ import com.server.concert_reservation.application.concert.ConcertUseCase;
 import com.server.concert_reservation.application.concert.dto.ReservationCommand;
 import com.server.concert_reservation.interfaces.web.concert.dto.ConcertHttpRequest;
 import com.server.concert_reservation.interfaces.web.concert.dto.ConcertHttpResponse;
-import com.server.concert_reservation.support.api.common.time.TimeManager;
+import com.server.concert_reservation.interfaces.web.support.time.TimeManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

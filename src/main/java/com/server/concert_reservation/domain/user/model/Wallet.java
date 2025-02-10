@@ -1,7 +1,7 @@
 package com.server.concert_reservation.domain.user.model;
 
 import com.server.concert_reservation.infrastructure.db.user.entity.WalletEntity;
-import com.server.concert_reservation.support.api.common.exception.CustomException;
+import com.server.concert_reservation.interfaces.web.support.exception.CustomException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -7,7 +7,7 @@ import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
 import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
-import com.server.concert_reservation.support.api.common.exception.CustomException;
+import com.server.concert_reservation.interfaces.web.support.exception.CustomException;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

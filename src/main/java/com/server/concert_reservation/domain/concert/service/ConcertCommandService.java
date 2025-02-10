@@ -7,7 +7,7 @@ import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
 import com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus;
-import com.server.concert_reservation.support.api.common.time.TimeManager;
+import com.server.concert_reservation.interfaces.web.support.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;

@@ -6,7 +6,7 @@ import com.server.concert_reservation.domain.user.model.Wallet;
 import com.server.concert_reservation.domain.user.repository.UserReader;
 import com.server.concert_reservation.domain.user.repository.UserWriter;
 import com.server.concert_reservation.infrastructure.db.user.entity.WalletEntity;
-import com.server.concert_reservation.support.api.common.exception.CustomException;
+import com.server.concert_reservation.interfaces.web.support.exception.CustomException;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

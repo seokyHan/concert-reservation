@@ -8,7 +8,7 @@ import com.server.concert_reservation.domain.payment.service.PaymentService;
 import com.server.concert_reservation.domain.user.UserCommandService;
 import com.server.concert_reservation.domain.user.UserQueryService;
 import com.server.concert_reservation.domain.waitingqueue.service.WaitingQueueCommandService;
-import com.server.concert_reservation.support.api.common.aop.annotation.DistributedLock;
+import com.server.concert_reservation.interfaces.web.support.aspect.aop.annotation.DistributedLock;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;

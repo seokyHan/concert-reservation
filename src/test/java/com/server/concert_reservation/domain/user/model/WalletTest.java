@@ -1,6 +1,6 @@
 package com.server.concert_reservation.domain.user.model;
 
-import com.server.concert_reservation.support.api.common.exception.CustomException;
+import com.server.concert_reservation.interfaces.web.support.exception.CustomException;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

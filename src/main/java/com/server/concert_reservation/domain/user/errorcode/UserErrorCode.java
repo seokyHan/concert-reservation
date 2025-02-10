@@ -1,6 +1,6 @@
 package com.server.concert_reservation.domain.user.errorcode;
 
-import com.server.concert_reservation.support.api.common.exception.ErrorType;
+import com.server.concert_reservation.interfaces.web.support.exception.ErrorType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.logging.LogLevel;

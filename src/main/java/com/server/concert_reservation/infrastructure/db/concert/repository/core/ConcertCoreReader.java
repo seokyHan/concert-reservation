@@ -12,8 +12,8 @@ import com.server.concert_reservation.infrastructure.db.concert.repository.Conce
 import com.server.concert_reservation.infrastructure.db.concert.repository.ConcertSeatJpaRepository;
 import com.server.concert_reservation.infrastructure.db.concert.repository.ReservationJpaRepository;
 import com.server.concert_reservation.infrastructure.db.concert.repository.querydsl.ConcertScheduleQueryDsl;
-import com.server.concert_reservation.support.api.common.exception.CustomException;
-import com.server.concert_reservation.support.api.common.time.TimeManager;
+import com.server.concert_reservation.interfaces.web.support.exception.CustomException;
+import com.server.concert_reservation.interfaces.web.support.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;
