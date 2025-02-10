@@ -22,7 +22,7 @@ public class WaitingQueueUseCase {
     }
 
     public WaitingQueueWithPositionResult getWaitingQueuePosition(String uuid) {
-        val waitingQueuePosition = waitingQueueQueryService.getWaitingQueuePosition(uuid);
+        val waitingQueuePosition = waitingQueueQueryService.getQueuePosition(uuid);
         return WaitingQueueWithPositionResult.of(waitingQueuePosition.uuid(), waitingQueuePosition.position());
     }
 
@@ -32,7 +32,9 @@ public class WaitingQueueUseCase {
 
     @Transactional
     public void activateWaitingQueues(int availableSlots, int timeout) {
-        waitingQueueCommandService.activateWaitingQueue(availableSlots, timeout);
+        val waitingQueue = waitingQueueQueryService.getPrimaryWaitingQueue(availableSlots);
+
+        waitingQueueCommandService.activateWaitingQueue(waitingQueue, timeout);
     }
 
     @Transactional

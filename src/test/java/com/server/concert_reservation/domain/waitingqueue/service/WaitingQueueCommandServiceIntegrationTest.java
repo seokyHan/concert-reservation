@@ -54,9 +54,10 @@ class WaitingQueueCommandServiceIntegrationTest {
         String uuid2 = UUID.randomUUID().toString();
         waitingQueueWriter.addWaitingQueue(uuid1, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
         waitingQueueWriter.addWaitingQueue(uuid2, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        Set<Object> waitingQueue = waitingQueueReader.findWaitingQueue(2);
 
         // when
-        waitingQueueCommandService.activateWaitingQueue(2, 10);
+        waitingQueueCommandService.activateWaitingQueue(waitingQueue, 10);
 
         // then
         Set<Object> activeTokens = waitingQueueReader.findAllActiveTokens();

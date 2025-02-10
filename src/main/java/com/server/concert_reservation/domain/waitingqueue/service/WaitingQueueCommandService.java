@@ -1,14 +1,14 @@
 package com.server.concert_reservation.domain.waitingqueue.service;
 
-import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueReader;
 import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueWriter;
-import com.server.concert_reservation.support.api.common.uuid.UUIDManager;
+import com.server.concert_reservation.interfaces.web.support.uuid.UUIDManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 public class WaitingQueueCommandService {
 
     private final WaitingQueueWriter waitingQueueWriter;
-    private final WaitingQueueReader waitingQueueReader;
     private final UUIDManager uuidManager;
 
     public String createWaitingToken() {
@@ -27,9 +26,7 @@ public class WaitingQueueCommandService {
         return isAdded ? uuid : null;
     }
 
-    public void activateWaitingQueue(int availableSlots, int timeout) {
-        val waitingQueue = waitingQueueReader.getWaitingQueue(availableSlots);
-
+    public void activateWaitingQueue(Set<Object> waitingQueue, int timeout) {
         waitingQueue.stream()
                 .map(Object::toString)
                 .forEach(uuid -> {

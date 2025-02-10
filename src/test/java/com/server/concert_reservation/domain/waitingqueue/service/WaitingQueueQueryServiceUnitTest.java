@@ -3,8 +3,8 @@ package com.server.concert_reservation.domain.waitingqueue.service;
 import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueInfo;
 import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueWithPositionInfo;
 import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueReader;
-import com.server.concert_reservation.support.api.common.exception.CustomException;
-import com.server.concert_reservation.support.api.common.time.TimeManager;
+import com.server.concert_reservation.interfaces.web.support.exception.CustomException;
+import com.server.concert_reservation.interfaces.web.support.time.TimeManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,7 +40,7 @@ public class WaitingQueueQueryServiceUnitTest {
         when(waitingQueueReader.findRankInWaitingQueue(uuid)).thenReturn(rank);
 
         // when
-        WaitingQueueWithPositionInfo result = waitingQueueQueryService.getWaitingQueuePosition(uuid);
+        WaitingQueueWithPositionInfo result = waitingQueueQueryService.getQueuePosition(uuid);
 
         // then
         assertEquals(rank + 1, result.position());
@@ -55,7 +55,7 @@ public class WaitingQueueQueryServiceUnitTest {
         when(waitingQueueReader.findRankInActiveQueue(uuid)).thenReturn(3L);
 
         // when
-        WaitingQueueWithPositionInfo result = waitingQueueQueryService.getWaitingQueuePosition(uuid);
+        WaitingQueueWithPositionInfo result = waitingQueueQueryService.getQueuePosition(uuid);
 
         // then
         assertEquals(result.position(), 0L);
@@ -70,7 +70,7 @@ public class WaitingQueueQueryServiceUnitTest {
         when(waitingQueueReader.findRankInActiveQueue(uuid)).thenReturn(null);
 
         // when & then
-        assertThatThrownBy(() -> waitingQueueQueryService.getWaitingQueuePosition(uuid))
+        assertThatThrownBy(() -> waitingQueueQueryService.getQueuePosition(uuid))
                 .isInstanceOf(CustomException.class)
                 .hasMessage(WAITING_QUEUE_NOT_FOUND.getMessage());
     }

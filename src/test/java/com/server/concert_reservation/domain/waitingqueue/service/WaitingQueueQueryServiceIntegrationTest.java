@@ -3,7 +3,7 @@ package com.server.concert_reservation.domain.waitingqueue.service;
 import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueInfo;
 import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueWithPositionInfo;
 import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueWriter;
-import com.server.concert_reservation.support.api.common.exception.CustomException;
+import com.server.concert_reservation.interfaces.web.support.exception.CustomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,7 @@ public class WaitingQueueQueryServiceIntegrationTest {
         waitingQueueWriter.addWaitingQueue(uuid, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
 
         // when
-        WaitingQueueWithPositionInfo result = waitingQueueQueryService.getWaitingQueuePosition(uuid);
+        WaitingQueueWithPositionInfo result = waitingQueueQueryService.getQueuePosition(uuid);
 
         // then
         assertEquals(result.uuid(), uuid);
@@ -64,7 +64,7 @@ public class WaitingQueueQueryServiceIntegrationTest {
         waitingQueueWriter.moveToActiveQueue(uuid, toEpochSecond);
 
         // when
-        WaitingQueueWithPositionInfo result = waitingQueueQueryService.getWaitingQueuePosition(uuid);
+        WaitingQueueWithPositionInfo result = waitingQueueQueryService.getQueuePosition(uuid);
 
         // then
         assertEquals(result.uuid(), uuid);
@@ -78,7 +78,7 @@ public class WaitingQueueQueryServiceIntegrationTest {
         String uuid = UUID.randomUUID().toString();
 
         // when & then
-        assertThatThrownBy(() -> waitingQueueQueryService.getWaitingQueuePosition(uuid))
+        assertThatThrownBy(() -> waitingQueueQueryService.getQueuePosition(uuid))
                 .isInstanceOf(CustomException.class)
                 .hasMessage(WAITING_QUEUE_NOT_FOUND.getMessage());
 

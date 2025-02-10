@@ -11,7 +11,7 @@ public interface WaitingQueueReader {
 
     Double findScoreInActiveQueue(String uuid);
 
-    Set<Object> getWaitingQueue(int count);
+    Set<Object> findWaitingQueue(int count);
 
     Set<Object> findAllActiveTokens();
 }

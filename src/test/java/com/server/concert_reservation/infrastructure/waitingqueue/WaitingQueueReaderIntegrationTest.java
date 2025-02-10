@@ -84,7 +84,7 @@ public class WaitingQueueReaderIntegrationTest {
         redisTemplate.opsForZSet().add(waitingQueueKey, uuid2, System.currentTimeMillis() + 1);
 
         // when
-        Set<Object> waitingQueue = waitingQueueReader.getWaitingQueue(1);
+        Set<Object> waitingQueue = waitingQueueReader.findWaitingQueue(1);
 
         // then
         assertThat(waitingQueue).isNotNull().hasSize(1);

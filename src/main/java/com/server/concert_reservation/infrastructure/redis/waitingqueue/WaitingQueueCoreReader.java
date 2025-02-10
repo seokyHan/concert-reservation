@@ -34,7 +34,7 @@ public class WaitingQueueCoreReader implements WaitingQueueReader {
     }
 
     @Override
-    public Set<Object> getWaitingQueue(int count) {
+    public Set<Object> findWaitingQueue(int count) {
         return redisTemplate.opsForZSet().range(waitingQueueKey, 0, count - 1);
     }
 

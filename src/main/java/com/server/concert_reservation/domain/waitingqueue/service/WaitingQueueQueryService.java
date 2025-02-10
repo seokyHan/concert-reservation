@@ -4,14 +4,15 @@ import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueInfo;
 import com.server.concert_reservation.domain.waitingqueue.dto.WaitingQueueWithPositionInfo;
 import com.server.concert_reservation.domain.waitingqueue.model.WaitingQueue;
 import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueReader;
-import com.server.concert_reservation.support.api.common.exception.CustomException;
-import com.server.concert_reservation.support.api.common.time.TimeManager;
+import com.server.concert_reservation.interfaces.web.support.exception.CustomException;
+import com.server.concert_reservation.interfaces.web.support.time.TimeManager;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Set;
 
 import static com.server.concert_reservation.domain.waitingqueue.errorcode.WaitingQueueErrorCode.*;
 
@@ -22,7 +23,7 @@ public class WaitingQueueQueryService {
     private final WaitingQueueReader waitingQueueReader;
     private final TimeManager timeManager;
 
-    public WaitingQueueWithPositionInfo getWaitingQueuePosition(String uuid) {
+    public WaitingQueueWithPositionInfo getQueuePosition(String uuid) {
         val waitingQueueRank = waitingQueueReader.findRankInWaitingQueue(uuid);
         if (waitingQueueRank != null) {
             return WaitingQueueWithPositionInfo.of(uuid, waitingQueueRank + 1);
@@ -48,6 +49,15 @@ public class WaitingQueueQueryService {
         }
 
         return WaitingQueueInfo.of(createWaitingQueueBuilder(uuid, expiredAt));
+    }
+
+    public Set<Object> getPrimaryWaitingQueue(int availableSlots) {
+        val waitingQueue = waitingQueueReader.findWaitingQueue(availableSlots);
+        if (waitingQueue.isEmpty() || waitingQueue == null) {
+            throw new CustomException(WAITING_QUEUE_NOT_FOUND);
+        }
+
+        return waitingQueue;
     }
 
     private WaitingQueue createWaitingQueueBuilder(String uuid, LocalDateTime expiredAt) {

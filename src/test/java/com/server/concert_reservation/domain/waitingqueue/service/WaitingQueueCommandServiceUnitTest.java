@@ -2,7 +2,7 @@ package com.server.concert_reservation.domain.waitingqueue.service;
 
 import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueReader;
 import com.server.concert_reservation.domain.waitingqueue.repository.WaitingQueueWriter;
-import com.server.concert_reservation.support.api.common.uuid.UUIDManager;
+import com.server.concert_reservation.interfaces.web.support.uuid.UUIDManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,15 +56,13 @@ class WaitingQueueCommandServiceUnitTest {
     @Test
     void activateWaitingQueueShouldProveWaitingQueueWriter() {
         // given
-        int availableSlots = 5;
         int timeout = 10;
         String generatedUuid = UUID.randomUUID().toString();
         LocalDateTime now = LocalDateTime.now();
         Set<Object> set = Set.of(generatedUuid);
-        when(waitingQueueReader.getWaitingQueue(availableSlots)).thenReturn(set);
 
         // when
-        waitingQueueCommandService.activateWaitingQueue(availableSlots, timeout);
+        waitingQueueCommandService.activateWaitingQueue(set, timeout);
         ArgumentCaptor<Long> expirationCaptor = ArgumentCaptor.forClass(Long.class);
         verify(waitingQueueWriter).moveToActiveQueue(eq(generatedUuid), expirationCaptor.capture());
         Long capturedExpiration = expirationCaptor.getValue();
