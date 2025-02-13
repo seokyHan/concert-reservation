@@ -223,7 +223,7 @@ select *
 
 - 비용(cost) : 308200
 - 행 수(rows) : 99369
-- 실제 수행 시간(actual time) : 9.85~1927ms
+- 실제 수행 시간(actual time) : 9.85 ~ 1927ms
 - Table Scan 유형 : Table Full Scan
 
 #### 인덱스 적용이 된 경우
@@ -240,14 +240,14 @@ CREATE INDEX idx_status_reservation_time ON concert2.reservation (status, reserv
 
 - 비용(cost) : 1591
 - 행 수(rows) : 1803
-- 실제 수행 시간(actual time) : 1.14~32.9ms
+- 실제 수행 시간(actual time) : 1.14 ~ 32.9ms
 - Table Scan 유형 : Index range scan
 
 #### 결론
 
 - 인덱스를 적용하기 전보다 비용이 308200 -> 1591로 줄었다.
 - 검색 rows도 99369 -> 1803으로 줄었다.
-- 실제 수행시간도 9.85~1927ms -> 1.14~32.9ms로 줄었다.
+- 실제 수행시간도 9.85 ~ 1927ms -> 1.14 ~ 32.9ms로 줄었다.
 
 ---
 
@@ -277,7 +277,7 @@ select *
 
 - 비용(cost) : 306942
 - 행 수(rows) : 33219
-- 실제 수행 시간(actual time) : 2.03~860ms
+- 실제 수행 시간(actual time) : 2.03 ~ 860ms
 - Table Scan 유형 : Table Full Scan
 
 #### 인덱스 적용이 된 경우
@@ -295,14 +295,14 @@ ON concert_schedule (concert_id, reservation_start_at, remain_ticket);
 
 - 비용(cost) : 2032
 - 행 수(rows) : 2159
-- 실제 수행 시간(actual time) : 2.64~58.7ms
+- 실제 수행 시간(actual time) : 2.64 ~ 58.7ms
 - Table Scan 유형 : Index range scan
 
 #### 결론
 
 - 인덱스를 적용하기 전보다 비용이 306942 -> 2032로 줄었다.
 - 검색 rows도 33219 -> 2159 줄었다.
-- 실제 수행시간도 2.03~860ms -> 2.64~58.7ms로 줄었다.
+- 실제 수행시간도 2.03 ~ 860ms -> 2.64 ~ 58.7ms로 줄었다.
 
 ---
 
@@ -330,7 +330,7 @@ select *
 
 - 비용(cost) : 309891
 - 행 수(rows) : 298895
-- 실제 수행 시간(actual time) : 1.23~961ms
+- 실제 수행 시간(actual time) : 1.23 ~ 961ms
 - Table Scan 유형 : Table Full Scan
 
 #### 인덱스 적용이 된 경우
@@ -348,14 +348,14 @@ CREATE INDEX idx_concert_seat_schedule_id
 
 - 비용(cost) : 50.7
 - 행 수(rows) : 51
-- 실제 수행 시간(actual time) : 2.01~2.08ms
+- 실제 수행 시간(actual time) : 2.01 ~ 2.08ms
 - Table Scan 유형 : Index lookup
 
 #### 결론
 
 - 인덱스를 적용하기 전보다 비용이 309891 -> 50.7로 줄었다.
 - 검색 rows도 298895 -> 51로 줄었다.
-- 실제 수행시간도 1.23~961ms -> 2.01~2.08ms로 줄었다.
+- 실제 수행시간도 1.23 ~ 961ms -> 2.01 ~ 2.08ms로 줄었다.
 
 ---
 
@@ -383,7 +383,7 @@ select *
 
 - 비용(cost) : 308176
 - 행 수(rows) : 299120
-- 실제 수행 시간(actual time) : 422~1626ms
+- 실제 수행 시간(actual time) : 422 ~ 1626ms
 - Table Scan 유형 : Table Full Scan
 
 #### 인덱스 적용이 된 경우
@@ -401,14 +401,14 @@ CREATE INDEX idx_wallet_user_id
 
 - 비용(cost) : 1.04
 - 행 수(rows) : 1
-- 실제 수행 시간(actual time) : 2.3~2.31ms
+- 실제 수행 시간(actual time) : 2.3 ~ 2.31ms
 - Table Scan 유형 : Index lookup
 
 #### 결론
 
 - 인덱스를 적용하기 전보다 비용이 308176 -> 1.04로 줄었다.
 - 검색 rows도 299120 -> 1로 줄었다.
-- 실제 수행시간도 422~1626ms -> 2.3~2.31ms로 줄었다.
+- 실제 수행시간도 422 ~ 1626ms -> 2.3 ~ 2.31ms로 줄었다.
 
 ---
 
