@@ -4,6 +4,8 @@ import com.server.concert_reservation.application.concert.dto.ConcertScheduleRes
 import com.server.concert_reservation.application.concert.dto.ConcertSeatResult;
 import com.server.concert_reservation.application.concert.dto.ReservationCommand;
 import com.server.concert_reservation.application.concert.dto.ReservationResult;
+import com.server.concert_reservation.domain.concert.event.ReservationEventPublisher;
+import com.server.concert_reservation.domain.concert.event.dto.ReservationSuccessEvent;
 import com.server.concert_reservation.domain.concert.service.ConcertCommandService;
 import com.server.concert_reservation.domain.concert.service.ConcertQueryService;
 import com.server.concert_reservation.domain.user.UserQueryService;
@@ -25,6 +27,7 @@ public class ConcertUseCase {
     private final ConcertCommandService concertCommandService;
     private final ConcertQueryService concertQueryService;
     private final UserQueryService userQueryService;
+    private final ReservationEventPublisher reservationEventPublisher;
 
     @CachePut(value = "availableConcertSeats", key = "#command.concertScheduleId")
     @Transactional
@@ -33,6 +36,7 @@ public class ConcertUseCase {
         val concertSchedule = concertQueryService.findConcertSchedule(command.concertScheduleId());
         val concertSeat = concertCommandService.reserveSeats(command.seatIds());
         val reservation = concertCommandService.createReservation(user.id(), concertSchedule.id(), concertSeat);
+        reservationEventPublisher.publish(new ReservationSuccessEvent(reservation.id()));
 
         return ReservationResult.from(reservation);
     }
