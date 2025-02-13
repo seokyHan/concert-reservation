@@ -16,5 +16,5 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationEntit
                 WHERE re.status = 'RESERVING'
                 AND re.reservationAt <= :expirationTime
             """)
-    List<ReservationEntity> findTemporaryReservationsToBeExpired(@Param("expirationTime") LocalDateTime expirationTime);
+    List<ReservationEntity> findTemporaryReservationsExpired(@Param("expirationTime") LocalDateTime expirationTime);
 }
