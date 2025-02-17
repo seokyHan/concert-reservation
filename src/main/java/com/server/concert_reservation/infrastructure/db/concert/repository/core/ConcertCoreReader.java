@@ -81,7 +81,7 @@ public class ConcertCoreReader implements ConcertReader {
     public List<Reservation> getTemporaryReservationsExpired(int minutes) {
         val expirationTime = timeManager.now().minusMinutes(minutes);
 
-        return reservationJpaRepository.findTemporaryReservationsToBeExpired(expirationTime).stream()
+        return reservationJpaRepository.findTemporaryReservationsExpired(expirationTime).stream()
                 .map(ReservationEntity::toDomain)
                 .toList();
     }
