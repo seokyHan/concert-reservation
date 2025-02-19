@@ -1,4 +1,4 @@
-package com.server.concert_reservation.interfaces.consumers;
+package com.server.concert_reservation.interfaces.consumer;
 
 import com.server.concert_reservation.domain.send.DataPlatformSendService;
 import lombok.RequiredArgsConstructor;

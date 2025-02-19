@@ -1,4 +1,4 @@
-package com.server.concert_reservation.infrastructure.config;
+package com.server.concert_reservation.infrastructure.redis.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

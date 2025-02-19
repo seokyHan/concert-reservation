@@ -1,4 +1,4 @@
-package com.server.concert_reservation.infrastructure.config;
+package com.server.concert_reservation.infrastructure.db.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
