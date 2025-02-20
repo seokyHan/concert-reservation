@@ -76,14 +76,14 @@ public class ReservationConcurrencyTest {
                 .title("콘서트1")
                 .description("test")
                 .build();
-        Concert savedConcert = concertWriter.save(concert);
+        Concert savedConcert = concertWriter.saveConcert(concert);
 
         ConcertSchedule concertSchedule = ConcertSchedule.builder()
                 .concertId(savedConcert.getId())
                 .remainTicket(10)
                 .reservationStartAt(now.minusDays(1))
                 .build();
-        concertWriter.save(concertSchedule);
+        concertWriter.saveConcertSchedule(concertSchedule);
 
         ConcertSeat concertSeat1 = ConcertSeat.builder()
                 .price(10000)

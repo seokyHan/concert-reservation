@@ -8,8 +8,8 @@ import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
 import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
 import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
-import com.server.concert_reservation.support.DatabaseCleanUp;
 import com.server.concert_reservation.interfaces.web.support.exception.CustomException;
+import com.server.concert_reservation.support.DatabaseCleanUp;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -67,7 +67,7 @@ class ConcertQueryServiceIntegrationTest {
         Concert concert = Instancio.of(Concert.class)
                 .ignore(field(Concert::getId))
                 .create();
-        Concert savedConcert = concertWriter.save(concert);
+        Concert savedConcert = concertWriter.saveConcert(concert);
 
         ConcertSchedule concertSchedule = Instancio.of(ConcertSchedule.class)
                 .ignore(field(ConcertSchedule::getId))
@@ -75,7 +75,7 @@ class ConcertQueryServiceIntegrationTest {
                 .set(field(ConcertSchedule::getReservationStartAt), now.minusDays(1L))
                 .set(field(ConcertSchedule::getRemainTicket), 10)
                 .create();
-        concertWriter.save(concertSchedule);
+        concertWriter.saveConcertSchedule(concertSchedule);
 
         // when
         List<ConcertScheduleInfo> availableConcertSchedule = concertQueryService.findAvailableConcertSchedules(savedConcert.getId(), now);
@@ -96,7 +96,7 @@ class ConcertQueryServiceIntegrationTest {
                 .set(field(ConcertSchedule::getRemainTicket), 10)
                 .set(field(ConcertSchedule::getReservationStartAt), LocalDateTime.now().minusMinutes(10))
                 .create();
-        ConcertSchedule savedConcertSchedule = concertWriter.save(concertSchedule);
+        ConcertSchedule savedConcertSchedule = concertWriter.saveConcertSchedule(concertSchedule);
 
         ConcertSeat concertSeat1 = Instancio.of(ConcertSeat.class)
                 .ignore(field(ConcertSeat::getId))
@@ -130,14 +130,14 @@ class ConcertQueryServiceIntegrationTest {
         Concert concert = Instancio.of(Concert.class)
                 .ignore(field(Concert::getId))
                 .create();
-        Concert savedConcert = concertWriter.save(concert);
+        Concert savedConcert = concertWriter.saveConcert(concert);
 
         ConcertSchedule concertSchedule = Instancio.of(ConcertSchedule.class)
                 .ignore(field(ConcertSchedule::getId))
                 .set(field(ConcertSchedule::getConcertId), savedConcert.getId())
                 .set(field(ConcertSchedule::getReservationStartAt), now.plusDays(1L))
                 .create();
-        concertWriter.save(concertSchedule);
+        concertWriter.saveConcertSchedule(concertSchedule);
 
         // when
         List<ConcertScheduleInfo> availableConcertSchedule = concertQueryService.findAvailableConcertSchedules(savedConcert.getId(), now.plusDays(2L));
@@ -154,7 +154,7 @@ class ConcertQueryServiceIntegrationTest {
         ConcertSchedule concertSchedule = Instancio.of(ConcertSchedule.class)
                 .ignore(field(ConcertSchedule::getId))
                 .create();
-        ConcertSchedule savedConcertSchedule = concertWriter.save(concertSchedule);
+        ConcertSchedule savedConcertSchedule = concertWriter.saveConcertSchedule(concertSchedule);
 
         //when
         ConcertScheduleInfo concertScheduleInfo = concertQueryService.findConcertSchedule(savedConcertSchedule.getId());

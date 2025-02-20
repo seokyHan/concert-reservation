@@ -1,8 +1,8 @@
 package com.server.concert_reservation.infrastructure.db.concert.entity;
 
 
-import com.server.concert_reservation.infrastructure.db.auditing.BaseTimeEntity;
 import com.server.concert_reservation.domain.concert.model.Reservation;
+import com.server.concert_reservation.infrastructure.db.auditing.BaseTimeEntity;
 import com.server.concert_reservation.infrastructure.db.concert.entity.converter.ListConverter;
 import com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus;
 import jakarta.persistence.*;
