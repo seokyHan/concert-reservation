@@ -3,18 +3,21 @@ package com.server.concert_reservation.domain.concert.service;
 import com.server.concert_reservation.domain.concert.dto.ConcertScheduleInfo;
 import com.server.concert_reservation.domain.concert.dto.ConcertSeatInfo;
 import com.server.concert_reservation.domain.concert.dto.ReservationInfo;
+import com.server.concert_reservation.domain.concert.dto.ReservationOutboxInfo;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.infrastructure.db.concert.entity.types.SeatStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class ConcertQueryService {
 
@@ -60,5 +63,13 @@ public class ConcertQueryService {
         reservation.isTemporaryReserved();
 
         return ReservationInfo.from(reservation);
+    }
+
+    public List<ReservationOutboxInfo> findPendingReservationOutboxMessage(int limitTime) {
+        val reservationOutboxes = concertReader.getPendingReservationOutboxMessage(limitTime);
+
+        return reservationOutboxes.stream()
+                .map(ReservationOutboxInfo::from)
+                .collect(Collectors.toList());
     }
 }
