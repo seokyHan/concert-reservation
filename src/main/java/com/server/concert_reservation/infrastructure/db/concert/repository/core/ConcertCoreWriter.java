@@ -1,18 +1,12 @@
 package com.server.concert_reservation.infrastructure.db.concert.repository.core;
 
 
-import com.server.concert_reservation.domain.concert.model.Concert;
-import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
-import com.server.concert_reservation.domain.concert.model.ConcertSeat;
-import com.server.concert_reservation.domain.concert.model.Reservation;
+import com.server.concert_reservation.domain.concert.model.*;
 import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
 import com.server.concert_reservation.infrastructure.db.concert.entity.ConcertEntity;
 import com.server.concert_reservation.infrastructure.db.concert.entity.ConcertScheduleEntity;
 import com.server.concert_reservation.infrastructure.db.concert.entity.ConcertSeatEntity;
-import com.server.concert_reservation.infrastructure.db.concert.repository.ConcertJpaRepository;
-import com.server.concert_reservation.infrastructure.db.concert.repository.ConcertScheduleJpaRepository;
-import com.server.concert_reservation.infrastructure.db.concert.repository.ConcertSeatJpaRepository;
-import com.server.concert_reservation.infrastructure.db.concert.repository.ReservationJpaRepository;
+import com.server.concert_reservation.infrastructure.db.concert.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Repository;
@@ -26,6 +20,7 @@ public class ConcertCoreWriter implements ConcertWriter {
     private final ConcertJpaRepository concertJpaRepository;
     private final ConcertSeatJpaRepository concertSeatJpaRepository;
     private final ConcertScheduleJpaRepository concertScheduleJpaRepository;
+    private final ReservationOutboxJpaRepository reservationOutboxJpaRepository;
     private final ReservationJpaRepository reservationJpaRepository;
 
     @Override
@@ -45,12 +40,17 @@ public class ConcertCoreWriter implements ConcertWriter {
     }
 
     @Override
-    public ConcertSchedule save(ConcertSchedule concertSchedule) {
+    public ConcertSchedule saveConcertSchedule(ConcertSchedule concertSchedule) {
         return concertScheduleJpaRepository.save(new ConcertScheduleEntity(concertSchedule)).toDomain();
     }
 
     @Override
-    public Concert save(Concert concert) {
+    public Concert saveConcert(Concert concert) {
         return concertJpaRepository.save(new ConcertEntity(concert)).toDomain();
+    }
+
+    @Override
+    public ReservationOutbox saveReservationOutbox(ReservationOutbox reservationOutbox) {
+        return reservationOutboxJpaRepository.save(reservationOutbox.toEntity(reservationOutbox)).toDomain();
     }
 }

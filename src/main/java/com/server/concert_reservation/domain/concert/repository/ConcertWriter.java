@@ -1,10 +1,7 @@
 package com.server.concert_reservation.domain.concert.repository;
 
 
-import com.server.concert_reservation.domain.concert.model.Concert;
-import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
-import com.server.concert_reservation.domain.concert.model.ConcertSeat;
-import com.server.concert_reservation.domain.concert.model.Reservation;
+import com.server.concert_reservation.domain.concert.model.*;
 
 import java.util.List;
 
@@ -13,7 +10,9 @@ public interface ConcertWriter {
 
     Reservation saveReservation(Reservation reservation);
 
-    ConcertSchedule save(ConcertSchedule concertSchedule);
+    ConcertSchedule saveConcertSchedule(ConcertSchedule concertSchedule);
 
-    Concert save(Concert concert);
+    Concert saveConcert(Concert concert);
+
+    ReservationOutbox saveReservationOutbox(ReservationOutbox reservationOutbox);
 }

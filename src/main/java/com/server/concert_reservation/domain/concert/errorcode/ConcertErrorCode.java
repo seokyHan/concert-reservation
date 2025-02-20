@@ -21,6 +21,7 @@ public enum ConcertErrorCode implements ErrorType {
     CANCEL_ONLY_FOR_TEMP_RESERVATION(HttpStatus.CONFLICT, "임시 예약 상태인 경우만 취소할 수 있습니다.", WARN),
     ALREADY_SOLD_SEAT(HttpStatus.CONFLICT, "이미 판매된 좌석 입니다.", WARN),
     IS_NOT_TEMPORARY_RESERVATION(HttpStatus.CONFLICT, "좌석 임시 예약을 먼저 하셔야 합니다.", WARN),
+    RESERVATION_OUTBOX_NOT_FOUND(HttpStatus.BAD_REQUEST, "예약 outbox 이력이 존재하지 않습니다", WARN),
     ;
 
     private final HttpStatus status;

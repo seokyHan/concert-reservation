@@ -4,18 +4,23 @@ import com.server.concert_reservation.domain.concert.dto.ConcertSeatInfo;
 import com.server.concert_reservation.domain.concert.dto.ReservationInfo;
 import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
+import com.server.concert_reservation.domain.concert.model.ReservationOutbox;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.domain.concert.repository.ConcertWriter;
 import com.server.concert_reservation.infrastructure.db.concert.entity.types.ReservationStatus;
 import com.server.concert_reservation.interfaces.web.support.time.TimeManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Transactional
+@Slf4j
 @Service
 public class ConcertCommandService {
 
@@ -74,6 +79,20 @@ public class ConcertCommandService {
 
         concertWriter.saveReservation(reservation);
         concertWriter.saveAll(concertSeatList);
+    }
+
+    public void createReservationOutbox(ReservationOutbox reservationOutbox) {
+        concertWriter.saveReservationOutbox(reservationOutbox);
+    }
+
+    public void publishReservationOutbox(String key) {
+        log.info("=========1111111");
+        val reservationOutbox = concertReader.getReservationOutboxByKafkaMessageId(key);
+        log.info("=========222222");
+        log.info("reservationOutbox111 : {}", reservationOutbox.getStatus());
+        log.info("reservationOutbox222 : {}", reservationOutbox.getMessageId());
+        reservationOutbox.publish();
+        concertWriter.saveReservationOutbox(reservationOutbox);
     }
 
 }

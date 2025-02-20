@@ -4,14 +4,17 @@ import com.server.concert_reservation.domain.concert.errorcode.ConcertErrorCode;
 import com.server.concert_reservation.domain.concert.model.ConcertSchedule;
 import com.server.concert_reservation.domain.concert.model.ConcertSeat;
 import com.server.concert_reservation.domain.concert.model.Reservation;
+import com.server.concert_reservation.domain.concert.model.ReservationOutbox;
 import com.server.concert_reservation.domain.concert.repository.ConcertReader;
 import com.server.concert_reservation.infrastructure.db.concert.entity.ConcertScheduleEntity;
 import com.server.concert_reservation.infrastructure.db.concert.entity.ConcertSeatEntity;
 import com.server.concert_reservation.infrastructure.db.concert.entity.ReservationEntity;
+import com.server.concert_reservation.infrastructure.db.concert.entity.ReservationOutboxEntity;
 import com.server.concert_reservation.infrastructure.db.concert.repository.ConcertScheduleJpaRepository;
 import com.server.concert_reservation.infrastructure.db.concert.repository.ConcertSeatJpaRepository;
 import com.server.concert_reservation.infrastructure.db.concert.repository.ReservationJpaRepository;
-import com.server.concert_reservation.infrastructure.db.concert.repository.querydsl.ConcertScheduleQueryDsl;
+import com.server.concert_reservation.infrastructure.db.concert.repository.ReservationOutboxJpaRepository;
+import com.server.concert_reservation.infrastructure.db.concert.repository.querydsl.ConcertQueryDsl;
 import com.server.concert_reservation.interfaces.web.support.exception.CustomException;
 import com.server.concert_reservation.interfaces.web.support.time.TimeManager;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +31,8 @@ public class ConcertCoreReader implements ConcertReader {
     private final ConcertScheduleJpaRepository concertScheduleJpaRepository;
     private final ConcertSeatJpaRepository concertSeatJpaRepository;
     private final ReservationJpaRepository reservationJpaRepository;
-    private final ConcertScheduleQueryDsl concertScheduleQueryDsl;
+    private final ReservationOutboxJpaRepository reservationOutboxJpaRepository;
+    private final ConcertQueryDsl concertQueryDsl;
 
     @Override
     public ConcertSchedule getConcertScheduleById(Long concertScheduleId) {
@@ -39,7 +43,7 @@ public class ConcertCoreReader implements ConcertReader {
 
     @Override
     public List<ConcertSchedule> getConcertScheduleByConcertId(Long concertId) {
-        val concertSchedules = concertScheduleQueryDsl.findGetAvailableConcertSchedule(concertId, timeManager.now());
+        val concertSchedules = concertQueryDsl.findGetAvailableConcertSchedule(concertId, timeManager.now());
 
         return concertSchedules
                 .stream()
@@ -86,4 +90,18 @@ public class ConcertCoreReader implements ConcertReader {
                 .toList();
     }
 
+    @Override
+    public List<ReservationOutbox> getPendingReservationOutboxMessage(int limit) {
+        val limitTime = timeManager.now().minusMinutes(limit);
+
+        return concertQueryDsl.findAllReservationPendingOutboxMessage(limitTime).stream()
+                .map(ReservationOutboxEntity::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ReservationOutbox getReservationOutboxByKafkaMessageId(String kafkaMessageId) {
+        return reservationOutboxJpaRepository.findByKafkaMessageId(kafkaMessageId)
+                .orElseThrow(() -> new CustomException(ConcertErrorCode.RESERVATION_OUTBOX_NOT_FOUND));
+    }
 }
