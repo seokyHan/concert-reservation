@@ -86,11 +86,7 @@ public class ConcertCommandService {
     }
 
     public void publishReservationOutbox(String key) {
-        log.info("=========1111111");
         val reservationOutbox = concertReader.getReservationOutboxByKafkaMessageId(key);
-        log.info("=========222222");
-        log.info("reservationOutbox111 : {}", reservationOutbox.getStatus());
-        log.info("reservationOutbox222 : {}", reservationOutbox.getMessageId());
         reservationOutbox.publish();
         concertWriter.saveReservationOutbox(reservationOutbox);
     }
