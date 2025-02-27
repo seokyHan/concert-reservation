@@ -1,3 +1,25 @@
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health,info,metrics,prometheus
+    jmx:
+      exposure:
+        include: "*"
+  influx:
+    metrics:
+      export:
+        db: spring-actuator
+        enabled: true
+        uri: http://localhost:8086
+        auto-create-db: true
+        consistency: one
+        step: 5s
+
 spring:
   application:
     name: concert-reservation
@@ -44,7 +66,7 @@ spring.config.activate.on-profile: local, test
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/concert?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/concert?characterEncoding=UTF-8&serverTimezone=UTC
     username: application
     password: application
 

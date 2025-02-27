@@ -1,6 +1,33 @@
-version: '3.8'
 services:
-  db:
+  # application
+  concert-service:
+    build:
+      dockerfile: Dockerfile
+    container_name: concert-application
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/concert
+      SPRING_DATASOURCE_USERNAME: application
+      SPRING_DATASOURCE_PASSWORD: application
+      SPRING_DATA_REDIS_HOST: redis
+      QUEUE_WAITING_KEY: concertWaitingQueue
+      QUEUE_ACTIVE_KEY: concertActiveQueue
+      SPRING_PROFILES_ACTIVE: local
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - redis
+      - kafka
+    deploy:
+      resources:
+        limits:
+          cpus: "2.00"
+          memory: 4GB
+    networks:
+      - concert-network
+
+  # mysql
+  mysql:
     image: mysql:8.0
     container_name: mysql
     ports:
@@ -15,6 +42,7 @@ services:
     volumes:
       - ./data/mysql/:/var/lib/mysql
 
+  # redis
   redis:
     image: redis:latest
     container_name: redis
@@ -25,6 +53,7 @@ services:
     volumes:
       - ./redis:/data
 
+  # kafka
   zookeeper:
     container_name: zookeeper
     image: confluentinc/cp-zookeeper:latest
@@ -41,7 +70,7 @@ services:
 
   kafka:
     container_name: kafka
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-kafka:7.4.0
     networks:
       - concert-network
     ports:
@@ -69,8 +98,19 @@ services:
       - kafka
     environment:
       KAFKA_CLUSTERS_0_NAME: local-cluster
-      KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS: kafka:29092
-      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+      KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181`
+
+  # influxdb
+  influxdb:
+    container_name: influxdb
+    image: influxdb:1.8
+    networks:
+      - concert-network
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=k6
 
 networks:
   concert-network:
