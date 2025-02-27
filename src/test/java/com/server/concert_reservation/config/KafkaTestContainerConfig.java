@@ -13,7 +13,7 @@ public class KafkaTestContainerConfig {
     static ConfluentKafkaContainer KAFKA_CONTAINER;
 
     static {
-        DockerImageName imageName = DockerImageName.parse("confluentinc/cp-kafka:latest")
+        DockerImageName imageName = DockerImageName.parse("confluentinc/cp-kafka:7.4.0")
                 .asCompatibleSubstituteFor("apache/kafka");
         KAFKA_CONTAINER = new ConfluentKafkaContainer(imageName);
 
